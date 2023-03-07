@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using OneHundredAndEighty.Controls;
 using System.Collections.Generic;
 using System.Text;
 
@@ -38,8 +39,8 @@ namespace OneHundredAndEighty
             setsToGo = settingsPanelLogic.SetsToGo(); //  Получаем количество легов сета
             legsToGo = settingsPanelLogic.LegsToGo(); //  Получаем количество сетов матча
             //  Игроки
-            player1 = new Player("Player1", (int) mainWindow.Player1NameCombobox.SelectedValue, settingsPanelLogic.Player1Name(), mainWindow.Player1Help, mainWindow.Player1PointsHelp, mainWindow.Player1SetsWon, mainWindow.Player1LegsWon, mainWindow.Player1Points, pointsToGo); //  Игрок 1
-            player2 = new Player("Player2", (int) mainWindow.Player2NameCombobox.SelectedValue, settingsPanelLogic.Player2Name(), mainWindow.Player2Help, mainWindow.Player2PointsHelp, mainWindow.Player2SetsWon, mainWindow.Player2LegsWon, mainWindow.Player2Points, pointsToGo); //  Игрок 2
+            player1 = new Player("Player1", (int) mainWindow.SettingsControl.Player1NameCombobox.SelectedValue, settingsPanelLogic.Player1Name(), infoPanelLogic.ScoreControl.Player1Help, infoPanelLogic.ScoreControl.Player1PointsHelp, infoPanelLogic.ScoreControl.Player1SetsWon, infoPanelLogic.ScoreControl.Player1LegsWon, infoPanelLogic.ScoreControl.Player1Points, pointsToGo); //  Игрок 1
+            player2 = new Player("Player2", (int) mainWindow.SettingsControl.Player2NameCombobox.SelectedValue, settingsPanelLogic.Player2Name(), infoPanelLogic.ScoreControl.Player2Help, infoPanelLogic.ScoreControl.Player2PointsHelp, infoPanelLogic.ScoreControl.Player2SetsWon, infoPanelLogic.ScoreControl.Player2LegsWon, infoPanelLogic.ScoreControl.Player2Points, pointsToGo); //  Игрок 2
             playerOnThrow = settingsPanelLogic.WhoThrowFirst(player1, player2); //  Кто первый бросает
             playerOnLeg = playerOnThrow; //  Чей первый лег
             //  Инфо-панель

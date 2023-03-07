@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using OneHundredAndEighty.Controls;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,18 @@ namespace OneHundredAndEighty
 {
     public class InfoPanelLogic //  Класс логики инфо-панели
     {
-        private readonly MainWindow mainWindow = (MainWindow) Application.Current.MainWindow; //  Ссылка на главное окно для доступа к элементам
+        //private readonly MainWindow mainWindow = (MainWindow)Application.Current.MainWindow; //  Ссылка на главное окно для доступа к элементам
+        public ScoreControl ScoreControl
+        {
+            get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl;
+        }
+
+        public Grid InfoPanel
+        {
+            get => ((MainWindow)Application.Current.MainWindow).InfoControl.InfoPanel;
+        }
+
+        #region Finishes
 
         private readonly SortedList<int, string> checkoutTableThreeThrows = new SortedList<int, string>()
                                                                    {
@@ -312,6 +324,8 @@ namespace OneHundredAndEighty
                                                                     [50] = "Bull"
                                                                 }; //  Коллекция закрытия сета на три броска
 
+        #endregion
+
         private readonly TimeSpan throwSlideTime = TimeSpan.FromSeconds(0.15); //  Время анимации слайдера броска
         private readonly TimeSpan helpSlideTime = TimeSpan.FromSeconds(0.23); //  Время анимации слайда помощи
         private readonly TimeSpan helpFadeTime = TimeSpan.FromSeconds(0.23); //  Время анимации фейда помощи
@@ -320,23 +334,23 @@ namespace OneHundredAndEighty
 
         public void PanelShow()
         {
-            mainWindow.InfoPanel.Visibility = Visibility.Visible;
+            InfoPanel.Visibility = Visibility.Visible;
             var animation = new DoubleAnimation(0, 1, panelFadeTime);
-            mainWindow.InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
+            InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
         } //  Спрятать инфо-панель
 
         public void PanelHide()
         {
             var animation = new DoubleAnimation(1, 0, panelFadeTime);
-            mainWindow.InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
-            mainWindow.InfoPanel.Visibility = Visibility.Hidden;
+            InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
+            InfoPanel.Visibility = Visibility.Hidden;
         } //  Показать инфо-панель
 
         public void PanelNewGame(int points, string legs, string sets, Player p1, Player p2, Player first)
         {
-            mainWindow.MainBoxSummary.Content = new StringBuilder().Append("First to ").Append(sets).Append(" sets in ").Append(legs).Append(" legs").ToString();
-            mainWindow.Player1Name.Content = p1.Name;
-            mainWindow.Player2Name.Content = p2.Name;
+            ScoreControl.MainBoxSummary.Content = new StringBuilder().Append("First to ").Append(sets).Append(" sets in ").Append(legs).Append(" legs").ToString();
+            ScoreControl.Player1Name.Content = p1.Name;
+            ScoreControl.Player2Name.Content = p2.Name;
             p1.setsWonLabel.Content = 0;
             p2.setsWonLabel.Content = 0;
             p1.legsWonLabel.Content = 0;
@@ -348,7 +362,7 @@ namespace OneHundredAndEighty
 
         public void DotSet(Player p)
         {
-            if (p.Tag == "Player1" && mainWindow.Player1SetDot.Tag.ToString() == "OFF" || p.Tag == "Player2" && mainWindow.Player2SetDot.Tag.ToString() == "OFF")
+            if (p.Tag == "Player1" && ScoreControl.Player1SetDot.Tag.ToString() == "OFF" || p.Tag == "Player2" && ScoreControl.Player2SetDot.Tag.ToString() == "OFF")
             {
                 var storyboard = new Storyboard();
                 var fadein = new DoubleAnimation(0, 1, dotFadeTime);
@@ -357,18 +371,18 @@ namespace OneHundredAndEighty
                 Storyboard.SetTargetProperty(fadeout, new PropertyPath(UIElement.OpacityProperty));
                 if (p.Tag == "Player1")
                 {
-                    Storyboard.SetTarget(fadeout, mainWindow.Player2SetDot);
-                    Storyboard.SetTarget(fadein, mainWindow.Player1SetDot);
-                    mainWindow.Player1SetDot.Tag = "ON";
-                    mainWindow.Player2SetDot.Tag = "OFF";
+                    Storyboard.SetTarget(fadeout, ScoreControl.Player2SetDot);
+                    Storyboard.SetTarget(fadein, ScoreControl.Player1SetDot);
+                    ScoreControl.Player1SetDot.Tag = "ON";
+                    ScoreControl.Player2SetDot.Tag = "OFF";
                 }
 
                 if (p.Tag == "Player2")
                 {
-                    Storyboard.SetTarget(fadeout, mainWindow.Player1SetDot);
-                    Storyboard.SetTarget(fadein, mainWindow.Player2SetDot);
-                    mainWindow.Player2SetDot.Tag = "ON";
-                    mainWindow.Player1SetDot.Tag = "OFF";
+                    Storyboard.SetTarget(fadeout, ScoreControl.Player1SetDot);
+                    Storyboard.SetTarget(fadein, ScoreControl.Player2SetDot);
+                    ScoreControl.Player2SetDot.Tag = "ON";
+                    ScoreControl.Player1SetDot.Tag = "OFF";
                 }
 
                 storyboard.Children.Add(fadein);
@@ -383,11 +397,11 @@ namespace OneHundredAndEighty
             var slider = new Storyboard();
 
             var hide = new DoubleAnimation() {From = 269, To = 245, Duration = throwSlideTime};
-            Storyboard.SetTarget(hide, mainWindow.WhoThrowSlider);
+            Storyboard.SetTarget(hide, ScoreControl.WhoThrowSlider);
             Storyboard.SetTargetProperty(hide, new PropertyPath(Canvas.LeftProperty));
 
             var show = new DoubleAnimation() {From = 245, To = 269, Duration = throwSlideTime, BeginTime = throwSlideTime};
-            Storyboard.SetTarget(show, mainWindow.WhoThrowSlider);
+            Storyboard.SetTarget(show, ScoreControl.WhoThrowSlider);
             Storyboard.SetTargetProperty(show, new PropertyPath(Canvas.LeftProperty));
 
             var fadeout = new DoubleAnimation(1, 0, helpFadeTime);
@@ -399,22 +413,22 @@ namespace OneHundredAndEighty
             DoubleAnimation toggle;
             if (p.Tag == "Player2")
             {
-                Storyboard.SetTarget(fadeout, mainWindow.Player1HelpBackground);
-                Storyboard.SetTarget(fadein, mainWindow.Player2HelpBackground);
+                Storyboard.SetTarget(fadeout, ScoreControl.Player1HelpBackground);
+                Storyboard.SetTarget(fadein, ScoreControl.Player2HelpBackground);
 
                 toggle = new DoubleAnimation() {From = 652, To = 683, Duration = TimeSpan.FromSeconds(0), BeginTime = throwSlideTime};
-                mainWindow.WhoThrowSlider.Tag = "Player1";
+                ScoreControl.WhoThrowSlider.Tag = "Player1";
             }
             else
             {
-                Storyboard.SetTarget(fadein, mainWindow.Player1HelpBackground);
-                Storyboard.SetTarget(fadeout, mainWindow.Player2HelpBackground);
+                Storyboard.SetTarget(fadein, ScoreControl.Player1HelpBackground);
+                Storyboard.SetTarget(fadeout, ScoreControl.Player2HelpBackground);
 
                 toggle = new DoubleAnimation() {From = 683, To = 652, Duration = TimeSpan.FromSeconds(0), BeginTime = throwSlideTime};
-                mainWindow.WhoThrowSlider.Tag = "Player2";
+                ScoreControl.WhoThrowSlider.Tag = "Player2";
             }
 
-            Storyboard.SetTarget(toggle, mainWindow.WhoThrowSlider);
+            Storyboard.SetTarget(toggle, ScoreControl.WhoThrowSlider);
             Storyboard.SetTargetProperty(toggle, new PropertyPath(Canvas.TopProperty));
 
             slider.Children.Add(fadeout);
@@ -480,14 +494,14 @@ namespace OneHundredAndEighty
 
         public void PointsClear(int p)
         {
-            mainWindow.Player1Points.Content = p;
-            mainWindow.Player2Points.Content = p;
+            ScoreControl.Player1Points.Content = p;
+            ScoreControl.Player2Points.Content = p;
         } //  Установка очков в начале сета
 
         public void LegsClear()
         {
-            mainWindow.Player1LegsWon.Content = 0;
-            mainWindow.Player2LegsWon.Content = 0;
+            ScoreControl.Player1LegsWon.Content = 0;
+            ScoreControl.Player2LegsWon.Content = 0;
         } //  Очистить леги
 
         public void LegsSet(Player p)
@@ -502,31 +516,31 @@ namespace OneHundredAndEighty
 
         public void TextLogAdd(string s) //  Новая строка в текстовую панель
         {
-            mainWindow.TextLog.Text += new StringBuilder().Append(s).Append("\n").ToString();
-            mainWindow.TextLog.ScrollToEnd(); //  Прокручиваем вниз
+            mainWindow.InfoControl.TextLog.Text += new StringBuilder().Append(s).Append("\n").ToString();
+            mainWindow.InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
         }
 
         public void TextLogUndo() // Удаление последный строки в текстовой панели
         {
-            mainWindow.TextLog.Text = mainWindow.TextLog.Text.Remove(mainWindow.TextLog.Text.LastIndexOf("\n"));
-            mainWindow.TextLog.Text = mainWindow.TextLog.Text.Remove(mainWindow.TextLog.Text.LastIndexOf("\n"));
-            mainWindow.TextLog.AppendText("\n");
-            mainWindow.TextLog.ScrollToEnd(); //  Прокручиваем вниз
+            mainWindow.InfoControl.TextLog.Text = mainWindow.InfoControl.TextLog.Text.Remove(mainWindow.InfoControl.TextLog.Text.LastIndexOf("\n"));
+            mainWindow.InfoControl.TextLog.Text = mainWindow.InfoControl.TextLog.Text.Remove(mainWindow.InfoControl.TextLog.Text.LastIndexOf("\n"));
+            mainWindow.InfoControl.TextLog.AppendText("\n");
+            mainWindow.InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
         }
 
         public void TextLogClear() //  Очищаем текстовую панель текстовую панель
         {
-            mainWindow.TextLog.Clear();
+            mainWindow.InfoControl.TextLog.Clear();
         }
 
         public void UndoThrowButtonOn() //  Разблокируем кнопку отмены броска
         {
-            mainWindow.UndoThrow.IsEnabled = true;
+            mainWindow.InfoControl.UndoThrow.IsEnabled = true;
         }
 
         public void UndoThrowButtonOff() //  Блокируем кнопку отмены броска
         {
-            mainWindow.UndoThrow.IsEnabled = false;
+            mainWindow.InfoControl.UndoThrow.IsEnabled = false;
         }
     }
 }

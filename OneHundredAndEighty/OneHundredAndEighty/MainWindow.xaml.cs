@@ -15,11 +15,9 @@ namespace OneHundredAndEighty
     /// </summary>
     public partial class MainWindow
     {
-        public Game game;
-
         public MainWindow()
         {
-            game = new Game();
+            ((App)Application.Current).Game = new Game();
             InitializeComponent();
             DBwork.LoadPlayers();
             DBwork.LoadSettings();
@@ -33,40 +31,6 @@ namespace OneHundredAndEighty
         public void FadeOut() //  Появление главного окна
         {
             Opacity = 1;
-        }
-
-        private void PointsShow(object sender, MouseEventArgs e) //  Показ очков сектора
-        {
-            var shape = sender as Shape;
-            HowManyPoints.Content = shape.Tag.ToString();
-        }
-
-        private void GameOn_Click(object sender, RoutedEventArgs e) //  Кнопка GAMEON
-        {
-            game.StartGame();
-        }
-
-        private void Throw(object sender, RoutedEventArgs e) //  Бросок
-        {
-            BoardPanelLogic.PanelHide(); //  Скрываем панель секторов
-            game.NextThrow(new Throw(sender));
-            if (game.IsOn) //  Если игра продолжается
-            {
-                BoardPanelLogic.PanelShow(); //  Показываем панель секторов и бросаем дальше
-            }
-        }
-
-        private void EndMatchButton_Click(object sender, RoutedEventArgs e) //  Кнопка отмены матча
-        {
-            FadeIn();
-            var window = new Windows.AbortWindowConfirm {Owner = this};
-            window.ShowDialog();
-            if (window.Result)
-            {
-                game.AbortGame();
-            }
-
-            FadeOut();
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e) //  Выход из приложения
@@ -83,18 +47,6 @@ namespace OneHundredAndEighty
                 DBwork.SaveSettings(); //  Сохраняем настройки
             }
 
-            FadeOut();
-        }
-
-        private void UndoThrow_Click(object sender, RoutedEventArgs e) //  Кнопка отмены броска
-        {
-            game.UndoThrow();
-        }
-
-        private void NewPlayer_Click(object sender, RoutedEventArgs e) //  Кнопка нового игрока
-        {
-            FadeIn();
-            NewPlayer.ShowNewPlayerRegisterWindow();
             FadeOut();
         }
 

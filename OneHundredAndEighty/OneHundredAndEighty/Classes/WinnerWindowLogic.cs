@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using OneHundredAndEighty.Windows;
 
 #endregion
@@ -20,10 +21,10 @@ namespace OneHundredAndEighty
 
             winnerWindow.WinnerName.Content = new StringBuilder().Append("[ ").Append(winner.Name).Append(" ]").ToString();
             winnerWindow.ShowDialog(); //  Показываем диалоговое окно
-            MainWindow.game.statisticsWindowLogic.CountMatchStatistics(winner, player1, player2, allMatchThrows); //  Считаем статистику матча
+            ((App)Application.Current).Game.statisticsWindowLogic.CountMatchStatistics(winner, player1, player2, allMatchThrows); //  Считаем статистику матча
             if (winnerWindow.StatsShow) //  Если нажата кнопка показать статистику матча
             {
-                MainWindow.game.statisticsWindowLogic.ShowMatchStatistics(); //  Показываем статистику матча
+                ((App)Application.Current).Game.statisticsWindowLogic.ShowMatchStatistics(); //  Показываем статистику матча
             }
 
             MainWindow.FadeOut();

@@ -22,25 +22,25 @@ namespace OneHundredAndEighty
                 connection.Open();
 
                 var player1NameComboBox = new SqlCommand("UPDATE Settings SET IntValue=@value WHERE SettingName='Player1NameBoxSelectedItem'", connection);
-                player1NameComboBox.Parameters.AddWithValue("@value", MainWindow.Player1NameCombobox.SelectedIndex);
+                player1NameComboBox.Parameters.AddWithValue("@value", MainWindow.SettingsControl.Player1NameCombobox.SelectedIndex);
                 player1NameComboBox.ExecuteNonQuery();
                 var player2NameComboBox = new SqlCommand("UPDATE Settings SET IntValue=@value WHERE SettingName='Player2NameBoxSelectedItem'", connection);
-                player2NameComboBox.Parameters.AddWithValue("@value", MainWindow.Player2NameCombobox.SelectedIndex);
+                player2NameComboBox.Parameters.AddWithValue("@value", MainWindow.SettingsControl.Player2NameCombobox.SelectedIndex);
                 player2NameComboBox.ExecuteNonQuery();
                 var setBox = new SqlCommand("UPDATE Settings SET IntValue=@value WHERE SettingName='SetsBoxSelectedItem'", connection);
-                setBox.Parameters.AddWithValue("@value", MainWindow.SetBox.SelectedIndex);
+                setBox.Parameters.AddWithValue("@value", MainWindow.SettingsControl.SetBox.SelectedIndex);
                 setBox.ExecuteNonQuery();
                 var legBox = new SqlCommand("UPDATE Settings SET IntValue=@value WHERE SettingName='LegsBoxSelectedItem'", connection);
-                legBox.Parameters.AddWithValue("@value", MainWindow.LegBox.SelectedIndex);
+                legBox.Parameters.AddWithValue("@value", MainWindow.SettingsControl.LegBox.SelectedIndex);
                 legBox.ExecuteNonQuery();
                 var pointsBox = new SqlCommand("UPDATE Settings SET IntValue=@value WHERE SettingName='PointsBoxSelectedItem'", connection);
-                pointsBox.Parameters.AddWithValue("@value", MainWindow.PointsBox.SelectedIndex);
+                pointsBox.Parameters.AddWithValue("@value", MainWindow.SettingsControl.PointsBox.SelectedIndex);
                 pointsBox.ExecuteNonQuery();
                 var player1RadioButton = new SqlCommand("UPDATE Settings SET BoolValue=@value WHERE SettingName='Player1RadioButtonIsChecked'", connection);
-                player1RadioButton.Parameters.AddWithValue("@value", MainWindow.Player1Radiobutton.IsChecked);
+                player1RadioButton.Parameters.AddWithValue("@value", MainWindow.SettingsControl.Player1Radiobutton.IsChecked);
                 player1RadioButton.ExecuteNonQuery();
                 var player2RadioButton = new SqlCommand("UPDATE Settings SET BoolValue=@value WHERE SettingName='Player2RadioButtonIsChecked'", connection);
-                player2RadioButton.Parameters.AddWithValue("@value", MainWindow.Player2Radiobutton.IsChecked);
+                player2RadioButton.Parameters.AddWithValue("@value", MainWindow.SettingsControl.Player2Radiobutton.IsChecked);
                 player2RadioButton.ExecuteNonQuery();
 
                 connection.Close();
@@ -53,13 +53,13 @@ namespace OneHundredAndEighty
             {
                 connection.Open();
 
-                MainWindow.Player1NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player1NameBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.Player2NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player2NameBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.SetBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='SetsBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.LegBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='LegsBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.PointsBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='PointsBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.Player1Radiobutton.IsChecked = (bool) new SqlCommand("SELECT BoolValue FROM Settings WHERE SettingName='Player1RadioButtonIsChecked'", connection).ExecuteScalar();
-                MainWindow.Player2Radiobutton.IsChecked = (bool) new SqlCommand("SELECT BoolValue FROM Settings WHERE SettingName='Player2RadioButtonIsChecked'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.Player1NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player1NameBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.Player2NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player2NameBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.SetBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='SetsBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.LegBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='LegsBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.PointsBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='PointsBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.Player1Radiobutton.IsChecked = (bool) new SqlCommand("SELECT BoolValue FROM Settings WHERE SettingName='Player1RadioButtonIsChecked'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.Player2Radiobutton.IsChecked = (bool) new SqlCommand("SELECT BoolValue FROM Settings WHERE SettingName='Player2RadioButtonIsChecked'", connection).ExecuteScalar();
 
                 connection.Close();
             }
@@ -74,14 +74,14 @@ namespace OneHundredAndEighty
                 var dt = new DataTable();
                 var da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
-                MainWindow.Player1NameCombobox.ItemsSource = dt.DefaultView;
-                MainWindow.Player1NameCombobox.DisplayMemberPath = "Nickname";
-                MainWindow.Player1NameCombobox.SelectedValuePath = "Id";
-                MainWindow.Player1NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player1NameBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.Player2NameCombobox.ItemsSource = dt.DefaultView;
-                MainWindow.Player2NameCombobox.DisplayMemberPath = "Nickname";
-                MainWindow.Player2NameCombobox.SelectedValuePath = "Id";
-                MainWindow.Player2NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player2NameBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.Player1NameCombobox.ItemsSource = dt.DefaultView;
+                MainWindow.SettingsControl.Player1NameCombobox.DisplayMemberPath = "Nickname";
+                MainWindow.SettingsControl.Player1NameCombobox.SelectedValuePath = "Id";
+                MainWindow.SettingsControl.Player1NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player1NameBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.Player2NameCombobox.ItemsSource = dt.DefaultView;
+                MainWindow.SettingsControl.Player2NameCombobox.DisplayMemberPath = "Nickname";
+                MainWindow.SettingsControl.Player2NameCombobox.SelectedValuePath = "Id";
+                MainWindow.SettingsControl.Player2NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player2NameBoxSelectedItem'", connection).ExecuteScalar();
 
                 MainWindow.Player1TabNameCombobox.ItemsSource = dt.DefaultView;
                 MainWindow.Player1TabNameCombobox.DisplayMemberPath = "Nickname";
@@ -210,7 +210,7 @@ namespace OneHundredAndEighty
                 savematch.Parameters.AddWithValue("@Faults", game.FaultThrows);
                 savematch.Parameters.AddWithValue("@Player1Faults", game.Player1FaultThrows);
                 savematch.Parameters.AddWithValue("@Player2Faults", game.Player2FaultThrows);
-                savematch.Parameters.AddWithValue("@Log", MainWindow.TextLog.Text);
+                savematch.Parameters.AddWithValue("@Log", MainWindow.InfoControl.TextLog.Text);
                 savematch.ExecuteNonQuery();
                 //  Закрываем подключения
                 connection.Close();

@@ -6,12 +6,12 @@
 
         public static void PanelShow()
         {
-            MainWindow.BoardPanel.Visibility = System.Windows.Visibility.Visible;
+            MainWindow.BoardControl.BoardPanel.Visibility = System.Windows.Visibility.Visible;
         }
 
         public static void PanelHide()
         {
-            MainWindow.BoardPanel.Visibility = System.Windows.Visibility.Hidden;
+            MainWindow.BoardControl.BoardPanel.Visibility = System.Windows.Visibility.Hidden;
         }
     }
 }

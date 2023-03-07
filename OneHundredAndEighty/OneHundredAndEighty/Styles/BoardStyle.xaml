@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Style x:Key="CommonSegment">
+        <EventSetter Event="Shape.MouseEnter" Handler="PointsShow" />
+        <EventSetter Event="Shape.MouseLeftButtonDown" Handler="Throw" />
+
+        <Setter Property="Shape.Stroke" Value="Transparent" />
+        <Setter Property="Shape.StrokeThickness" Value="0" />
+        <Setter Property="Shape.Cursor" Value="Hand" />
+        <Setter Property="Shape.Opacity" Value="1" />
+        <Setter Property="Shape.Fill" Value="Transparent" />
+        <Style.Triggers>
+            <Trigger Property="Shape.IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Name="Blink">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="Fill.Color"
+                                                To="Aqua"
+                                                Duration="0:0:0.0" />
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 From="0"
+                                                 To="0.5"
+                                                 Duration="0:0:0.25"
+                                                 AutoReverse="True"
+                                                 RepeatBehavior="Forever" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="Blink" />
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="Fill.Color"
+                                                To="Transparent"
+                                                Duration="0:0:0.0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <!--<EventTrigger RoutedEvent="Shape.MouseLeftButtonDown">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="Fill.Color"
+                                                To="Red"
+                                                Duration="0:0:0.15"
+                                                AutoReverse="True">
+                                </ColorAnimation>
+                                <ColorAnimation Storyboard.TargetProperty="Fill.Color"
+                                                To="Transparent"
+                                                Duration="0:0:0.15">
+                                </ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>-->
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
