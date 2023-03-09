@@ -27,6 +27,7 @@
         </LinearGradientBrush>
     </Window.Background>
     <TabControl x:Name="Tab"
+                TabStripPlacement="Bottom"
                 Background="{x:Null}"
                 BorderBrush="{x:Null}"
                 Foreground="{x:Null}"

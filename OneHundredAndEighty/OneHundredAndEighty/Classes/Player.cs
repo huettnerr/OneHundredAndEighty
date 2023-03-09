@@ -34,11 +34,11 @@ namespace OneHundredAndEighty
         }
 
         //  Инфо-панель
-        public readonly Canvas helpPanel; //  Панель помощи
-        public readonly Label helpLabel; //  Лейбл помощи
-        public readonly Label setsWonLabel; //  Лейбл выиграных сетов
-        public readonly Label legsWonLabel; //  Лейбл выиграных легов
-        public readonly Label pointsLabel; //  Лейбл набраных очнов
+        public Canvas helpPanel { get; private set; } //  Панель помощи
+        public Label helpLabel { get; private set; } //  Лейбл помощи
+        public Label setsWonLabel { get; private set; } //  Лейбл выиграных сетов
+        public Label legsWonLabel { get; private set; } //  Лейбл выиграных легов
+        public Label pointsLabel { get; private set; } //  Лейбл набраных очнов
 
         public Player(string tag, int id, string name, Canvas helpPanel, Label helpLabel,
                       Label setsWonLabel, Label legsWonLabel, Label pointsLabel, int pointsToOut) //  Конструктор нового игрока

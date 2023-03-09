@@ -20,9 +20,9 @@ namespace OneHundredAndEighty
             get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl;
         }
 
-        public Grid InfoPanel
+        public InfoControl InfoControl
         {
-            get => ((MainWindow)Application.Current.MainWindow).InfoControl.InfoPanel;
+            get => ((MainWindow)Application.Current.MainWindow).InfoControl;
         }
 
         #region Finishes
@@ -334,16 +334,16 @@ namespace OneHundredAndEighty
 
         public void PanelShow()
         {
-            InfoPanel.Visibility = Visibility.Visible;
+            InfoControl.InfoPanel.Visibility = Visibility.Visible;
             var animation = new DoubleAnimation(0, 1, panelFadeTime);
-            InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
+            InfoControl.InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
         } //  Спрятать инфо-панель
 
         public void PanelHide()
         {
             var animation = new DoubleAnimation(1, 0, panelFadeTime);
-            InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
-            InfoPanel.Visibility = Visibility.Hidden;
+            InfoControl.InfoPanel.BeginAnimation(UIElement.OpacityProperty, animation);
+            InfoControl.InfoPanel.Visibility = Visibility.Hidden;
         } //  Показать инфо-панель
 
         public void PanelNewGame(int points, string legs, string sets, Player p1, Player p2, Player first)
@@ -516,31 +516,31 @@ namespace OneHundredAndEighty
 
         public void TextLogAdd(string s) //  Новая строка в текстовую панель
         {
-            mainWindow.InfoControl.TextLog.Text += new StringBuilder().Append(s).Append("\n").ToString();
-            mainWindow.InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
+            InfoControl.TextLog.Text += new StringBuilder().Append(s).Append("\n").ToString();
+            InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
         }
 
         public void TextLogUndo() // Удаление последный строки в текстовой панели
         {
-            mainWindow.InfoControl.TextLog.Text = mainWindow.InfoControl.TextLog.Text.Remove(mainWindow.InfoControl.TextLog.Text.LastIndexOf("\n"));
-            mainWindow.InfoControl.TextLog.Text = mainWindow.InfoControl.TextLog.Text.Remove(mainWindow.InfoControl.TextLog.Text.LastIndexOf("\n"));
-            mainWindow.InfoControl.TextLog.AppendText("\n");
-            mainWindow.InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
+            InfoControl.TextLog.Text = InfoControl.TextLog.Text.Remove(InfoControl.TextLog.Text.LastIndexOf("\n"));
+            InfoControl.TextLog.Text = InfoControl.TextLog.Text.Remove(InfoControl.TextLog.Text.LastIndexOf("\n"));
+            InfoControl.TextLog.AppendText("\n");
+            InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
         }
 
         public void TextLogClear() //  Очищаем текстовую панель текстовую панель
         {
-            mainWindow.InfoControl.TextLog.Clear();
+            InfoControl.TextLog.Clear();
         }
 
         public void UndoThrowButtonOn() //  Разблокируем кнопку отмены броска
         {
-            mainWindow.InfoControl.UndoThrow.IsEnabled = true;
+            InfoControl.UndoThrow.IsEnabled = true;
         }
 
         public void UndoThrowButtonOff() //  Блокируем кнопку отмены броска
         {
-            mainWindow.InfoControl.UndoThrow.IsEnabled = false;
+            InfoControl.UndoThrow.IsEnabled = false;
         }
     }
 }
