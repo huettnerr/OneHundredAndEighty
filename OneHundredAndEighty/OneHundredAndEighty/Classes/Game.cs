@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using OneHundredAndEighty.Controls;
+using OneHundredAndEighty.Score;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,7 @@ namespace OneHundredAndEighty
         private readonly InfoPanelLogic infoPanelLogic = new InfoPanelLogic(); //  Инфо-панель
         private readonly SettingsPanelLogic settingsPanelLogic = new SettingsPanelLogic(); //  Панель настроек матча
         public readonly StatisticsWindowLogic statisticsWindowLogic = new StatisticsWindowLogic(); //  Окно статистики
+        public readonly ScoreViewModel scoreVM = new ScoreViewModel(); //  Окно статистики
         public bool IsOn { get; private set; } //  Флаг работы матча
         private Player player1; //  Игрок 1
         private Player player2; //  Игрок 2
@@ -39,8 +41,8 @@ namespace OneHundredAndEighty
             setsToGo = settingsPanelLogic.SetsToGo(); //  Получаем количество легов сета
             legsToGo = settingsPanelLogic.LegsToGo(); //  Получаем количество сетов матча
             //  Игроки
-            player1 = new Player("Player1", (int) mainWindow.SettingsControl.Player1NameCombobox.SelectedValue, settingsPanelLogic.Player1Name(), infoPanelLogic.ScoreControl.Player1Help, infoPanelLogic.ScoreControl.Player1PointsHelp, infoPanelLogic.ScoreControl.Player1SetsWon, infoPanelLogic.ScoreControl.Player1LegsWon, infoPanelLogic.ScoreControl.Player1Points, pointsToGo); //  Игрок 1
-            player2 = new Player("Player2", (int) mainWindow.SettingsControl.Player2NameCombobox.SelectedValue, settingsPanelLogic.Player2Name(), infoPanelLogic.ScoreControl.Player2Help, infoPanelLogic.ScoreControl.Player2PointsHelp, infoPanelLogic.ScoreControl.Player2SetsWon, infoPanelLogic.ScoreControl.Player2LegsWon, infoPanelLogic.ScoreControl.Player2Points, pointsToGo); //  Игрок 2
+            player1 = new Player("Player1", (int) mainWindow.SettingsControl.Player1NameCombobox.SelectedValue, settingsPanelLogic.Player1Name(), pointsToGo); //  Игрок 1
+            player2 = new Player("Player2", (int) mainWindow.SettingsControl.Player2NameCombobox.SelectedValue, settingsPanelLogic.Player2Name(), pointsToGo); //  Игрок 2
             playerOnThrow = settingsPanelLogic.WhoThrowFirst(player1, player2); //  Кто первый бросает
             playerOnLeg = playerOnThrow; //  Чей первый лег
             //  Инфо-панель

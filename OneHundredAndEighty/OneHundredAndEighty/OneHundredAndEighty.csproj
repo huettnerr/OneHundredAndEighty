@@ -107,6 +107,7 @@
     <Compile Include="Classes\SettingsPanelLogic.cs" />
     <Compile Include="Classes\StatisticsWindowLogic.cs" />
     <Compile Include="Classes\Throw.cs" />
+    <Compile Include="Classes\ViewProperty.cs" />
     <Compile Include="Classes\WinnerWindowLogic.cs" />
     <Compile Include="Controls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
@@ -114,12 +115,13 @@
     <Compile Include="Controls\InfoControl.xaml.cs">
       <DependentUpon>InfoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ScoreControl.xaml.cs">
-      <DependentUpon>ScoreControl.xaml</DependentUpon>
+    <Compile Include="Controls\ScoreControlOld.xaml.cs">
+      <DependentUpon>ScoreControlOld.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Converter.cs" />
     <Compile Include="Score\ScoreControl.xaml.cs">
       <DependentUpon>ScoreControl.xaml</DependentUpon>
     </Compile>
@@ -159,7 +161,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ScoreControl.xaml">
+    <Page Include="Controls\ScoreControlOld.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

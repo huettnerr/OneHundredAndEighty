@@ -1,9 +1,11 @@
 ﻿#region Usings
 
 using OneHundredAndEighty.Controls;
+using OneHundredAndEighty.Score;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -15,15 +17,9 @@ namespace OneHundredAndEighty
     public class InfoPanelLogic //  Класс логики инфо-панели
     {
         //private readonly MainWindow mainWindow = (MainWindow)Application.Current.MainWindow; //  Ссылка на главное окно для доступа к элементам
-        public ScoreControl ScoreControl
-        {
-            get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl;
-        }
-
-        public InfoControl InfoControl
-        {
-            get => ((MainWindow)Application.Current.MainWindow).InfoControl;
-        }
+        public InfoControl InfoControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl; }
+        public ScoreControl ScoreControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl; }
+        public ScoreViewModel ScoreVM { get => ((App)Application.Current).Game.scoreVM; }
 
         #region Finishes
 
@@ -326,10 +322,6 @@ namespace OneHundredAndEighty
 
         #endregion
 
-        private readonly TimeSpan throwSlideTime = TimeSpan.FromSeconds(0.15); //  Время анимации слайдера броска
-        private readonly TimeSpan helpSlideTime = TimeSpan.FromSeconds(0.23); //  Время анимации слайда помощи
-        private readonly TimeSpan helpFadeTime = TimeSpan.FromSeconds(0.23); //  Время анимации фейда помощи
-        private readonly TimeSpan dotFadeTime = TimeSpan.FromSeconds(0.23); //  Время анимации фейда помощи
         private readonly TimeSpan panelFadeTime = TimeSpan.FromSeconds(0.5); //  Время анимации фейда панели
 
         public void PanelShow()
@@ -349,12 +341,17 @@ namespace OneHundredAndEighty
         public void PanelNewGame(int points, string legs, string sets, Player p1, Player p2, Player first)
         {
             ScoreControl.MainBoxSummary.Content = new StringBuilder().Append("First to ").Append(sets).Append(" sets in ").Append(legs).Append(" legs").ToString();
-            ScoreControl.Player1Name.Content = p1.Name;
-            ScoreControl.Player2Name.Content = p2.Name;
-            p1.setsWonLabel.Content = 0;
-            p2.setsWonLabel.Content = 0;
-            p1.legsWonLabel.Content = 0;
-            p2.legsWonLabel.Content = 0;
+            ScoreVM.IsSetMode.Val = true;
+            ScoreVM.P1Name.Val = p1.Name;
+            ScoreVM.P2Name.Val = p2.Name;
+
+            ScoreVM.P1Sets.Val = 0;
+            ScoreVM.P1Legs.Val = 0;
+            ScoreVM.P2Sets.Val = 0;
+            ScoreVM.P2Legs.Val = 0;
+
+            ScoreControl.HelpHide(p1);
+            ScoreControl.HelpHide(p2);
             PointsClear(points);
             DotSet(first);
             WhoThrowSliderSet(first);
@@ -362,82 +359,17 @@ namespace OneHundredAndEighty
 
         public void DotSet(Player p)
         {
-            if (p.Tag == "Player1" && ScoreControl.Player1SetDot.Tag.ToString() == "OFF" || p.Tag == "Player2" && ScoreControl.Player2SetDot.Tag.ToString() == "OFF")
-            {
-                var storyboard = new Storyboard();
-                var fadein = new DoubleAnimation(0, 1, dotFadeTime);
-                var fadeout = new DoubleAnimation(1, 0, dotFadeTime);
-                Storyboard.SetTargetProperty(fadein, new PropertyPath(UIElement.OpacityProperty));
-                Storyboard.SetTargetProperty(fadeout, new PropertyPath(UIElement.OpacityProperty));
-                if (p.Tag == "Player1")
-                {
-                    Storyboard.SetTarget(fadeout, ScoreControl.Player2SetDot);
-                    Storyboard.SetTarget(fadein, ScoreControl.Player1SetDot);
-                    ScoreControl.Player1SetDot.Tag = "ON";
-                    ScoreControl.Player2SetDot.Tag = "OFF";
-                }
+            ScoreControl.DotSet(p);
 
-                if (p.Tag == "Player2")
-                {
-                    Storyboard.SetTarget(fadeout, ScoreControl.Player1SetDot);
-                    Storyboard.SetTarget(fadein, ScoreControl.Player2SetDot);
-                    ScoreControl.Player2SetDot.Tag = "ON";
-                    ScoreControl.Player1SetDot.Tag = "OFF";
-                }
-
-                storyboard.Children.Add(fadein);
-                storyboard.Children.Add(fadeout);
-
-                storyboard.Begin();
-            }
-        } //  Установка точки начала сета
+            ScoreVM.BeginningPlayer.Val = p.Tag.Equals("Player1") ? Players.Player1 : Players.Player2;
+        }
 
         public void WhoThrowSliderSet(Player p)
         {
-            var slider = new Storyboard();
+            ScoreControl.WhoThrowSliderSet(p);
 
-            var hide = new DoubleAnimation() {From = 269, To = 245, Duration = throwSlideTime};
-            Storyboard.SetTarget(hide, ScoreControl.WhoThrowSlider);
-            Storyboard.SetTargetProperty(hide, new PropertyPath(Canvas.LeftProperty));
-
-            var show = new DoubleAnimation() {From = 245, To = 269, Duration = throwSlideTime, BeginTime = throwSlideTime};
-            Storyboard.SetTarget(show, ScoreControl.WhoThrowSlider);
-            Storyboard.SetTargetProperty(show, new PropertyPath(Canvas.LeftProperty));
-
-            var fadeout = new DoubleAnimation(1, 0, helpFadeTime);
-            Storyboard.SetTargetProperty(fadeout, new PropertyPath(UIElement.OpacityProperty));
-
-            var fadein = new DoubleAnimation(0, 1, helpFadeTime);
-            Storyboard.SetTargetProperty(fadein, new PropertyPath(UIElement.OpacityProperty));
-
-            DoubleAnimation toggle;
-            if (p.Tag == "Player2")
-            {
-                Storyboard.SetTarget(fadeout, ScoreControl.Player1HelpBackground);
-                Storyboard.SetTarget(fadein, ScoreControl.Player2HelpBackground);
-
-                toggle = new DoubleAnimation() {From = 652, To = 683, Duration = TimeSpan.FromSeconds(0), BeginTime = throwSlideTime};
-                ScoreControl.WhoThrowSlider.Tag = "Player1";
-            }
-            else
-            {
-                Storyboard.SetTarget(fadein, ScoreControl.Player1HelpBackground);
-                Storyboard.SetTarget(fadeout, ScoreControl.Player2HelpBackground);
-
-                toggle = new DoubleAnimation() {From = 683, To = 652, Duration = TimeSpan.FromSeconds(0), BeginTime = throwSlideTime};
-                ScoreControl.WhoThrowSlider.Tag = "Player2";
-            }
-
-            Storyboard.SetTarget(toggle, ScoreControl.WhoThrowSlider);
-            Storyboard.SetTargetProperty(toggle, new PropertyPath(Canvas.TopProperty));
-
-            slider.Children.Add(fadeout);
-            slider.Children.Add(hide);
-            slider.Children.Add(toggle);
-            slider.Children.Add(show);
-            slider.Children.Add(fadein);
-            slider.Begin();
-        } //  Установка слайдера текущего броска
+            ScoreVM.ActivePlayer.Val = p.Tag.Equals("Player1") ? Players.Player1 : Players.Player2;
+        }
 
         public void HelpCheck(Player p)
         {
@@ -457,62 +389,49 @@ namespace OneHundredAndEighty
 
             if (table.ContainsKey(p.pointsToOut))
             {
-                p.helpLabel.Content = table[p.pointsToOut];
-                HelpShow(p);
+                if(p.Tag.Equals("Player1")) ScoreVM.P1Help.Val = table[p.pointsToOut];
+                else if (p.Tag.Equals("Player2")) ScoreVM.P2Help.Val = table[p.pointsToOut];
+               
+                ScoreControl.HelpShow(p, table[p.pointsToOut]);
             }
             else
             {
-                p.helpLabel.Content = "";
-                HelpHide(p);
-            }
-        } //  Установка помощи очков на закрытие сета
+                if (p.Tag.Equals("Player1")) ScoreVM.P1Help.Val = "";
+                else if (p.Tag.Equals("Player2")) ScoreVM.P2Help.Val = "";
 
-        private void HelpShow(Player p)
-        {
-            if (p.helpPanel.Tag.ToString() == "OFF")
-            {
-                var show = new DoubleAnimation(77, -48, helpSlideTime);
-                p.helpPanel.BeginAnimation(Canvas.LeftProperty, show);
-                p.helpPanel.Tag = "ON";
+                ScoreControl.HelpHide(p);
             }
-        } //  Показ бокса помощи
-
-        private void HelpHide(Player p)
-        {
-            if (p.helpPanel.Tag.ToString() == "ON")
-            {
-                var hide = new DoubleAnimation(-48, 77, helpSlideTime);
-                p.helpPanel.BeginAnimation(Canvas.LeftProperty, hide);
-                p.helpPanel.Tag = "OFF";
-            }
-        } //  Скрытие бокса помощи
+        }
 
         public void PointsSet(Player p)
         {
-            p.pointsLabel.Content = p.pointsToOut;
-        } //  Установка текущих очков
+            if (p.Tag.Equals("Player1")) ScoreVM.P1Points.Val = p.pointsToOut;
+            else if (p.Tag.Equals("Player2")) ScoreVM.P2Points.Val = p.pointsToOut;
+        }
 
         public void PointsClear(int p)
         {
-            ScoreControl.Player1Points.Content = p;
-            ScoreControl.Player2Points.Content = p;
-        } //  Установка очков в начале сета
+            ScoreVM.P1Points.Val = p;
+            ScoreVM.P2Points.Val = p;
+        }
 
         public void LegsClear()
         {
-            ScoreControl.Player1LegsWon.Content = 0;
-            ScoreControl.Player2LegsWon.Content = 0;
-        } //  Очистить леги
+            ScoreVM.P1Legs.Val = 0;
+            ScoreVM.P2Legs.Val = 0;
+        }
 
         public void LegsSet(Player p)
         {
-            p.legsWonLabel.Content = p.legsWon;
-        } //  Установка текущих легов игрока
+            if (p.Tag.Equals("Player1")) ScoreVM.P1Legs.Val = p.legsWon;
+            else if (p.Tag.Equals("Player2")) ScoreVM.P2Legs.Val = p.legsWon;
+        }
 
         public void SetsSet(Player p)
         {
-            p.setsWonLabel.Content = p.setsWon;
-        } //  Установка текущих сетов игрока
+            if (p.Tag.Equals("Player1")) ScoreVM.P1Sets.Val = p.setsWon;
+            else if (p.Tag.Equals("Player2")) ScoreVM.P2Sets.Val = p.setsWon;
+        }
 
         public void TextLogAdd(string s) //  Новая строка в текстовую панель
         {

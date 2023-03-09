@@ -18,9 +18,9 @@ namespace OneHundredAndEighty.Controls
     /// <summary>
     /// Interaktionslogik für ScoreControl.xaml
     /// </summary>
-    public partial class ScoreControl : UserControl
+    public partial class ScoreControlOld : UserControl
     {
-        public ScoreControl()
+        public ScoreControlOld()
         {
             InitializeComponent();
         }
