@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:OneHundredAndEighty.Controls"
+        xmlns:Score="clr-namespace:OneHundredAndEighty.Score"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
@@ -67,15 +68,20 @@
                  IsSelected="True"
                  Cursor="Hand">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Controls:SettingsControl x:Name="SettingsControl" Grid.Column="0" Grid.Row="0"/>
-                <Controls:InfoControl x:Name="InfoControl" Grid.Column="0" Grid.Row="0"/>
-                <GridSplitter Grid.Column="1" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                <Controls:BoardControl x:Name="BoardControl" Grid.Column="2"/>
+                <Score:WhiteboardControl Grid.Row="0" Grid.ColumnSpan="3" />
+                <Controls:SettingsControl Grid.Row="1" Grid.Column="0" x:Name="SettingsControl"/>
+                <Controls:InfoControl Grid.Row="1" Grid.Column="0" x:Name="InfoControl"/>
+                <GridSplitter Grid.Row="1" Grid.Column="1" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                <Controls:BoardControl Grid.Row="1" Grid.Column="2" x:Name="BoardControl"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="PlayerTab"

@@ -361,14 +361,14 @@ namespace OneHundredAndEighty
         {
             ScoreControl.DotSet(p);
 
-            ScoreVM.BeginningPlayer.Val = p.Tag.Equals("Player1") ? Players.Player1 : Players.Player2;
+            ScoreVM.BeginningPlayer.Val = p.Tag;
         }
 
         public void WhoThrowSliderSet(Player p)
         {
             ScoreControl.WhoThrowSliderSet(p);
 
-            ScoreVM.ActivePlayer.Val = p.Tag.Equals("Player1") ? Players.Player1 : Players.Player2;
+            ScoreVM.ActivePlayer.Val = p.Tag;
         }
 
         public void HelpCheck(Player p)
@@ -405,14 +405,12 @@ namespace OneHundredAndEighty
 
         public void PointsSet(Player p)
         {
-            if (p.Tag.Equals("Player1")) ScoreVM.P1Points.Val = p.pointsToOut;
-            else if (p.Tag.Equals("Player2")) ScoreVM.P2Points.Val = p.pointsToOut;
+            ScoreVM.AddScore(p);
         }
 
         public void PointsClear(int p)
         {
-            ScoreVM.P1Points.Val = p;
-            ScoreVM.P2Points.Val = p;
+            ScoreVM.ClearScores(p);
         }
 
         public void LegsClear()
@@ -445,6 +443,8 @@ namespace OneHundredAndEighty
             InfoControl.TextLog.Text = InfoControl.TextLog.Text.Remove(InfoControl.TextLog.Text.LastIndexOf("\n"));
             InfoControl.TextLog.AppendText("\n");
             InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
+
+            ScoreVM.UndoScore();
         }
 
         public void TextLogClear() //  Очищаем текстовую панель текстовую панель

@@ -156,6 +156,8 @@ namespace OneHundredAndEighty
             infoPanelLogic.UndoThrowButtonOn(); //  Включаем кнопку отмены броска
 
             infoPanelLogic.TextLogAdd(new StringBuilder().Append("    > ").Append(playerOnThrow.Name).Append(" throws ").Append(thrw.Points).ToString()); //  Пишем в текстовую панель
+
+
             thrw.WhoThrow = playerOnThrow.Tag; //  Записываем в бросок кто его бросил
 
             allMatchThrows.Push(thrw); //  Записываем в последный бросок в коллекцию матча

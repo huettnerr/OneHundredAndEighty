@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="OneHundredAndEighty.Score.WhiteboardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OneHundredAndEighty.Score"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="Player1Name" Content="{Binding P1Name.Val, FallbackValue=Player 1}" Background="Transparent" FontFamily="Agency FB" FontWeight="Bold" Padding="5" VerticalAlignment="Center"/>
+        <Label Grid.Column="1" x:Name="Player2Name" Content="{Binding P2Name.Val, FallbackValue=Player 2}" Background="Transparent" FontFamily="Agency FB" FontWeight="Bold" Padding="5" VerticalAlignment="Center"/>
+        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding whiteboardScoresP1}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" CanUserAddRows="False" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*"/>
+                <DataGridTextColumn Header="Scored" Binding="{Binding PointsThrown}" Width="5*"/>
+                <DataGridTextColumn Header="To Go" Binding="{Binding PointsToGo}" Width="5*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding whiteboardScoresP2}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" CanUserAddRows="False" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Scored" Binding="{Binding PointsThrown}" Width="5*"/>
+                <DataGridTextColumn Header="To Go" Binding="{Binding PointsToGo}" Width="5*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
