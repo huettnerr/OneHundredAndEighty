@@ -67,7 +67,7 @@
                 <Label Content="{Binding P1Legs.Val, FallbackValue='3'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24"/>
                 <Label Content="Averages" Foreground="Blue" FontSize="14"/>
                 <Label Content="Score:" Margin="10 0 0 0" FontSize="14"/>
-                <Label Content="{Binding P1Avg.Val, FallbackValue='47.11'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24" ContentStringFormat="N2"/>
+                <Label Content="{Binding P1Throws.Stats.Avg.Val, FallbackValue='47.11'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24" ContentStringFormat="N2"/>
             </StackPanel>
         </Viewbox>
 
@@ -92,18 +92,18 @@
                 <Label Content="{Binding P2Legs.Val, FallbackValue='3'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24"/>
                 <Label Content="Averages" Foreground="Blue" FontSize="14"/>
                 <Label Content="Score:" Margin="10 0 0 0" FontSize="14"/>
-                <Label Content="{Binding P2Avg.Val, FallbackValue='47.11'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24" ContentStringFormat="N2"/>
+                <Label Content="{Binding P2Throws.Stats.Avg.Val, FallbackValue='47.11'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24" ContentStringFormat="N2"/>
             </StackPanel>
         </Viewbox>
 
-        <DataGrid Grid.Row="1" Grid.Column="1" x:Name="Player1Whiteboard" ItemsSource="{Binding whiteboardScoresP1}" FlowDirection="RightToLeft" SizeChanged="DataGrid_SizeChanged">
+        <DataGrid Grid.Row="1" Grid.Column="1" x:Name="Player1Whiteboard" ItemsSource="{Binding P1Throws.WhiteboardScores}" FlowDirection="RightToLeft" SizeChanged="DataGrid_SizeChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
                 <DataGridTextColumn Header="Restscore" Binding="{Binding PointsToGo}" Width="5*" FontWeight="Bold"/>
                 <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid Grid.Row="1" Grid.Column="2" x:Name="Player2Whiteboard" ItemsSource="{Binding whiteboardScoresP2}" SizeChanged="DataGrid_SizeChanged">
+        <DataGrid Grid.Row="1" Grid.Column="2" x:Name="Player2Whiteboard" ItemsSource="{Binding P2Throws.WhiteboardScores}" SizeChanged="DataGrid_SizeChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
                 <DataGridTextColumn Header="Restscore" Binding="{Binding PointsToGo}" Width="5*" FontWeight="Bold"/>

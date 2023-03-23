@@ -15,30 +15,6 @@ using System.Collections.ObjectModel;
 
 namespace OneHundredAndEighty.Score
 {        
-    public struct WhiteboardScore
-    {
-        public string PlayerTag { get; set; }
-        public int PointsThrown { get; set; }
-        public int PointsToGo { get; set; }
-        public int DartCount { get; set; }
-
-        public WhiteboardScore(int points)
-        {
-            PlayerTag = "";
-            PointsThrown = 0;
-            PointsToGo = points;
-            DartCount = 0;
-        }
-
-        public WhiteboardScore(Player p)
-        {
-            PlayerTag = p.Tag;
-            PointsThrown = p.IsTurnFault ? 0 : p.handPoints;
-            PointsToGo = p.pointsToOut;
-            DartCount = 0;
-        }
-    }
-
     public class ScoreViewModel : ViewModelBase
     {
         public ScoreControl ScoreControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl; }
@@ -51,9 +27,19 @@ namespace OneHundredAndEighty.Score
 
         #region individual scores
 
-        public ObservableCollection<WhiteboardScore> whiteboardScoresP1 { get; set; }
-        public ObservableCollection<WhiteboardScore> whiteboardScoresP2 { get; set; }
-        public ObservableCollection<WhiteboardScore> allMatchScores { get; set; }
+        public ScoreStack _p1Throws;
+        public ScoreStack P1Throws
+        {
+            get => _p1Throws;
+            set => Set(ref _p1Throws, value);
+        }
+
+        public ScoreStack _p2Throws;
+        public ScoreStack P2Throws
+        {
+            get => _p2Throws;
+            set => Set(ref _p2Throws, value);
+        }
 
         #endregion
 
@@ -61,8 +47,7 @@ namespace OneHundredAndEighty.Score
         public ViewProperty<int> P1Sets { get; set; }
         public ViewProperty<int> P1Legs { get; set; }
         public ViewProperty<int> P1Points { get; set; }
-        public ViewProperty<string> P1Help { get; set; }       
-        public ViewProperty<double> P1Avg { get; set; }       
+        public ViewProperty<string> P1Help { get; set; }         
         
         
         public ViewProperty<string> P2Name { get; set; }
@@ -70,7 +55,6 @@ namespace OneHundredAndEighty.Score
         public ViewProperty<int> P2Legs { get; set; }
         public ViewProperty<int> P2Points { get; set; }
         public ViewProperty<string> P2Help { get; set; }
-        public ViewProperty<double> P2Avg { get; set; }
 
         public ScoreViewModel()
         {
@@ -78,29 +62,27 @@ namespace OneHundredAndEighty.Score
             BeginningPlayer = new ViewProperty<string>();
             ActivePlayer = new ViewProperty<string>();
 
-            whiteboardScoresP1 = new ObservableCollection<WhiteboardScore>();
-            whiteboardScoresP2 = new ObservableCollection<WhiteboardScore>();
-            allMatchScores = new ObservableCollection<WhiteboardScore>();
-
             P1Name = new ViewProperty<string>();
             P1Sets = new ViewProperty<int>();
             P1Legs = new ViewProperty<int>();
             P1Points = new ViewProperty<int>();
             P1Help = new ViewProperty<string>();
-            P1Avg = new ViewProperty<double>();
 
             P2Name = new ViewProperty<string>();
             P2Sets = new ViewProperty<int>();
             P2Legs = new ViewProperty<int>();
             P2Points = new ViewProperty<int>();
             P2Help = new ViewProperty<string>();
-            P2Avg = new ViewProperty<double>();
         }
 
-        public void NewGame(int points, string legs, string sets, Player p1, Player p2, Player first)
+        public void NewGame(int points, int legs, int sets, Player p1, Player p2, Player first)
         {
-            ScoreControl.MainBoxSummary.Content = new StringBuilder().Append("First to ").Append(sets).Append(" sets in ").Append(legs).Append(" legs").ToString();
-            IsSetMode.Val = true;
+            ScoreControl.MainBoxSummary.Content = $"First to {sets} sets in {legs} legs";
+            IsSetMode.Val = sets > 1;
+
+            P1Throws = new ScoreStack(p1);
+            P2Throws = new ScoreStack(p2);
+
             P1Name.Val = p1.Name;
             P2Name.Val = p2.Name;
 
@@ -153,17 +135,22 @@ namespace OneHundredAndEighty.Score
 
         public void CountThrow(ref Player p, ref Throw t)
         {
-            //Calculate new Points
-            p.pointsToOut -= (int)t.Points; //  Вычитаем набраные за бросок очки игрока из общего результата лега
-            p.handPoints += (int)t.Points; //  Плюсуем набраные за подход очки игрока
-
-            if (p.pointsToOut <= 1) //  Если игрок ушел в минус или оставил единицу, или закрыл лег не корректно (не через удвоение или Bulleye)
-            {
-                t.IsFault = true; //  Помечаем бросок как штрафной 
-                p.pointsToOut += p.handPoints; //  Отменяем подход игрока
-            }
-
             //Update Live-Scores
+            PointsSet(p);
+
+            //Add Throw
+            if (p.Tag.Equals("Player1"))
+            {
+                P1Throws?.AddThrow(t, p, ScoresChanged);
+            }
+            else if (p.Tag.Equals("Player2"))
+            {
+                P2Throws?.AddThrow(t, p, ScoresChanged);
+            }
+        }
+
+        public void PointsSet(Player p)
+        {
             if (p.Tag.Equals("Player1"))
             {
                 P1Points.Val = p.pointsToOut;
@@ -174,48 +161,22 @@ namespace OneHundredAndEighty.Score
             }
         }
 
-        public void AddTurnScore(Player p)
+        //public void UndoScore()
+        //{
+        //    if(ActivePlayer.Equals("Player1") && whiteboardScoresP2.Count > 1)  whiteboardScoresP2.Remove(whiteboardScoresP2.Last());
+        //    else if (ActivePlayer.Equals("Player2") && whiteboardScoresP1.Count > 1) whiteboardScoresP1.Remove(whiteboardScoresP1.Last());
+
+        //    if (allMatchScores.Count > 1) allMatchScores.Remove(allMatchScores.Last());
+        //    ScoresChanged?.Invoke(this, new EventArgs());
+        //}
+
+        public void ClearScores(int pointsToGo)
         {
-            WhiteboardScore wbs = new WhiteboardScore(p);
-            if (wbs.PlayerTag.Equals("Player1"))
-            {
-                P1Points.Val = wbs.PointsToGo;
-                wbs.DartCount = 3 * whiteboardScoresP1.Count;
-                whiteboardScoresP1.Add(wbs);
-            }
-            else if (wbs.PlayerTag.Equals("Player2"))
-            {
-                P2Points.Val = wbs.PointsToGo;
-                wbs.DartCount = 3 * whiteboardScoresP2.Count;
-                whiteboardScoresP2.Add(wbs);
-            }
+            P1Throws.ClearWhiteboard(pointsToGo);
+            P2Throws.ClearWhiteboard(pointsToGo);
 
-            allMatchScores.Add(wbs);
-            updatePlayerStatistics(p.Tag);
-            ScoresChanged?.Invoke(this, new EventArgs());
-        }
-
-        public void UndoScore()
-        {
-            if(ActivePlayer.Equals("Player1") && whiteboardScoresP2.Count > 1)  whiteboardScoresP2.Remove(whiteboardScoresP2.Last());
-            else if (ActivePlayer.Equals("Player2") && whiteboardScoresP1.Count > 1) whiteboardScoresP1.Remove(whiteboardScoresP1.Last());
-
-            if (allMatchScores.Count > 1) allMatchScores.Remove(allMatchScores.Last());
-            ScoresChanged?.Invoke(this, new EventArgs());
-        }
-
-        public void ClearScores(int p)
-        {
-            whiteboardScoresP1.Clear();
-            whiteboardScoresP1.Add(new WhiteboardScore(p));
-
-            whiteboardScoresP2.Clear();
-            whiteboardScoresP2.Add(new WhiteboardScore(p));
-
-            P1Points.Val = p;
-            P2Points.Val = p;
-
-            ScoresChanged?.Invoke(this, new EventArgs());
+            P1Points.Val = pointsToGo;
+            P2Points.Val = pointsToGo;
         }
 
 
@@ -235,15 +196,6 @@ namespace OneHundredAndEighty.Score
         {
             if (p.Tag.Equals("Player1")) P1Sets.Val = p.setsWon;
             else if (p.Tag.Equals("Player2")) P2Sets.Val = p.setsWon;
-        }
-
-        private void updatePlayerStatistics(string tag)
-        {
-            List<int> throws = allMatchScores.Where((s) => s.PlayerTag.Equals(tag)).Select(s => s.PointsThrown).ToList();
-            double avg = throws.Average();
-
-            if (tag.Equals("Player1")) P1Avg.Val = avg;
-            else if (tag.Equals("Player2")) P2Avg.Val = avg;
         }
     }
 }

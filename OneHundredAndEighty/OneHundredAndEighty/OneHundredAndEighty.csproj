@@ -124,6 +124,8 @@
     </Compile>
     <Compile Include="Controls\Converter.cs" />
     <Compile Include="Score\FinishHelper.cs" />
+    <Compile Include="Score\ScoreStack.cs" />
+    <Compile Include="Score\ScoreStatistics.cs" />
     <Compile Include="Score\WhiteboardControl.xaml.cs">
       <DependentUpon>WhiteboardControl.xaml</DependentUpon>
     </Compile>
@@ -131,6 +133,7 @@
       <DependentUpon>ScoreControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Score\ScoreViewModel.cs" />
+    <Compile Include="Score\WhiteboardScore.cs" />
     <Compile Include="Windows\AbortWindow.xaml.cs">
       <DependentUpon>AbortWindow.xaml</DependentUpon>
     </Compile>

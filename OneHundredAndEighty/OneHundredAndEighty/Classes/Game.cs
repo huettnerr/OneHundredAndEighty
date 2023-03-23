@@ -46,7 +46,7 @@ namespace OneHundredAndEighty
             playerOnThrow = settingsPanelLogic.WhoThrowFirst(player1, player2); //  Кто первый бросает
             playerOnLeg = playerOnThrow; //  Чей первый лег
             //  Инфо-панель
-            scoreVM.NewGame(pointsToGo, legsToGo.ToString(), setsToGo.ToString(), player1, player2, playerOnThrow); //  Новая инфопанель
+            scoreVM.NewGame(pointsToGo, legsToGo, setsToGo, player1, player2, playerOnThrow); //  Новая инфопанель
             scoreVM.HelpCheck(player1); //  Проверка помощи
             scoreVM.HelpCheck(player2); //  Проверка помощи
             //  Текстовая панель
@@ -161,20 +161,35 @@ namespace OneHundredAndEighty
             playerOnThrow.throws[playerOnThrow.ThrowCount] = thrw;
             thrw.HandNumber = playerOnThrow.ThrowCount;
 
+            if(IsLegIsOver(ref thrw) )
+            {
+                calculatePoints(ref playerOnThrow, ref thrw);
+                scoreVM.CountThrow(ref playerOnThrow, ref thrw);
+                allMatchThrows.Push(thrw); //  Записываем в последный бросок в коллекцию матча
+
+                if (IsOn) //  Если игра продолжается
+                {
+                    ClearHands(); //  Очищаем броски
+                    TogglePlayerOnLeg(); //  Смена игрока на начало лега 
+                    player1.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 1
+                    player2.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 2
+                    scoreVM.ClearScores(pointsToGo); //  Обновляем инфопанель
+                    scoreVM.HelpCheck(player1); //  Проверка помощи
+                    scoreVM.HelpCheck(player2); //  Проверка помощи
+                }
+                return;
+            }
+
+            calculatePoints(ref playerOnThrow, ref thrw);
             scoreVM.CountThrow(ref playerOnThrow, ref thrw);
             allMatchThrows.Push(thrw); //  Записываем в последный бросок в коллекцию матча
-
-            if (IsLegIsOver()) return;
 
             //If leg not over check if turn is over
             if (playerOnThrow.ThrowsLeft == 0 || thrw.IsFault)
             {
                 //Turn is over
-                playerOnThrow.IsTurnFault = thrw.IsFault;
-                scoreVM.AddTurnScore(playerOnThrow);
+                //infoPanelLogic.TextLogAdd(new StringBuilder().Append("    > ").Append(playerOnThrow.Name).Append(" FAULT").ToString()); //  Пишем в текстовую панель
 
-                infoPanelLogic.TextLogAdd(new StringBuilder().Append("    > ").Append(playerOnThrow.Name).Append(" FAULT").ToString()); //  Пишем в текстовую панель
-                
                 ClearHands(); //  Очищаем броски
                 TogglePlayerOnThrow(); //  Меняем игрока на броске
             }
@@ -198,10 +213,10 @@ namespace OneHundredAndEighty
                 player2.pointsToOut = savePoints.Peek().Player2PointsToOut; //  Восстанавливаем Игроку 2 очки на завершение лега
                 scoreVM.SetsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 1
                 scoreVM.LegsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 1
-                //infoPanelLogic.PointsSet(player1); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 1
+                scoreVM.PointsSet(player1); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 1
                 scoreVM.SetsSet(player2); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 2
                 scoreVM.LegsSet(player2); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 2
-                //infoPanelLogic.PointsSet(player2); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 2
+                scoreVM.PointsSet(player2); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 2
                 playerOnThrow = savePoints.Peek().PlayerOnThrow; //  Восстанавливаем игрока на броске
                 playerOnLeg = savePoints.Peek().PlayerOnLeg; //  Восстанавливаем игрока на начало лега
                 infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
@@ -251,36 +266,36 @@ namespace OneHundredAndEighty
             savePoints.Push(new SavePoint(player1, player2, playerOnThrow, playerOnLeg));
         }
 
-        private bool IsLegIsOver() //  Или штраф, или правильное окончание лега, или это был последний бросок в подходе 
+        private void calculatePoints(ref Player p, ref Throw t)
         {
-            if ((playerOnThrow.pointsToOut - playerOnThrow.handPoints) == 0 && (allMatchThrows.Peek().Multiplier.Equals("Double") || allMatchThrows.Peek().Multiplier.Equals("Bull_Eye"))) //  Игрок правильно закрыл лег
+            //Calculate new Points
+            p.pointsToOut -= (int)t.Points; //  Вычитаем набраные за бросок очки игрока из общего результата лега
+            p.handPoints += (int)t.Points; //  Плюсуем набраные за подход очки игрока
+
+            if (!t.IsLegWon && p.pointsToOut <= 1) //If check is not possible
+            {
+                t.IsFault = true; //  Помечаем бросок как штрафной 
+                p.pointsToOut += p.handPoints; //  Отменяем подход игрока
+            }
+        }
+
+        private bool IsLegIsOver(ref Throw t) //  Или штраф, или правильное окончание лега, или это был последний бросок в подходе 
+        {
+            if ((playerOnThrow.pointsToOut - t.Points) == 0 && (t.Multiplier.Equals("Double") || t.Multiplier.Equals("Bull_Eye"))) //  Игрок правильно закрыл лег
             {
                 infoPanelLogic.TextLogAdd(new StringBuilder().Append("Leg goes to ").Append(playerOnThrow.Name).ToString()); //  Пишем в текстовую панель
                 playerOnThrow.legsWon += 1; //  Плюсуем выиграный лег
                 scoreVM.LegsSet(playerOnThrow); //  Обновляем инфопанель
-                allMatchThrows.Peek().IsLegWon = true; //  Помечаем бросок как выигравший лег
+                t.IsLegWon = true; //  Помечаем бросок как выигравший лег
 
-                scoreVM.AddTurnScore(playerOnThrow);
-                ClearHands(); //  Очищаем броски
-
-                IsSetIsOver(); //  Проверяем не закончен ли сет
-                if (IsOn) //  Если игра продолжается
-                {
-                    TogglePlayerOnLeg(); //  Смена игрока на начало лега 
-                    player1.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 1
-                    player2.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 2
-                    scoreVM.ClearScores(pointsToGo); //  Обновляем инфопанель
-                    scoreVM.HelpCheck(player1); //  Проверка помощи
-                    scoreVM.HelpCheck(player2); //  Проверка помощи
-                }
-
+                IsSetIsOver(ref t); //  Проверяем не закончен ли сет
                 return true;
             }
 
             return false;
         }
 
-        private void IsSetIsOver() //  Проверка закончен ли сет
+        private void IsSetIsOver(ref Throw t) //  Проверка закончен ли сет
         {
             if (playerOnThrow.legsWon == legsToGo) //  Если игрок выиграл требуемое количество легов для окончания сета
             {
@@ -290,16 +305,16 @@ namespace OneHundredAndEighty
                 player1.legsWon = 0; //  Обнуляем леги игроков
                 player2.legsWon = 0; //  Обнуляем леги игроков
                 scoreVM.LegsClear(); //  Обновляем инфопанель
-                allMatchThrows.Peek().IsSetWon = true; //  Помечаем бросок как выигравший сет
-                IsGameIsOver(); //  Проверяем не закончен ли матч
+                t.IsSetWon = true; //  Помечаем бросок как выигравший сет
+                IsGameIsOver(ref t); //  Проверяем не закончен ли матч
             }
         }
 
-        private void IsGameIsOver() //  Проверка закончен ли матч
+        private void IsGameIsOver(ref Throw t) //  Проверка закончен ли матч
         {
             if (playerOnThrow.setsWon == setsToGo) //  Если игрок выиграл требуемое количество сетов для завершения матча
             {
-                allMatchThrows.Peek().IsMatchWon = true; //  Помечаем бросок как выигравший матч
+                t.IsMatchWon = true; //  Помечаем бросок как выигравший матч
                 EndGame(); //  Матч окончен
             }
         }
