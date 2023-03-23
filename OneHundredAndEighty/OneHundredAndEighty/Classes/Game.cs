@@ -205,37 +205,40 @@ namespace OneHundredAndEighty
             {
                 infoPanelLogic.UndoThrowButtonOff(); //  Выключаем кнопку отмены броска
 
-                player1.setsWon = savePoints.Peek().Player1SetsWon; //  Восстанавливаем Игроку 1 выигранные сеты
-                player1.legsWon = savePoints.Peek().Player1LegsWon; //  Восстанавливаем Игроку 1 выигранные леги
-                player1.pointsToOut = savePoints.Peek().Player1PointsToOut; //  Восстанавливаем Игроку 1 очки на завершение лега
-                player2.setsWon = savePoints.Peek().Player2SetsWon; //  Восстанавливаем Игроку 2 выигранные сеты
-                player2.legsWon = savePoints.Peek().Player2LegsWon; //  Восстанавливаем Игроку 2 выигранные леги
-                player2.pointsToOut = savePoints.Peek().Player2PointsToOut; //  Восстанавливаем Игроку 2 очки на завершение лега
+                SavePoint sp = savePoints.Pop();
+                player1.setsWon = sp.Player1SetsWon; //  Восстанавливаем Игроку 1 выигранные сеты
+                player1.legsWon = sp.Player1LegsWon; //  Восстанавливаем Игроку 1 выигранные леги
+                player1.pointsToOut = sp.Player1PointsToOut; //  Восстанавливаем Игроку 1 очки на завершение лега
+                player2.setsWon = sp.Player2SetsWon; //  Восстанавливаем Игроку 2 выигранные сеты
+                player2.legsWon = sp.Player2LegsWon; //  Восстанавливаем Игроку 2 выигранные леги
+                player2.pointsToOut = sp.Player2PointsToOut; //  Восстанавливаем Игроку 2 очки на завершение лега
                 scoreVM.SetsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 1
                 scoreVM.LegsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 1
                 scoreVM.PointsSet(player1); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 1
                 scoreVM.SetsSet(player2); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 2
                 scoreVM.LegsSet(player2); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 2
                 scoreVM.PointsSet(player2); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 2
-                playerOnThrow = savePoints.Peek().PlayerOnThrow; //  Восстанавливаем игрока на броске
-                playerOnLeg = savePoints.Peek().PlayerOnLeg; //  Восстанавливаем игрока на начало лега
+                playerOnThrow = sp.PlayerOnThrow; //  Восстанавливаем игрока на броске
+                playerOnLeg = sp.PlayerOnLeg; //  Восстанавливаем игрока на начало лега
+                scoreVM.UndoThrow(playerOnThrow);
                 infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
 
-                if (allMatchThrows.Peek().IsLegWon || allMatchThrows.Peek().IsFault || allMatchThrows.Peek().HandNumber == 3) //  Если последний бросок был переходным
+                Throw t = allMatchThrows.Pop(); //  Удалаяем последний бросок из коллекции матча
+                if (t.IsLegWon || t.IsFault || t.HandNumber == 3) //  Если последний бросок был переходным
                 {
                     infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
-                    if (allMatchThrows.Peek().IsLegWon) // Если отменяемым броском выигран лег
+                    if (t.IsLegWon) // Если отменяемым броском выигран лег
                     {
                         scoreVM.DotSet(playerOnThrow); //  Перемещаем точку начала лега
                         infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
                     }
 
-                    if (allMatchThrows.Peek().IsSetWon) // Если отменяемым броском выигран и сет
+                    if (t.IsSetWon) // Если отменяемым броском выигран и сет
                     {
                         infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
                     }
 
-                    if (allMatchThrows.Peek().IsFault) //  Если отменяемый бросок был штрафным
+                    if (t.IsFault) //  Если отменяемый бросок был штрафным
                     {
                         infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
                     }
@@ -243,14 +246,11 @@ namespace OneHundredAndEighty
 
                 SetPlayerOnThrow(playerOnThrow); //  Восстанавливаем игрока на подходе
                 infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
-                playerOnThrow.throws[0] = savePoints.Peek().FirstThrow; //  Восстанавливаем игроку на броске первый бросок
-                playerOnThrow.throws[1] = savePoints.Peek().SecondThrow; //  Восстанавливаем игроку на броске второй бросок
-                playerOnThrow.throws[2] = savePoints.Peek().ThirdThrow; //  Восстанавливаем игроку на броске третий бросок
-                playerOnThrow.handPoints = savePoints.Peek().PlayerOnThrowHand; //  Восстанавливаем игроку на броске очки подхода
+                playerOnThrow.throws[0] = sp.FirstThrow; //  Восстанавливаем игроку на броске первый бросок
+                playerOnThrow.throws[1] = sp.SecondThrow; //  Восстанавливаем игроку на броске второй бросок
+                playerOnThrow.throws[2] = sp.ThirdThrow; //  Восстанавливаем игроку на броске третий бросок
+                playerOnThrow.handPoints = sp.PlayerOnThrowHand; //  Восстанавливаем игроку на броске очки подхода
                 scoreVM.HelpCheck(playerOnThrow); //  Проверяем помощь
-
-                allMatchThrows.Pop(); //  Удалаяем последний бросок из коллекции матча
-                savePoints.Pop(); //  Удаляем последнюю точку сохранения
 
                 infoPanelLogic.UndoThrowButtonOn(); //  Включаем кнопку отмены броска
 

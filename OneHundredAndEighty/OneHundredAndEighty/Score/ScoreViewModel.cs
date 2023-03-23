@@ -161,14 +161,23 @@ namespace OneHundredAndEighty.Score
             }
         }
 
-        //public void UndoScore()
-        //{
-        //    if(ActivePlayer.Equals("Player1") && whiteboardScoresP2.Count > 1)  whiteboardScoresP2.Remove(whiteboardScoresP2.Last());
-        //    else if (ActivePlayer.Equals("Player2") && whiteboardScoresP1.Count > 1) whiteboardScoresP1.Remove(whiteboardScoresP1.Last());
-
-        //    if (allMatchScores.Count > 1) allMatchScores.Remove(allMatchScores.Last());
-        //    ScoresChanged?.Invoke(this, new EventArgs());
-        //}
+        public void UndoThrow(Player p)
+        {
+            if (p.Tag.Equals("Player1"))
+            {
+                if(P1Throws?.UndoThrow(ScoresChanged) ?? false)
+                {
+                    P2Throws?.RestoreWhiteboard(ScoresChanged);
+                }
+            }
+            else if (p.Tag.Equals("Player2"))
+            {
+                if (P2Throws?.UndoThrow(ScoresChanged) ?? false)
+                {
+                    P1Throws?.RestoreWhiteboard(ScoresChanged);
+                }
+            }
+        }
 
         public void ClearScores(int pointsToGo)
         {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,9 +32,12 @@ namespace OneHundredAndEighty.Score
         public void AddThrow(Throw t, Player p, EventHandler callback)
         {
             throws.Push(t);
-            if (t.HandNumber == 3 || t.IsFault || t.IsLegWon || t.IsSetWon || t.IsMatchWon)
+            if (isTurnThrow(t))
             {
-                WhiteboardScore wbs = new WhiteboardScore(t.IsFault ? 0 : p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count);
+                WhiteboardScore wbs = new WhiteboardScore(
+                    t.IsFault ? 0 : p.handPoints, 
+                    p.pointsToOut, 
+                    3 * WhiteboardScores.Count - p.ThrowsLeft);
                 WhiteboardScores.Add(wbs);
                 callback?.Invoke(this, new EventArgs());
             }
@@ -41,9 +45,38 @@ namespace OneHundredAndEighty.Score
             updatePlayerStatistics();
         }
 
-        public void UndoThrow()
+        //Returns true if an old whiteboard was restored
+        public bool UndoThrow(EventHandler callback)
         {
+            Throw t = throws.Pop();
+            if(isTurnThrow(t))
+            {
+                if(WhiteboardScores.Count > 1) 
+                {
+                    WhiteboardScores.Remove(WhiteboardScores.Last());
+                    callback?.Invoke(this, new EventArgs());
+                }
+                else if(oldWhiteboards.Count > 0)
+                {
+                    RestoreWhiteboard(null);
+                    WhiteboardScores.Remove(WhiteboardScores.Last());
+                    callback?.Invoke(this, new EventArgs());
+                    return true;
+                }
+            }
+            return false;
+        }
 
+        public void RestoreWhiteboard(EventHandler callback)
+        {
+            WhiteboardScores.Clear();
+            var prevWB = oldWhiteboards.Pop();
+
+            foreach(WhiteboardScore wbs in prevWB)
+            {
+                WhiteboardScores.Add(wbs);
+            }
+            callback?.Invoke(this, new EventArgs());
         }
 
         public void ClearWhiteboard(int pointsToGo)
@@ -57,6 +90,12 @@ namespace OneHundredAndEighty.Score
         private void updatePlayerStatistics()
         {
             Stats.Avg.Val = (throws.Select(t => t.Points).Average() * 3) ?? 0;
+            //Stats.Avg.Val = WhiteboardScores.Select(t => t.PointsThrown).Sum() / (WhiteboardScores.Count - 1);
+        }
+
+        private bool isTurnThrow(Throw t)
+        {
+            return (t.HandNumber == 3 || t.IsFault || t.IsLegWon);
         }
     }
 }
