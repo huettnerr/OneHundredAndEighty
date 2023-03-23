@@ -98,16 +98,16 @@
 
         <DataGrid Grid.Row="1" Grid.Column="1" x:Name="Player1Whiteboard" ItemsSource="{Binding P1Throws.WhiteboardScores}" FlowDirection="RightToLeft" SizeChanged="DataGrid_SizeChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
                 <DataGridTextColumn Header="Restscore" Binding="{Binding PointsToGo}" Width="5*" FontWeight="Bold"/>
-                <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
+                <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
+                <DataGridTextColumn Header="#" Binding="{Binding LegDartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Grid.Row="1" Grid.Column="2" x:Name="Player2Whiteboard" ItemsSource="{Binding P2Throws.WhiteboardScores}" SizeChanged="DataGrid_SizeChanged">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="#" Binding="{Binding LegDartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
                 <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
                 <DataGridTextColumn Header="Restscore" Binding="{Binding PointsToGo}" Width="5*" FontWeight="Bold"/>
-                <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
             </DataGrid.Columns>
         </DataGrid>
 

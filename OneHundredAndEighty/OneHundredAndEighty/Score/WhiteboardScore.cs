@@ -10,13 +10,15 @@ namespace OneHundredAndEighty.Score
     {
         public int PointsThrown { get; set; }
         public int PointsToGo { get; set; }
-        public int DartCount { get; set; }
+        public int LegDartCount { get; set; }
+        public int DartsForScore { get; set; }
 
-        public WhiteboardScore(int pointsThrown, int pointsToGo, int dartCount)
+        public WhiteboardScore(int pointsThrown, int pointsToGo, int dartCount, int dartsForScore)
         {
             PointsThrown = pointsThrown;
             PointsToGo = pointsToGo;
-            DartCount = dartCount;
+            LegDartCount = dartCount;
+            DartsForScore = dartsForScore;
         }
     }
 }
