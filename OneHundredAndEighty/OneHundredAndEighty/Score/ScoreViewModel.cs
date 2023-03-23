@@ -41,29 +41,17 @@ namespace OneHundredAndEighty.Score
 
     public class ScoreViewModel : ViewModelBase
     {
+        public ScoreControl ScoreControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl; }
+
         public EventHandler ScoresChanged;
 
         public ViewProperty<bool> IsSetMode { get; set; }
         public ViewProperty<string> BeginningPlayer { get; set; }
         public ViewProperty<string> ActivePlayer { get; set; }
 
-
-        //List of Scores
-        public static List<string> DartCountList = new List<string>() { 
-            "", "3", "6", "9", "12", "15", "18", "21", "24", "27", "30", 
-            "33", "36", "39", "42", "45", "48", "51", "54", "57", "60",
-            "63", "66", "69", "72", "75", "78", "81", "84", "87", "90",
-            "93", "96", "99", "102", "105", "108", "111", "114", "117", "120",
-        };
-
         #region individual scores
-        private ObservableCollection<WhiteboardScore> _whiteboardScoresP1;
-        public ObservableCollection<WhiteboardScore> whiteboardScoresP1
-        {
-            get => _whiteboardScoresP1;
-            set => Set(ref _whiteboardScoresP1, value);
-        }
 
+        public ObservableCollection<WhiteboardScore> whiteboardScoresP1 { get; set; }
         public ObservableCollection<WhiteboardScore> whiteboardScoresP2 { get; set; }
         public ObservableCollection<WhiteboardScore> allMatchScores { get; set; }
 
@@ -109,7 +97,46 @@ namespace OneHundredAndEighty.Score
             P2Avg = new ViewProperty<double>();
         }
 
-        public bool UpdateFinishHelp(Player p, out string helpText)
+        public void NewGame(int points, string legs, string sets, Player p1, Player p2, Player first)
+        {
+            ScoreControl.MainBoxSummary.Content = new StringBuilder().Append("First to ").Append(sets).Append(" sets in ").Append(legs).Append(" legs").ToString();
+            IsSetMode.Val = true;
+            P1Name.Val = p1.Name;
+            P2Name.Val = p2.Name;
+
+            P1Sets.Val = 0;
+            P1Legs.Val = 0;
+            P2Sets.Val = 0;
+            P2Legs.Val = 0;
+
+            ScoreControl.HelpHide(p1);
+            ScoreControl.HelpHide(p2);
+            ClearScores(points);
+            DotSet(first);
+            WhoThrowSliderSet(first);
+        } //  Установка в 0 в начале игры
+
+        public void DotSet(Player p)
+        {
+            ScoreControl.DotSet(p);
+
+            BeginningPlayer.Val = p.Tag;
+        }
+
+        public void WhoThrowSliderSet(Player p)
+        {
+            ScoreControl.WhoThrowSliderSet(p);
+
+            ActivePlayer.Val = p.Tag;
+        }
+
+        public void HelpCheck(Player p)
+        {
+            if (updateFinishHelp(p, out string txt)) ScoreControl.HelpShow(p, txt);
+            else ScoreControl.HelpHide(p);
+        }
+
+        private bool updateFinishHelp(Player p, out string helpText)
         {
             Finish f = FinishHelper.GetBestFinish(p.pointsToOut, p.ThrowsLeft);
             if (!f?.ObsScene.Equals(String.Empty) ?? false)
@@ -189,6 +216,25 @@ namespace OneHundredAndEighty.Score
             P2Points.Val = p;
 
             ScoresChanged?.Invoke(this, new EventArgs());
+        }
+
+
+        public void LegsClear()
+        {
+            P1Legs.Val = 0;
+            P2Legs.Val = 0;
+        }
+
+        public void LegsSet(Player p)
+        {
+            if (p.Tag.Equals("Player1")) P1Legs.Val = p.legsWon;
+            else if (p.Tag.Equals("Player2")) P2Legs.Val = p.legsWon;
+        }
+
+        public void SetsSet(Player p)
+        {
+            if (p.Tag.Equals("Player1")) P1Sets.Val = p.setsWon;
+            else if (p.Tag.Equals("Player2")) P2Sets.Val = p.setsWon;
         }
 
         private void updatePlayerStatistics(string tag)

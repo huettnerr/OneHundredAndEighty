@@ -7,7 +7,6 @@
         xmlns:Score="clr-namespace:OneHundredAndEighty.Score"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
         Height="856"
         Width="1200"
         Title="OneHundredAndEighty"
