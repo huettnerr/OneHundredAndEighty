@@ -32,9 +32,9 @@
             Player2PointsToOut = player2.pointsToOut;
             this.PlayerOnThrow = playerOnThrow;
             this.PlayerOnLeg = playerOnLeg;
-            FirstThrow = playerOnThrow.throw1;
-            SecondThrow = playerOnThrow.throw2;
-            ThirdThrow = playerOnThrow.throw3;
+            FirstThrow = playerOnThrow.throws[0];
+            SecondThrow = playerOnThrow.throws[1];
+            ThirdThrow = playerOnThrow.throws[2];
             PlayerOnThrowHand = playerOnThrow.handPoints;
         }
     }

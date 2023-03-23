@@ -33,7 +33,7 @@ namespace OneHundredAndEighty.Score
         public WhiteboardScore(Player p)
         {
             PlayerTag = p.Tag;
-            PointsThrown = p.handPoints;
+            PointsThrown = p.IsTurnFault ? 0 : p.handPoints;
             PointsToGo = p.pointsToOut;
             DartCount = 0;
         }
@@ -124,39 +124,48 @@ namespace OneHundredAndEighty.Score
             return (f is object);
         }
 
-        public void AddScore(Player p)
+        public void CountThrow(ref Player p, ref Throw t)
         {
-            if (p.ThrowsLeft == 0 && p.pointsToOut > 0 || p.fa)
-            {
-                WhiteboardScore wbs = new WhiteboardScore(p);
-                if (wbs.PlayerTag.Equals("Player1"))
-                {
-                    P1Points.Val = wbs.PointsToGo;
-                    wbs.DartCount = 3 * whiteboardScoresP1.Count;
-                    whiteboardScoresP1.Add(wbs);
-                }
-                else if (wbs.PlayerTag.Equals("Player2"))
-                {
-                    P2Points.Val = wbs.PointsToGo;
-                    wbs.DartCount = 3 * whiteboardScoresP2.Count;
-                    whiteboardScoresP2.Add(wbs);
-                }
+            //Calculate new Points
+            p.pointsToOut -= (int)t.Points; //  Вычитаем набраные за бросок очки игрока из общего результата лега
+            p.handPoints += (int)t.Points; //  Плюсуем набраные за подход очки игрока
 
-                allMatchScores.Add(wbs);
-                updatePlayerStatistics(p.Tag);
-                ScoresChanged?.Invoke(this, new EventArgs());
-            }
-            else
+            if (p.pointsToOut <= 1) //  Если игрок ушел в минус или оставил единицу, или закрыл лег не корректно (не через удвоение или Bulleye)
             {
-                if (p.Tag.Equals("Player1"))
-                {
-                    P1Points.Val = p.pointsToOut;
-                }
-                else if (p.Tag.Equals("Player2"))
-                {
-                    P2Points.Val = p.pointsToOut;
-                }
+                t.IsFault = true; //  Помечаем бросок как штрафной 
+                p.pointsToOut += p.handPoints; //  Отменяем подход игрока
             }
+
+            //Update Live-Scores
+            if (p.Tag.Equals("Player1"))
+            {
+                P1Points.Val = p.pointsToOut;
+            }
+            else if (p.Tag.Equals("Player2"))
+            {
+                P2Points.Val = p.pointsToOut;
+            }
+        }
+
+        public void AddTurnScore(Player p)
+        {
+            WhiteboardScore wbs = new WhiteboardScore(p);
+            if (wbs.PlayerTag.Equals("Player1"))
+            {
+                P1Points.Val = wbs.PointsToGo;
+                wbs.DartCount = 3 * whiteboardScoresP1.Count;
+                whiteboardScoresP1.Add(wbs);
+            }
+            else if (wbs.PlayerTag.Equals("Player2"))
+            {
+                P2Points.Val = wbs.PointsToGo;
+                wbs.DartCount = 3 * whiteboardScoresP2.Count;
+                whiteboardScoresP2.Add(wbs);
+            }
+
+            allMatchScores.Add(wbs);
+            updatePlayerStatistics(p.Tag);
+            ScoresChanged?.Invoke(this, new EventArgs());
         }
 
         public void UndoScore()

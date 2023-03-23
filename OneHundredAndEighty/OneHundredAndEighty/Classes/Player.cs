@@ -18,26 +18,31 @@ namespace OneHundredAndEighty
         public int legsWon; //  Количество выигранных легов в сете
         public int pointsToOut; //  Количество очков на завершение лега
         public int handPoints; //  Набранное количестов очков в подходе
-        public Throw throw1; //  Первый бросок
-        public Throw throw2; //  Второй бросок
-        public Throw throw3; //  Третий бросок
+        public bool IsTurnFault { get; set; } //  Был ли бросок штрафным
+        //public Throw throw1; //  Первый бросок
+        //public Throw throw2; //  Второй бросок
+        //public Throw throw3; //  Третий бросок
 
-        public int ThrowsLeft { 
+        public Throw[] throws;
+
+
+
+        public int ThrowCount
+        {
             get
             {
-                if (throw1 == null) return 3;
-                else if (throw2 == null && throw1 != null) return 2;
-                else if (throw3 == null && throw2 != null) return 1;
-                else return 0;
-            } 
+                if (throws[0] == null) return 0;
+                else if (throws[1] == null && throws[0] != null) return 1;
+                else if (throws[2] == null && throws[1] != null) return 2;
+                else return 3;
+            }
         }
+        public int ThrowsLeft { get => 3 - ThrowCount; }
 
         public void ClearHand() //  Обнуление очередного подхода
         {
             handPoints = 0;
-            throw1 = null;
-            throw2 = null;
-            throw3 = null;
+            throws = new Throw[3];
         }
 
         public Player(string tag, int id, string name, int pointsToOut) //  Конструктор нового игрока
@@ -46,6 +51,8 @@ namespace OneHundredAndEighty
             DbId = id;
             Name = name;
             this.pointsToOut = pointsToOut;
+
+            ClearHand();
         }
     }
 }

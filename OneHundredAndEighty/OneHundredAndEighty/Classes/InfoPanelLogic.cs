@@ -51,7 +51,7 @@ namespace OneHundredAndEighty
 
             ScoreControl.HelpHide(p1);
             ScoreControl.HelpHide(p2);
-            PointsClear(points);
+            ScoreVM.ClearScores(points);
             DotSet(first);
             WhoThrowSliderSet(first);
         } //  Установка в 0 в начале игры
@@ -76,15 +76,15 @@ namespace OneHundredAndEighty
             else ScoreControl.HelpHide(p);
         }
 
-        public void PointsSet(Player p)
-        {
-            ScoreVM.AddScore(p);
-        }
+        //public void PointsSet(Player p)
+        //{
+        //    ScoreVM.AddScore(p);
+        //}
 
-        public void PointsClear(int p)
-        {
-            ScoreVM.ClearScores(p);
-        }
+        //public void PointsClear(int p)
+        //{
+        //    ScoreVM.ClearScores(p);
+        //}
 
         public void LegsClear()
         {
