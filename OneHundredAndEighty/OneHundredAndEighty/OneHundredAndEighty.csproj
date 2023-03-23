@@ -122,6 +122,7 @@
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Converter.cs" />
+    <Compile Include="Score\FinishHelper.cs" />
     <Compile Include="Score\WhiteboardControl.xaml.cs">
       <DependentUpon>WhiteboardControl.xaml</DependentUpon>
     </Compile>

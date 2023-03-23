@@ -25,6 +25,16 @@ namespace OneHundredAndEighty
         public Throw throw2; //  Второй бросок
         public Throw throw3; //  Третий бросок
 
+        public int ThrowsLeft { 
+            get
+            {
+                if (throw1 == null) return 3;
+                else if (throw2 == null && throw1 != null) return 2;
+                else if (throw3 == null && throw2 != null) return 1;
+                else return 0;
+            } 
+        }
+
         public void ClearHand() //  Обнуление очередного подхода
         {
             handPoints = 0;
