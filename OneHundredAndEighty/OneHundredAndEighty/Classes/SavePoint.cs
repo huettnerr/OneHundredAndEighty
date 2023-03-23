@@ -30,18 +30,12 @@
             Player2SetsWon = player2.setsWon;
             Player1PointsToOut = player1.pointsToOut;
             Player2PointsToOut = player2.pointsToOut;
-            Player1_180 = player1._180;
-            Player2_180 = player2._180;
             this.PlayerOnThrow = playerOnThrow;
             this.PlayerOnLeg = playerOnLeg;
             FirstThrow = playerOnThrow.throw1;
             SecondThrow = playerOnThrow.throw2;
             ThirdThrow = playerOnThrow.throw3;
             PlayerOnThrowHand = playerOnThrow.handPoints;
-            Player1Is3Bull = player1.is3Bull;
-            Player2Is3Bull = player2.is3Bull;
-            Player1IsmrZ = player1.ismrZ;
-            Player2IsmrZ = player2.ismrZ;
         }
     }
 }

@@ -18,9 +18,6 @@ namespace OneHundredAndEighty
         public int legsWon; //  Количество выигранных легов в сете
         public int pointsToOut; //  Количество очков на завершение лега
         public int handPoints; //  Набранное количестов очков в подходе
-        public int _180; //  Количество 180 в матче
-        public bool ismrZ; //  Ачивка 
-        public bool is3Bull; //  Ачивка 
         public Throw throw1; //  Первый бросок
         public Throw throw2; //  Второй бросок
         public Throw throw3; //  Третий бросок
@@ -43,25 +40,11 @@ namespace OneHundredAndEighty
             throw3 = null;
         }
 
-        //  Инфо-панель
-        //public Grid helpPanel { get; private set; } //  Панель помощи
-        //public Label helpLabel { get; private set; } //  Лейбл помощи
-        //public Label setsWonLabel { get; private set; } //  Лейбл выиграных сетов
-        //public Label legsWonLabel { get; private set; } //  Лейбл выиграных легов
-        //public Label pointsLabel { get; private set; } //  Лейбл набраных очнов
-
-        public Player(string tag, int id, string name, 
-            //Grid helpPanel, Label helpLabel, Label setsWonLabel, Label legsWonLabel, Label pointsLabel, 
-            int pointsToOut) //  Конструктор нового игрока
+        public Player(string tag, int id, string name, int pointsToOut) //  Конструктор нового игрока
         {
             Tag = tag;
             DbId = id;
             Name = name;
-            //this.helpPanel = helpPanel;
-            //this.helpLabel = helpLabel;
-            //this.setsWonLabel = setsWonLabel;
-            //this.legsWonLabel = legsWonLabel;
-            //this.pointsLabel = pointsLabel;
             this.pointsToOut = pointsToOut;
         }
     }

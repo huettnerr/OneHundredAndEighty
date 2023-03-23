@@ -180,29 +180,6 @@ namespace OneHundredAndEighty
 
             playerOnThrow.pointsToOut -= (int) thrw.Points; //  Вычитаем набраные за бросок очки игрока из общего результата лега
             playerOnThrow.handPoints += (int) thrw.Points; //  Плюсуем набраные за подход очки игрока
-            if (playerOnThrow.handPoints == 180) //  Если в подходе набрано 180
-            {
-                playerOnThrow._180 += 1; //  Записываем
-            }
-
-            if (!playerOnThrow.is3Bull) //  Проверяем на ачивку 3Bull
-            {
-                if (playerOnThrow.handPoints == 150)
-                {
-                    if (playerOnThrow.throw1.Points == 50 && playerOnThrow.throw2.Points == 50 && playerOnThrow.throw3.Points == 50)
-                    {
-                        playerOnThrow.is3Bull = true;
-                    }
-                }
-            }
-
-            if (!playerOnThrow.ismrZ) //  Проверяем на ачивку mrZ
-            {
-                if (playerOnThrow.handPoints == 0)
-                {
-                    playerOnThrow.ismrZ = true;
-                }
-            }
 
             infoPanelLogic.PointsSet(playerOnThrow); //  Обновляем инфопанель
             infoPanelLogic.HelpCheck(playerOnThrow); //  Проверяем помощь
@@ -216,18 +193,12 @@ namespace OneHundredAndEighty
             {
                 infoPanelLogic.UndoThrowButtonOff(); //  Выключаем кнопку отмены броска
 
-                player1.is3Bull = savePoints.Peek().Player1Is3Bull;
-                player2.is3Bull = savePoints.Peek().Player2Is3Bull;
-                player1.ismrZ = savePoints.Peek().Player1IsmrZ;
-                player2.ismrZ = savePoints.Peek().Player2IsmrZ;
                 player1.setsWon = savePoints.Peek().Player1SetsWon; //  Восстанавливаем Игроку 1 выигранные сеты
                 player1.legsWon = savePoints.Peek().Player1LegsWon; //  Восстанавливаем Игроку 1 выигранные леги
                 player1.pointsToOut = savePoints.Peek().Player1PointsToOut; //  Восстанавливаем Игроку 1 очки на завершение лега
                 player2.setsWon = savePoints.Peek().Player2SetsWon; //  Восстанавливаем Игроку 2 выигранные сеты
                 player2.legsWon = savePoints.Peek().Player2LegsWon; //  Восстанавливаем Игроку 2 выигранные леги
                 player2.pointsToOut = savePoints.Peek().Player2PointsToOut; //  Восстанавливаем Игроку 2 очки на завершение лега
-                player1._180 = savePoints.Peek().Player1_180; //  Восстанавливаем Игроку 1 180
-                player2._180 = savePoints.Peek().Player2_180; //  Восстанавливаем Игроку 2 180
                 infoPanelLogic.SetsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 1
                 infoPanelLogic.LegsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 1
                 infoPanelLogic.PointsSet(player1); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 1
@@ -291,10 +262,6 @@ namespace OneHundredAndEighty
             {
                 infoPanelLogic.TextLogAdd(new StringBuilder().Append("    > ").Append(playerOnThrow.Name).Append(" FAULT").ToString()); //  Пишем в текстовую панель
                 playerOnThrow.pointsToOut += playerOnThrow.handPoints; //  Отменяем подход игрока
-                if (playerOnThrow.handPoints == 180) //  Если в штрафном подходе было набрано 180 очков
-                {
-                    playerOnThrow._180 -= 1; //  Отменяем игроку 180
-                }
 
                 infoPanelLogic.PointsSet(playerOnThrow); //  Обновляем инфопанель
                 ClearHands(); //  Очищаем броски

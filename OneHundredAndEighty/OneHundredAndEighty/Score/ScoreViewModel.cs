@@ -126,7 +126,7 @@ namespace OneHundredAndEighty.Score
 
         public void AddScore(Player p)
         {
-            if (p.ThrowsLeft == 0 && p.pointsToOut > 0)
+            if (p.ThrowsLeft == 0 && p.pointsToOut > 0 || p.fa)
             {
                 WhiteboardScore wbs = new WhiteboardScore(p);
                 if (wbs.PlayerTag.Equals("Player1"))

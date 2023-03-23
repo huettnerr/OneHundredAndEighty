@@ -81,10 +81,6 @@ namespace OneHundredAndEighty
             LooserId = WinnerName == player1.Name
                            ? player2.DbId
                            : player1.DbId;
-            Player1IsmrZ = player1.ismrZ;
-            Player2IsmrZ = player2.ismrZ;
-            Player1Is3Bull = player1.is3Bull;
-            Player2Is3Bull = player2.is3Bull;
             while (allMatchThrows.Count != 0) //  Разбираем бросок на запчасти
             {
                 var T = allMatchThrows.Pop();
@@ -259,17 +255,6 @@ namespace OneHundredAndEighty
             statisticWindow.Player1LegsWon.Content = Player1LegsWon;
             statisticWindow.Player2LegsWon.Content = Player2LegsWon;
             statisticWindow.PlayersLegsPlayed.Fill = Brush(Player1LegsWon, LegsPlayed);
-            //  180 box
-            Player1_180 = player1._180;
-            Player2_180 = player2._180;
-            _180 = Player1_180 + Player2_180;
-            statisticWindow._180.Content = _180;
-            statisticWindow.Player1_180.Content = Player1_180;
-            statisticWindow.Player2_180.Content = Player2_180;
-            statisticWindow.Players_180.Fill = _180 == 0
-                                                   ? Brush(0, 0)
-                                                   : Brush(Player1_180, _180);
-
             //  Tremble throws box
             statisticWindow.TrembleThrows.Content = TrembleThrows;
             statisticWindow.Player1TrembleThrow.Content = Player1TrembleThrows;
