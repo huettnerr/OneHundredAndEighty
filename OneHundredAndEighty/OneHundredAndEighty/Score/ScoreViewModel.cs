@@ -40,7 +40,9 @@ namespace OneHundredAndEighty.Score
     }
 
     public class ScoreViewModel : ViewModelBase
-    { 
+    {
+        public EventHandler ScoresChanged;
+
         public ViewProperty<bool> IsSetMode { get; set; }
         public ViewProperty<string> BeginningPlayer { get; set; }
         public ViewProperty<string> ActivePlayer { get; set; }
@@ -107,15 +109,24 @@ namespace OneHundredAndEighty.Score
             P2Avg = new ViewProperty<double>();
         }
 
-        public void AddScore(Player p)
+        public bool UpdateFinishHelp(Player p, out string helpText)
         {
             Finish f = FinishHelper.GetBestFinish(p.pointsToOut, p.ThrowsLeft);
-            if(!f?.ObsScene.Equals(String.Empty) ?? false)
+            if (!f?.ObsScene.Equals(String.Empty) ?? false)
             {
                 //TODO: Set OBS
             }
 
-            if (p.ThrowsLeft == 0)
+            helpText = (f is object) ? f.HelpText : "";
+            if (p.Tag.Equals("Player1")) P1Help.Val = helpText;
+            else if (p.Tag.Equals("Player2")) P2Help.Val = helpText;
+
+            return (f is object);
+        }
+
+        public void AddScore(Player p)
+        {
+            if (p.ThrowsLeft == 0 && p.pointsToOut > 0)
             {
                 WhiteboardScore wbs = new WhiteboardScore(p);
                 if (wbs.PlayerTag.Equals("Player1"))
@@ -123,20 +134,17 @@ namespace OneHundredAndEighty.Score
                     P1Points.Val = wbs.PointsToGo;
                     wbs.DartCount = 3 * whiteboardScoresP1.Count;
                     whiteboardScoresP1.Add(wbs);
-
-                    P1Help.Val = (f is object) ? f.HelpText : "";
                 }
                 else if (wbs.PlayerTag.Equals("Player2"))
                 {
                     P2Points.Val = wbs.PointsToGo;
                     wbs.DartCount = 3 * whiteboardScoresP2.Count;
                     whiteboardScoresP2.Add(wbs);
-
-                    P2Help.Val = (f is object) ? f.HelpText : "";
                 }
 
                 allMatchScores.Add(wbs);
                 updatePlayerStatistics(p.Tag);
+                ScoresChanged?.Invoke(this, new EventArgs());
             }
             else
             {
@@ -156,7 +164,8 @@ namespace OneHundredAndEighty.Score
             if(ActivePlayer.Equals("Player1") && whiteboardScoresP2.Count > 1)  whiteboardScoresP2.Remove(whiteboardScoresP2.Last());
             else if (ActivePlayer.Equals("Player2") && whiteboardScoresP1.Count > 1) whiteboardScoresP1.Remove(whiteboardScoresP1.Last());
 
-            allMatchScores.Remove(allMatchScores.Last());
+            if (allMatchScores.Count > 1) allMatchScores.Remove(allMatchScores.Last());
+            ScoresChanged?.Invoke(this, new EventArgs());
         }
 
         public void ClearScores(int p)
@@ -169,6 +178,8 @@ namespace OneHundredAndEighty.Score
 
             P1Points.Val = p;
             P2Points.Val = p;
+
+            ScoresChanged?.Invoke(this, new EventArgs());
         }
 
         private void updatePlayerStatistics(string tag)

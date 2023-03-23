@@ -69,7 +69,8 @@
                  Cursor="Hand">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -77,11 +78,14 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
+                
                 <Score:WhiteboardControl Grid.Row="0" Grid.ColumnSpan="3" />
-                <Controls:SettingsControl Grid.Row="1" Grid.Column="0" x:Name="SettingsControl"/>
-                <Controls:InfoControl Grid.Row="1" Grid.Column="0" x:Name="InfoControl"/>
-                <GridSplitter Grid.Row="1" Grid.Column="1" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                <Controls:BoardControl Grid.Row="1" Grid.Column="2" x:Name="BoardControl"/>
+                <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="1" Background="Black" Opacity="0.2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                
+                <Controls:SettingsControl Grid.Row="2" Grid.Column="0" x:Name="SettingsControl"/>
+                <Controls:InfoControl Grid.Row="2" Grid.Column="0" x:Name="InfoControl"/>
+                <GridSplitter Grid.Row="2" Grid.Column="1" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                <Controls:BoardControl Grid.Row="2" Grid.Column="2" x:Name="BoardControl"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="PlayerTab"

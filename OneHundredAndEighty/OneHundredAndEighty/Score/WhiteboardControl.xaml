@@ -6,29 +6,145 @@
              xmlns:local="clr-namespace:OneHundredAndEighty.Score"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DataGridCell}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border x:Name="BackgroundBorder" Background="Transparent">
+                            <Viewbox>
+                                <ContentPresenter VerticalAlignment="Center" Margin="4,0,6,0" />
+                            </Viewbox>
+                        </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+    </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="13*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Player1Name" Content="{Binding P1Name.Val, FallbackValue=Player 1}" Background="Transparent" FontFamily="Agency FB" FontWeight="Bold" Padding="5" VerticalAlignment="Center"/>
-        <Label Grid.Column="1" x:Name="Player2Name" Content="{Binding P2Name.Val, FallbackValue=Player 2}" Background="Transparent" FontFamily="Agency FB" FontWeight="Bold" Padding="5" VerticalAlignment="Center"/>
-        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding whiteboardScoresP1}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" CanUserAddRows="False" CanUserSortColumns="False">
+        
+        <Rectangle Grid.Column="0" Grid.ColumnSpan="4" Fill="Blue"/>
+        <Viewbox Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+            <Label x:Name="Player1Name" Content="{Binding P1Name.Val, FallbackValue=Player 1}" FontWeight="Bold" Padding="5" Foreground="White"/>
+        </Viewbox>
+        <Viewbox Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <Label x:Name="Player2Name" Content="{Binding P2Name.Val, FallbackValue=Player 2}" FontWeight="Bold" Padding="5" Foreground="White"/>
+        </Viewbox>
+
+        
+        <Rectangle Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="4" Fill="LightGray"/>
+        <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" >
+            <StackPanel>
+                <Label Content="- First -" Foreground="Black" FontSize="12" HorizontalContentAlignment="Center">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BeginningPlayer.Val}" Value="Player1">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label Content="Totals" Foreground="Blue" FontSize="14"/>
+                <Label Content="Sets:" Margin="10 0 0 0" FontSize="14"/>
+                <Label Content="{Binding P1Sets.Val, FallbackValue='1'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24"/>
+                <Label Content="Legs:" Margin="10 0 0 0" FontSize="14"/>
+                <Label Content="{Binding P1Legs.Val, FallbackValue='3'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24"/>
+                <Label Content="Averages" Foreground="Blue" FontSize="14"/>
+                <Label Content="Score:" Margin="10 0 0 0" FontSize="14"/>
+                <Label Content="{Binding P1Avg.Val, FallbackValue='47.11'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24" ContentStringFormat="N2"/>
+            </StackPanel>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" >
+            <StackPanel>
+                <Label Content="- First -" Foreground="Black" FontSize="12" HorizontalContentAlignment="Center">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BeginningPlayer.Val}" Value="Player2">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label Content="Totals" Foreground="Blue" FontSize="14"/>
+                <Label Content="Sets:" Margin="10 0 0 0" FontSize="14"/>
+                <Label Content="{Binding P2Sets.Val, FallbackValue='1'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24"/>
+                <Label Content="Legs:" Margin="10 0 0 0" FontSize="14"/>
+                <Label Content="{Binding P2Legs.Val, FallbackValue='3'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24"/>
+                <Label Content="Averages" Foreground="Blue" FontSize="14"/>
+                <Label Content="Score:" Margin="10 0 0 0" FontSize="14"/>
+                <Label Content="{Binding P2Avg.Val, FallbackValue='47.11'}" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="24" ContentStringFormat="N2"/>
+            </StackPanel>
+        </Viewbox>
+
+        <DataGrid Grid.Row="1" Grid.Column="1" x:Name="Player1Whiteboard" ItemsSource="{Binding whiteboardScoresP1}" FlowDirection="RightToLeft" SizeChanged="DataGrid_SizeChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*"/>
-                <DataGridTextColumn Header="Scored" Binding="{Binding PointsThrown}" Width="5*"/>
-                <DataGridTextColumn Header="To Go" Binding="{Binding PointsToGo}" Width="5*"/>
+                <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
+                <DataGridTextColumn Header="Restscore" Binding="{Binding PointsToGo}" Width="5*" FontWeight="Bold"/>
+                <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding whiteboardScoresP2}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" CanUserAddRows="False" CanUserSortColumns="False">
+        <DataGrid Grid.Row="1" Grid.Column="2" x:Name="Player2Whiteboard" ItemsSource="{Binding whiteboardScoresP2}" SizeChanged="DataGrid_SizeChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Scored" Binding="{Binding PointsThrown}" Width="5*"/>
-                <DataGridTextColumn Header="To Go" Binding="{Binding PointsToGo}" Width="5*"/>
+                <DataGridTextColumn Header="Wurf" Binding="{Binding PointsThrown}" Width="5*" FontWeight="Normal"/>
+                <DataGridTextColumn Header="Restscore" Binding="{Binding PointsToGo}" Width="5*" FontWeight="Bold"/>
+                <DataGridTextColumn Header="#" Binding="{Binding DartCount}" Width="3*" FontWeight="Normal" Foreground="DarkGray"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <Rectangle.Style>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Stroke" Value="Black"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ActivePlayer.Val}" Value="Player1">
+                            <Setter Property="Stroke" Value="DarkBlue"/>
+                            <Setter Property="StrokeThickness" Value="10"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
+        <Viewbox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
+            <Label Content="{Binding P1Points.Val, FallbackValue='69'}" FontWeight="Bold"/>
+        </Viewbox>
+
+        <Rectangle Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
+            <Rectangle.Style>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Stroke" Value="Black"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ActivePlayer.Val}" Value="Player2">
+                            <Setter Property="Stroke" Value="DarkBlue"/>
+                            <Setter Property="StrokeThickness" Value="10"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
+        <Viewbox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" >
+            <Label Content="{Binding P2Points.Val, FallbackValue='420'}" FontWeight="Bold"/>
+        </Viewbox>
     </Grid>
 </UserControl>
