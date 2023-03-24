@@ -160,8 +160,9 @@ namespace OneHundredAndEighty
             thrw.WhoThrow = playerOnThrow.Tag; //  Записываем в бросок кто его бросил
             playerOnThrow.throws[playerOnThrow.ThrowCount] = thrw;
             thrw.HandNumber = playerOnThrow.ThrowCount;
+            thrw.PointsToGo = playerOnThrow.pointsToOut;
 
-            if(IsLegIsOver(ref thrw) )
+            if (IsLegIsOver(ref thrw) )
             {
                 calculatePoints(ref playerOnThrow, ref thrw);
                 scoreVM.CountThrow(ref playerOnThrow, ref thrw);
@@ -185,7 +186,7 @@ namespace OneHundredAndEighty
             allMatchThrows.Push(thrw); //  Записываем в последный бросок в коллекцию матча
 
             //If leg not over check if turn is over
-            if (playerOnThrow.ThrowsLeft == 0 || thrw.IsFault)
+            if (IsTurnThrow(thrw))
             {
                 //Turn is over
                 //infoPanelLogic.TextLogAdd(new StringBuilder().Append("    > ").Append(playerOnThrow.Name).Append(" FAULT").ToString()); //  Пишем в текстовую панель
@@ -317,6 +318,11 @@ namespace OneHundredAndEighty
                 t.IsMatchWon = true; //  Помечаем бросок как выигравший матч
                 EndGame(); //  Матч окончен
             }
+        }
+
+        public static bool IsTurnThrow(Throw t)
+        {
+            return (t.HandNumber == 3 || t.IsFault || t.IsLegWon);
         }
     }
 }

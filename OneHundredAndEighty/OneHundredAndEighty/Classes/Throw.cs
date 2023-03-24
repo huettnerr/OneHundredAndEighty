@@ -12,6 +12,7 @@ namespace OneHundredAndEighty
         private string Sector { get; } //  Сектор попадания
         public string Multiplier { get; } //  Мультипликатор
         public int? Points { get; } //  Очки броска
+        public int PointsToGo { get; set; } //  Before Throw, for statistical reasons
         public bool IsFault { get; set; } //  Был ли бросок штрафным
         public bool IsLegWon { get; set; } //  Выигран ли броском лег
         public bool IsSetWon { get; set; } //  Выигран ли броском сет
@@ -52,6 +53,25 @@ namespace OneHundredAndEighty
                     Multiplier = "Bull_Eye";
                     Sector = new StringBuilder().Append("Bull Eye").ToString();
                     break;
+            }
+        }
+
+        public override string ToString()
+        {
+            switch (Multiplier)
+            {
+                case "Double":
+                    return $"D{Points/2}";
+                case "Tremble":
+                    return $"T{Points/3}";
+                case "Bull_25":
+                    return $"25";
+                case "Bull_Eye":
+                    return $"BE";
+                case "Zero":
+                case "Single":
+                default:
+                    return $"{Points}";
             }
         }
     }

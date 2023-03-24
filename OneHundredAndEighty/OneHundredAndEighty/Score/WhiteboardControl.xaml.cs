@@ -35,19 +35,15 @@ namespace OneHundredAndEighty.Score
 
         private void UpdateScoresView()
         {
-            ScrollToEnd(Player1Whiteboard);
-            ScrollToEnd(Player2Whiteboard);
-            return;
-
             if (Player1Whiteboard.Items.Count > Player2Whiteboard.Items.Count)
             {
-                ScrollToEnd(Player1Whiteboard);
-                Player2Whiteboard.ScrollIntoView(Player2Whiteboard.Items[Player2Whiteboard.Items.Count - 1]);
+                double offset = ScrollToEnd(Player1Whiteboard);
+                GetScrollViewer(Player2Whiteboard)?.ScrollToVerticalOffset(offset - 1);
             }
             else if (Player1Whiteboard.Items.Count < Player2Whiteboard.Items.Count)
             {
-                Player1Whiteboard.ScrollIntoView(Player1Whiteboard.Items[Player1Whiteboard.Items.Count - 1]);
-                ScrollToEnd(Player2Whiteboard);
+                double offset = ScrollToEnd(Player2Whiteboard);
+                GetScrollViewer(Player1Whiteboard)?.ScrollToVerticalOffset(offset - 1);
             }
             else
             {
@@ -56,12 +52,21 @@ namespace OneHundredAndEighty.Score
             }
         }
 
-        private void ScrollToEnd(DataGrid g)
+        private ScrollViewer GetScrollViewer(DataGrid g) 
         {
-            int i = g.Items.Count > 1 ? g.Items.Count - 2 : g.Items.Count - 1;
-            if (i < 0) return;
+            var border = VisualTreeHelper.GetChild(g, 0) as Decorator;
+            return border?.Child as ScrollViewer;
+        }
 
-            g.ScrollIntoView(g.Items[i]);
+        private double ScrollToEnd(DataGrid g)
+        {
+            ScrollViewer sw1 = GetScrollViewer(g);
+            if (sw1 is null) return 0.0;
+
+            sw1.ScrollToEnd();
+            UpdateLayout();
+            sw1.ScrollToVerticalOffset(sw1.VerticalOffset - 1);
+            return sw1.VerticalOffset;
         }
 
         private void DataGrid_SizeChanged(object sender, SizeChangedEventArgs e)

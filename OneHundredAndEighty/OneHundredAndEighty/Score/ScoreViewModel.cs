@@ -19,7 +19,7 @@ namespace OneHundredAndEighty.Score
     {
         public ScoreControl ScoreControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl; }
 
-        public EventHandler ScoresChanged;
+        public EventHandler<WhiteboardScore> ScoresChanged;
 
         public ViewProperty<bool> IsSetMode { get; set; }
         public ViewProperty<string> BeginningPlayer { get; set; }
