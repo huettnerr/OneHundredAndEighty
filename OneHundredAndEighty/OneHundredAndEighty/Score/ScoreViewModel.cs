@@ -248,8 +248,8 @@ namespace OneHundredAndEighty.Score
             scoreWindow.ResizeMode = ResizeMode.NoResize;
             scoreWindow.ShowInTaskbar = false;
             scoreWindow.WindowStyle = WindowStyle.None;
-            scoreWindow.Width = 500;
-            scoreWindow.Height = 100;
+            scoreWindow.Width = 600;
+            scoreWindow.Height = 120;
             scoreWindow.Show();
 
             Task.Delay(200).ContinueWith(t =>
