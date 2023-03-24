@@ -78,6 +78,8 @@ namespace OneHundredAndEighty.Score
             double actualHeight = headersPresenter.ActualHeight;
 
             g.RowHeight = (g.ActualHeight - actualHeight) / 3;
+
+            UpdateScoresView();
         }
 
         public static T FindVisualChild<T>(DependencyObject current) where T : DependencyObject

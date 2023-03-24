@@ -123,6 +123,7 @@
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Converter.cs" />
+    <Compile Include="OBS\ObsManager.cs" />
     <Compile Include="Score\FinishHelper.cs" />
     <Compile Include="Score\ScoreStack.cs" />
     <Compile Include="Score\ScoreStatistics.cs" />

@@ -12,6 +12,7 @@ using System.Windows;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using OneHundredAndEighty.OBS;
 
 namespace OneHundredAndEighty.Score
 {        
@@ -121,9 +122,13 @@ namespace OneHundredAndEighty.Score
         private bool updateFinishHelp(Player p, out string helpText)
         {
             Finish f = FinishHelper.GetBestFinish(p.pointsToOut, p.ThrowsLeft);
-            if (!f?.ObsScene.Equals(String.Empty) ?? false)
+            if (!f?.ObsScene.Equals(String.Empty) ?? false && p.ThrowsLeft > 0)
             {
-                //TODO: Set OBS
+                ObsManager.ChangeBoardView(f.ObsScene);
+            }
+            else
+            {
+                ObsManager.NormalView();
             }
 
             helpText = (f is object) ? f.HelpText : "";

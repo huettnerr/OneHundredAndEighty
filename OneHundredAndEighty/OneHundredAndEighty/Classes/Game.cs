@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using OneHundredAndEighty.Controls;
+using OneHundredAndEighty.OBS;
 using OneHundredAndEighty.Score;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,7 @@ namespace OneHundredAndEighty
         private readonly SettingsPanelLogic settingsPanelLogic = new SettingsPanelLogic(); //  Панель настроек матча
         public readonly StatisticsWindowLogic statisticsWindowLogic = new StatisticsWindowLogic(); //  Окно статистики
         public readonly ScoreViewModel scoreVM = new ScoreViewModel(); //  Окно статистики
+
         public bool IsOn { get; private set; } //  Флаг работы матча
         private Player player1; //  Игрок 1
         private Player player2; //  Игрок 2
@@ -29,35 +31,32 @@ namespace OneHundredAndEighty
 
         public void StartGame() //  Начало нового матча
         {
+            // Global settings
             IsOn = true; //  Флаг матча
-            //  Панели
             mainWindow.PlayerTab.IsEnabled = false;
             settingsPanelLogic.PanelHide(); //  Прячем панель настроек
             infoPanelLogic.PanelShow(); //  Показываем инфо-панель
             BoardPanelLogic.PanelShow(); //  Показываем панель секторов
             PlayerOverview.ClearPanel(); //  Очищаем панель данных игроков
-            //  Настройка матча
+
+            // initiate game mode
             pointsToGo = settingsPanelLogic.PointsToGo(); //  Получаем количество очков лега
             setsToGo = settingsPanelLogic.SetsToGo(); //  Получаем количество легов сета
             legsToGo = settingsPanelLogic.LegsToGo(); //  Получаем количество сетов матча
-            //  Игроки
+
+            // initiate players
             player1 = new Player("Player1", (int) mainWindow.SettingsControl.Player1NameCombobox.SelectedValue, settingsPanelLogic.Player1Name(), pointsToGo); //  Игрок 1
             player2 = new Player("Player2", (int) mainWindow.SettingsControl.Player2NameCombobox.SelectedValue, settingsPanelLogic.Player2Name(), pointsToGo); //  Игрок 2
             playerOnThrow = settingsPanelLogic.WhoThrowFirst(player1, player2); //  Кто первый бросает
             playerOnLeg = playerOnThrow; //  Чей первый лег
-            //  Инфо-панель
+
+            // initiate scoring module
             scoreVM.NewGame(pointsToGo, legsToGo, setsToGo, player1, player2, playerOnThrow); //  Новая инфопанель
             scoreVM.HelpCheck(player1); //  Проверка помощи
             scoreVM.HelpCheck(player2); //  Проверка помощи
+
             //  Текстовая панель
-            infoPanelLogic.TextLogAdd(new StringBuilder()
-                                      .Append("First to ")
-                                      .Append(setsToGo)
-                                      .Append(" sets in ")
-                                      .Append(legsToGo)
-                                      .Append(" legs with ")
-                                      .Append(pointsToGo)
-                                      .Append(" points").ToString());
+            infoPanelLogic.TextLogAdd($"First to {setsToGo} sets in {legsToGo} legs with {pointsToGo}  points.");
             infoPanelLogic.TextLogAdd("Game on");
             infoPanelLogic.TextLogAdd(new StringBuilder().Append(playerOnThrow.Name).Append(" on throw:").ToString());
         }
@@ -107,7 +106,6 @@ namespace OneHundredAndEighty
         {
             switch (playerOnThrow.Tag)
             {
-                //  Меняем игрока
                 case "Player1":
                     SetPlayerOnThrow(player2);
                     break;
@@ -121,7 +119,6 @@ namespace OneHundredAndEighty
         {
             switch (playerOnLeg.Tag)
             {
-                //  Меняем игрока
                 case "Player1":
                     playerOnLeg = player2;
                     break;
@@ -288,6 +285,7 @@ namespace OneHundredAndEighty
                 playerOnThrow.legsWon += 1; //  Плюсуем выиграный лег
                 scoreVM.LegsSet(playerOnThrow); //  Обновляем инфопанель
                 t.IsLegWon = true; //  Помечаем бросок как выигравший лег
+                ObsManager.GameShot();
 
                 IsSetIsOver(ref t); //  Проверяем не закончен ли сет
                 return true;
