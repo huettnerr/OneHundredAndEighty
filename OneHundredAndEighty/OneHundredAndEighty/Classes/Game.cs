@@ -167,6 +167,7 @@ namespace OneHundredAndEighty
 
                 if (IsOn) //  Если игра продолжается
                 {
+                    ObsManager.GameShot(ObsReplaySource.Board);
                     ClearHands(); //  Очищаем броски
                     TogglePlayerOnLeg(); //  Смена игрока на начало лега 
                     player1.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 1
@@ -174,6 +175,10 @@ namespace OneHundredAndEighty
                     scoreVM.ClearScores(pointsToGo); //  Обновляем инфопанель
                     scoreVM.HelpCheck(player1); //  Проверка помощи
                     scoreVM.HelpCheck(player2); //  Проверка помощи
+                }
+                else
+                {
+                    ObsManager.GameShot(ObsReplaySource.Player);
                 }
                 return;
             }
@@ -285,7 +290,6 @@ namespace OneHundredAndEighty
                 playerOnThrow.legsWon += 1; //  Плюсуем выиграный лег
                 scoreVM.LegsSet(playerOnThrow); //  Обновляем инфопанель
                 t.IsLegWon = true; //  Помечаем бросок как выигравший лег
-                ObsManager.GameShot();
 
                 IsSetIsOver(ref t); //  Проверяем не закончен ли сет
                 return true;

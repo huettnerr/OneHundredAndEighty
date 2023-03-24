@@ -128,7 +128,7 @@ namespace OneHundredAndEighty.Score
             }
             else
             {
-                ObsManager.NormalView();
+                ObsManager.NormalBoardView();
             }
 
             helpText = (f is object) ? f.HelpText : "";

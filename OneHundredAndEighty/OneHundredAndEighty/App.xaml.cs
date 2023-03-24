@@ -1,4 +1,5 @@
 ﻿using OneHundredAndEighty.OBS;
+using System;
 using System.Windows;
 
 namespace OneHundredAndEighty
@@ -13,6 +14,12 @@ namespace OneHundredAndEighty
         public App()
         {
             ObsManager.Init();
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            // Perform tasks at application exit
+            ObsManager.Close();
         }
     }
 }
