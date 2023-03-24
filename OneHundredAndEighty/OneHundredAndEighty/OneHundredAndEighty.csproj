@@ -127,6 +127,9 @@
     <Compile Include="Score\FinishHelper.cs" />
     <Compile Include="Score\ScoreStack.cs" />
     <Compile Include="Score\ScoreStatistics.cs" />
+    <Compile Include="Score\ScoreWindow.xaml.cs">
+      <DependentUpon>ScoreWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Score\WhiteboardControl.xaml.cs">
       <DependentUpon>WhiteboardControl.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Score\ScoreWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,6 +297,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>DB.mdf</DependentUpon>
     </Content>
+    <Resource Include="Images\ChemoLogo.png" />
     <Resource Include="Images\Achieves\wings.png" />
     <Resource Include="Images\Achieves\mr.Z.png" />
     <Resource Include="Images\Achieves\1000000Points.png" />

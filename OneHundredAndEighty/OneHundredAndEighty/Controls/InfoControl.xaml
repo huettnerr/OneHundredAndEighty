@@ -63,7 +63,7 @@
                 </Button.Background>
             </Button>
         </StackPanel>
-        <GridSplitter Grid.Row="2" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-        <Score:ScoreControl x:Name="ScoreControl" Grid.Row="3" MaxHeight="100"/>
+        <!--<GridSplitter Grid.Row="2" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>-->
+        <!--<Score:ScoreControl x:Name="ScoreControl" Grid.Row="3" MaxHeight="100"/>-->
     </Grid>
 </UserControl>

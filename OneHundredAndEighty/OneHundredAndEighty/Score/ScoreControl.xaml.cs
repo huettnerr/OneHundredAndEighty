@@ -29,7 +29,6 @@ namespace OneHundredAndEighty.Score
         public ScoreControl()
         {
             InitializeComponent();
-            this.DataContext = ((App)Application.Current).Game.scoreVM;
         }
 
         public void DotSet(Player p)

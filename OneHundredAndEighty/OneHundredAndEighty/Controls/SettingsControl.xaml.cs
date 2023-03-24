@@ -34,7 +34,7 @@ namespace OneHundredAndEighty.Controls
 
         private void GameOn_Click(object sender, RoutedEventArgs e) //  Кнопка GAMEON
         {
-            ((App)Application.Current).Game.StartGame();
+            ((App)Application.Current).Game.StartGame((int)Player1NameCombobox.SelectedValue, (int)Player2NameCombobox.SelectedValue);
         }
     }
 }

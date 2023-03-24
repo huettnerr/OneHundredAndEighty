@@ -13,12 +13,14 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using OneHundredAndEighty.OBS;
+using System.Windows.Media;
 
 namespace OneHundredAndEighty.Score
 {        
     public class ScoreViewModel : ViewModelBase
     {
-        public ScoreControl ScoreControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl.ScoreControl; }
+        public ScoreControl ScoreControl { get; private set; }
+        private Window scoreWindow;
 
         public EventHandler<WhiteboardScore> ScoresChanged;
 
@@ -44,6 +46,8 @@ namespace OneHundredAndEighty.Score
 
         #endregion
 
+        public ViewProperty<string> Summary { get; set; }
+
         public ViewProperty<string> P1Name { get; set; }
         public ViewProperty<int> P1Sets { get; set; }
         public ViewProperty<int> P1Legs { get; set; }
@@ -63,6 +67,8 @@ namespace OneHundredAndEighty.Score
             BeginningPlayer = new ViewProperty<string>();
             ActivePlayer = new ViewProperty<string>();
 
+            Summary = new ViewProperty<string>();
+
             P1Name = new ViewProperty<string>();
             P1Sets = new ViewProperty<int>();
             P1Legs = new ViewProperty<int>();
@@ -78,8 +84,19 @@ namespace OneHundredAndEighty.Score
 
         public void NewGame(int points, int legs, int sets, Player p1, Player p2, Player first)
         {
-            ScoreControl.MainBoxSummary.Content = $"First to {sets} sets in {legs} legs";
-            IsSetMode.Val = sets > 1;
+            CreateScoreControl();
+
+            Summary.Val = $"First to {sets} sets in {legs} legs";
+            if(sets > 1)
+            {
+                IsSetMode.Val = true;
+                Summary.Val = $"First to {sets} sets in {legs} legs";
+            }
+            else
+            {
+                IsSetMode.Val = false;
+                Summary.Val = $"First to {legs} legs";
+            }
 
             P1Throws = new ScoreStack(p1);
             P2Throws = new ScoreStack(p2);
@@ -92,8 +109,8 @@ namespace OneHundredAndEighty.Score
             P2Sets.Val = 0;
             P2Legs.Val = 0;
 
-            ScoreControl.HelpHide(p1);
-            ScoreControl.HelpHide(p2);
+            ScoreControl?.HelpHide(p1);
+            ScoreControl?.HelpHide(p2);
             ClearScores(points);
             DotSet(first);
             WhoThrowSliderSet(first);
@@ -101,22 +118,22 @@ namespace OneHundredAndEighty.Score
 
         public void DotSet(Player p)
         {
-            ScoreControl.DotSet(p);
+            ScoreControl?.DotSet(p);
 
             BeginningPlayer.Val = p.Tag;
         }
 
         public void WhoThrowSliderSet(Player p)
         {
-            ScoreControl.WhoThrowSliderSet(p);
+            ScoreControl?.WhoThrowSliderSet(p);
 
             ActivePlayer.Val = p.Tag;
         }
 
         public void HelpCheck(Player p)
         {
-            if (updateFinishHelp(p, out string txt)) ScoreControl.HelpShow(p, txt);
-            else ScoreControl.HelpHide(p);
+            if (updateFinishHelp(p, out string txt)) ScoreControl?.HelpShow(p, txt);
+            else ScoreControl?.HelpHide(p);
         }
 
         private bool updateFinishHelp(Player p, out string helpText)
@@ -210,6 +227,35 @@ namespace OneHundredAndEighty.Score
         {
             if (p.Tag.Equals("Player1")) P1Sets.Val = p.setsWon;
             else if (p.Tag.Equals("Player2")) P2Sets.Val = p.setsWon;
+        }
+
+        public void CloseScore()
+        {
+            scoreWindow.Close();
+        }
+
+        public void CreateScoreControl()
+        {
+            scoreWindow = new Window();
+            ScoreControl = new ScoreControl();
+            ScoreControl.DataContext = this;
+
+            scoreWindow.Content = ScoreControl;
+            scoreWindow.Title = "OneEightyScore";
+            scoreWindow.AllowsTransparency = true;
+            scoreWindow.Background = Brushes.Transparent;
+            scoreWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            scoreWindow.ResizeMode = ResizeMode.NoResize;
+            scoreWindow.ShowInTaskbar = false;
+            scoreWindow.WindowStyle = WindowStyle.None;
+            scoreWindow.Width = 500;
+            scoreWindow.Height = 100;
+            scoreWindow.Show();
+
+            Task.Delay(200).ContinueWith(t =>
+            {
+                ((App)Application.Current).Dispatcher.Invoke(() => { ((App)Application.Current).MainWindow.Focus(); ((App)Application.Current).MainWindow.Activate(); ((App)Application.Current).MainWindow.Show(); });
+            });
         }
     }
 }

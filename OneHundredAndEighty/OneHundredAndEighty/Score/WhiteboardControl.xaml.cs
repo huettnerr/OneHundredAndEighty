@@ -27,7 +27,7 @@ namespace OneHundredAndEighty.Score
             InitializeComponent();
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                ScoreViewModel scoreVM = ((App)Application.Current).Game.scoreVM;
+                ScoreViewModel scoreVM = ((App)Application.Current).ScoreVM;
                 this.DataContext = scoreVM;
                 scoreVM.ScoresChanged += (s, e) => UpdateScoresView();
             }

@@ -5,6 +5,7 @@ using OneHundredAndEighty.OBS;
 using OneHundredAndEighty.Score;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 
 #endregion
 
@@ -12,13 +13,13 @@ namespace OneHundredAndEighty
 {
     public class Game
     {
-        private readonly MainWindow mainWindow = (MainWindow) System.Windows.Application.Current.MainWindow; //  Ссылка на главное окно для доступа к элементам
+        private MainWindow mainWindow { get => (MainWindow)System.Windows.Application.Current.MainWindow; }  //  Ссылка на главное окно для доступа к элементам
         private readonly InfoPanelLogic infoPanelLogic = new InfoPanelLogic(); //  Инфо-панель
         private readonly SettingsPanelLogic settingsPanelLogic = new SettingsPanelLogic(); //  Панель настроек матча
         public readonly StatisticsWindowLogic statisticsWindowLogic = new StatisticsWindowLogic(); //  Окно статистики
-        public readonly ScoreViewModel scoreVM = new ScoreViewModel(); //  Окно статистики
+        private ScoreViewModel scoreVM { get => ((App)Application.Current).ScoreVM; }
 
-        public bool IsOn { get; private set; } //  Флаг работы матча
+    public bool IsOn { get; private set; } //  Флаг работы матча
         private Player player1; //  Игрок 1
         private Player player2; //  Игрок 2
         private Player playerOnThrow; //  Чей подход
@@ -29,7 +30,7 @@ namespace OneHundredAndEighty
         private int legsToGo; //  Легов в сете
         private int setsToGo; //  Сетов в матче
 
-        public void StartGame() //  Начало нового матча
+        public void StartGame(int p1Id, int p2Id) //  Начало нового матча
         {
             // Global settings
             IsOn = true; //  Флаг матча
@@ -45,8 +46,8 @@ namespace OneHundredAndEighty
             legsToGo = settingsPanelLogic.LegsToGo(); //  Получаем количество сетов матча
 
             // initiate players
-            player1 = new Player("Player1", (int) mainWindow.SettingsControl.Player1NameCombobox.SelectedValue, settingsPanelLogic.Player1Name(), pointsToGo); //  Игрок 1
-            player2 = new Player("Player2", (int) mainWindow.SettingsControl.Player2NameCombobox.SelectedValue, settingsPanelLogic.Player2Name(), pointsToGo); //  Игрок 2
+            player1 = new Player("Player1", p1Id, settingsPanelLogic.Player1Name(), pointsToGo); //  Игрок 1
+            player2 = new Player("Player2", p2Id, settingsPanelLogic.Player2Name(), pointsToGo); //  Игрок 2
             playerOnThrow = settingsPanelLogic.WhoThrowFirst(player1, player2); //  Кто первый бросает
             playerOnLeg = playerOnThrow; //  Чей первый лег
 
@@ -202,6 +203,69 @@ namespace OneHundredAndEighty
             }
         }
 
+        private void SavePoint()
+        {
+            savePoints.Push(new SavePoint(player1, player2, playerOnThrow, playerOnLeg));
+        }
+
+        private void calculatePoints(ref Player p, ref Throw t)
+        {
+            //Calculate new Points
+            p.pointsToOut -= (int)t.Points; //  Вычитаем набраные за бросок очки игрока из общего результата лега
+            p.handPoints += (int)t.Points; //  Плюсуем набраные за подход очки игрока
+
+            if (!t.IsLegWon && p.pointsToOut <= 1) //If check is not possible
+            {
+                t.IsFault = true; //  Помечаем бросок как штрафной 
+                p.pointsToOut += p.handPoints; //  Отменяем подход игрока
+            }
+        }
+
+        private bool IsLegIsOver(ref Throw t) //  Или штраф, или правильное окончание лега, или это был последний бросок в подходе 
+        {
+            if ((playerOnThrow.pointsToOut - t.Points) == 0 && (t.Multiplier.Equals("Double") || t.Multiplier.Equals("Bull_Eye"))) //  Игрок правильно закрыл лег
+            {
+                infoPanelLogic.TextLogAdd(new StringBuilder().Append("Leg goes to ").Append(playerOnThrow.Name).ToString()); //  Пишем в текстовую панель
+                playerOnThrow.legsWon += 1; //  Плюсуем выиграный лег
+                scoreVM.LegsSet(playerOnThrow); //  Обновляем инфопанель
+                t.IsLegWon = true; //  Помечаем бросок как выигравший лег
+
+                IsSetIsOver(ref t); //  Проверяем не закончен ли сет
+                return true;
+            }
+
+            return false;
+        }
+
+        private void IsSetIsOver(ref Throw t) //  Проверка закончен ли сет
+        {
+            if (playerOnThrow.legsWon == legsToGo) //  Если игрок выиграл требуемое количество легов для окончания сета
+            {
+                infoPanelLogic.TextLogAdd(new StringBuilder().Append("Set goes to ").Append(playerOnThrow.Name).ToString()); //  Пишем в текстовую панель
+                playerOnThrow.setsWon += 1; //  Добавляем игроку выигранный сет
+                scoreVM.SetsSet(playerOnThrow); //  Обновляем инфопанель
+                player1.legsWon = 0; //  Обнуляем леги игроков
+                player2.legsWon = 0; //  Обнуляем леги игроков
+                scoreVM.LegsClear(); //  Обновляем инфопанель
+                t.IsSetWon = true; //  Помечаем бросок как выигравший сет
+                IsGameIsOver(ref t); //  Проверяем не закончен ли матч
+            }
+        }
+
+        private void IsGameIsOver(ref Throw t) //  Проверка закончен ли матч
+        {
+            if (playerOnThrow.setsWon == setsToGo) //  Если игрок выиграл требуемое количество сетов для завершения матча
+            {
+                t.IsMatchWon = true; //  Помечаем бросок как выигравший матч
+                EndGame(); //  Матч окончен
+            }
+        }
+
+        public static bool IsTurnThrow(Throw t)
+        {
+            return (t.HandNumber == 3 || t.IsFault || t.IsLegWon);
+        }
+
         public void UndoThrow() //  Отмена последнего броска
         {
             if (allMatchThrows.Count != 0) //  Проверяем возможность отмены броска, если коллекция бросков матча не пуста
@@ -264,67 +328,18 @@ namespace OneHundredAndEighty
             }
         }
 
-        private void SavePoint()
+        public void AbortGameRequest()
         {
-            savePoints.Push(new SavePoint(player1, player2, playerOnThrow, playerOnLeg));
-        }
+            ((MainWindow)Application.Current.MainWindow).FadeIn();
+            var window = new Windows.AbortWindowConfirm { Owner = (MainWindow)Application.Current.MainWindow };
+            window.ShowDialog();
 
-        private void calculatePoints(ref Player p, ref Throw t)
-        {
-            //Calculate new Points
-            p.pointsToOut -= (int)t.Points; //  Вычитаем набраные за бросок очки игрока из общего результата лега
-            p.handPoints += (int)t.Points; //  Плюсуем набраные за подход очки игрока
-
-            if (!t.IsLegWon && p.pointsToOut <= 1) //If check is not possible
+            if (window.Result)
             {
-                t.IsFault = true; //  Помечаем бросок как штрафной 
-                p.pointsToOut += p.handPoints; //  Отменяем подход игрока
-            }
-        }
-
-        private bool IsLegIsOver(ref Throw t) //  Или штраф, или правильное окончание лега, или это был последний бросок в подходе 
-        {
-            if ((playerOnThrow.pointsToOut - t.Points) == 0 && (t.Multiplier.Equals("Double") || t.Multiplier.Equals("Bull_Eye"))) //  Игрок правильно закрыл лег
-            {
-                infoPanelLogic.TextLogAdd(new StringBuilder().Append("Leg goes to ").Append(playerOnThrow.Name).ToString()); //  Пишем в текстовую панель
-                playerOnThrow.legsWon += 1; //  Плюсуем выиграный лег
-                scoreVM.LegsSet(playerOnThrow); //  Обновляем инфопанель
-                t.IsLegWon = true; //  Помечаем бросок как выигравший лег
-
-                IsSetIsOver(ref t); //  Проверяем не закончен ли сет
-                return true;
+                AbortGame();
             }
 
-            return false;
-        }
-
-        private void IsSetIsOver(ref Throw t) //  Проверка закончен ли сет
-        {
-            if (playerOnThrow.legsWon == legsToGo) //  Если игрок выиграл требуемое количество легов для окончания сета
-            {
-                infoPanelLogic.TextLogAdd(new StringBuilder().Append("Set goes to ").Append(playerOnThrow.Name).ToString()); //  Пишем в текстовую панель
-                playerOnThrow.setsWon += 1; //  Добавляем игроку выигранный сет
-                scoreVM.SetsSet(playerOnThrow); //  Обновляем инфопанель
-                player1.legsWon = 0; //  Обнуляем леги игроков
-                player2.legsWon = 0; //  Обнуляем леги игроков
-                scoreVM.LegsClear(); //  Обновляем инфопанель
-                t.IsSetWon = true; //  Помечаем бросок как выигравший сет
-                IsGameIsOver(ref t); //  Проверяем не закончен ли матч
-            }
-        }
-
-        private void IsGameIsOver(ref Throw t) //  Проверка закончен ли матч
-        {
-            if (playerOnThrow.setsWon == setsToGo) //  Если игрок выиграл требуемое количество сетов для завершения матча
-            {
-                t.IsMatchWon = true; //  Помечаем бросок как выигравший матч
-                EndGame(); //  Матч окончен
-            }
-        }
-
-        public static bool IsTurnThrow(Throw t)
-        {
-            return (t.HandNumber == 3 || t.IsFault || t.IsLegWon);
+            ((MainWindow)Application.Current.MainWindow).FadeOut();
         }
     }
 }

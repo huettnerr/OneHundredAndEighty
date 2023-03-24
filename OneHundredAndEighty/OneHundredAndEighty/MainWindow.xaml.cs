@@ -47,6 +47,8 @@ namespace OneHundredAndEighty
                 DBwork.SaveSettings(); //  Сохраняем настройки
             }
 
+            ((App)Application.Current).ScoreVM.CloseScore();
+
             FadeOut();
         }
 

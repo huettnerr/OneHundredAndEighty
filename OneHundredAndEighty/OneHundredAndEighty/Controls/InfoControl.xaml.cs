@@ -27,15 +27,7 @@ namespace OneHundredAndEighty.Controls
 
         private void EndMatchButton_Click(object sender, RoutedEventArgs e) //  Кнопка отмены матча
         {
-            ((MainWindow)Application.Current.MainWindow).FadeIn();
-            var window = new Windows.AbortWindowConfirm { Owner = (MainWindow)Application.Current.MainWindow };
-            window.ShowDialog();
-            if (window.Result)
-            {
-                ((App)Application.Current).Game.AbortGame();
-            }
-
-            ((MainWindow)Application.Current.MainWindow).FadeOut();
+            ((App)Application.Current).Game.AbortGameRequest();
         }
 
         private void UndoThrow_Click(object sender, RoutedEventArgs e) //  Кнопка отмены броска
