@@ -1,5 +1,7 @@
 ﻿#region Usings
 
+using MyToolkit.Model;
+using OneHundredAndEighty.Classes;
 using OneHundredAndEighty.Controls;
 using OneHundredAndEighty.OBS;
 using OneHundredAndEighty.Score;
@@ -11,7 +13,7 @@ using System.Windows;
 
 namespace OneHundredAndEighty
 {
-    public class Game
+    public class Game : ObservableObject
     {
         private MainWindow mainWindow { get => (MainWindow)System.Windows.Application.Current.MainWindow; }  //  Ссылка на главное окно для доступа к элементам
         private readonly InfoPanelLogic infoPanelLogic = new InfoPanelLogic(); //  Инфо-панель
@@ -19,16 +21,22 @@ namespace OneHundredAndEighty
         public readonly StatisticsWindowLogic statisticsWindowLogic = new StatisticsWindowLogic(); //  Окно статистики
         private ScoreViewModel scoreVM { get => ((App)Application.Current).ScoreVM; }
 
-    public bool IsOn { get; private set; } //  Флаг работы матча
+        public bool IsOn { get; private set; } //  Флаг работы матча
         private Player player1; //  Игрок 1
         private Player player2; //  Игрок 2
         private Player playerOnThrow; //  Чей подход
         private Player playerOnLeg; //  Кто начинает лег
-        private readonly Stack<Throw> allMatchThrows = new Stack<Throw>(); //  Коллекция бросков матча
+        public ObservableStack<Throw> AllMatchThrows { get; } = new ObservableStack<Throw>(); //  Коллекция бросков матча
         private readonly Stack<SavePoint> savePoints = new Stack<SavePoint>(); //  Коллекция точек сохранения игры
         private int pointsToGo; //  Очков в леге
         private int legsToGo; //  Легов в сете
         private int setsToGo; //  Сетов в матче
+
+        public Game()
+        {
+            settingsPanelLogic.PanelShow(); //  Прячем панель настроек
+            infoPanelLogic.PanelHide(); //  Показываем инфо-панель
+        }
 
         public void StartGame(int p1Id, int p2Id) //  Начало нового матча
         {
@@ -66,7 +74,7 @@ namespace OneHundredAndEighty
         {
             IsOn = false; //  Флаг матча
             //  Сообщение
-            WinnerWindowLogic.ShowWinner(playerOnThrow, player1, player2, allMatchThrows); //  Показываем окно победителя и статистику
+            WinnerWindowLogic.ShowWinner(playerOnThrow, player1, player2, AllMatchThrows); //  Показываем окно победителя и статистику
             //  Панели
             mainWindow.PlayerTab.IsEnabled = true;
             infoPanelLogic.PanelHide(); //  Прячем инфопанель
@@ -144,7 +152,7 @@ namespace OneHundredAndEighty
             statisticsWindowLogic.ClearCollection(); //  Зануляем коллекцию статистики
             infoPanelLogic.TextLogClear(); //  Очищаем текстовую панель
             infoPanelLogic.UndoThrowButtonOff(); //  Выключаем кнопку отмены броска
-            allMatchThrows.Clear(); //  Зануляем коллекцию бросков матча
+            AllMatchThrows.Clear(); //  Зануляем коллекцию бросков матча
             savePoints.Clear(); //  Зануляем точки сохнанения
         }
 
@@ -155,7 +163,8 @@ namespace OneHundredAndEighty
 
             infoPanelLogic.TextLogAdd(new StringBuilder().Append("    > ").Append(playerOnThrow.Name).Append(" throws ").Append(thrw.Points).ToString()); //  Пишем в текстовую панель
 
-            thrw.WhoThrow = playerOnThrow.Tag; //  Записываем в бросок кто его бросил
+            thrw.WhoThrowTag = playerOnThrow.Tag; //  Записываем в бросок кто его бросил
+            thrw.WhoThrowName = playerOnThrow.Name; //  Записываем в бросок кто его бросил
             playerOnThrow.throws[playerOnThrow.ThrowCount] = thrw;
             thrw.HandNumber = playerOnThrow.ThrowCount;
             thrw.PointsToGo = playerOnThrow.pointsToOut;
@@ -164,7 +173,7 @@ namespace OneHundredAndEighty
             {
                 calculatePoints(ref playerOnThrow, ref thrw);
                 scoreVM.CountThrow(ref playerOnThrow, ref thrw);
-                allMatchThrows.Push(thrw); //  Записываем в последный бросок в коллекцию матча
+                AllMatchThrows.PushObservable(thrw); //  Записываем в последный бросок в коллекцию матча
 
                 if (IsOn) //  Если игра продолжается
                 {
@@ -186,7 +195,7 @@ namespace OneHundredAndEighty
 
             calculatePoints(ref playerOnThrow, ref thrw);
             scoreVM.CountThrow(ref playerOnThrow, ref thrw);
-            allMatchThrows.Push(thrw); //  Записываем в последный бросок в коллекцию матча
+            AllMatchThrows.PushObservable(thrw); //  Записываем в последный бросок в коллекцию матча
 
             //If leg not over check if turn is over
             if (IsTurnThrow(thrw))
@@ -268,7 +277,7 @@ namespace OneHundredAndEighty
 
         public void UndoThrow() //  Отмена последнего броска
         {
-            if (allMatchThrows.Count != 0) //  Проверяем возможность отмены броска, если коллекция бросков матча не пуста
+            if (AllMatchThrows.Count != 0) //  Проверяем возможность отмены броска, если коллекция бросков матча не пуста
             {
                 infoPanelLogic.UndoThrowButtonOff(); //  Выключаем кнопку отмены броска
 
@@ -290,7 +299,7 @@ namespace OneHundredAndEighty
                 scoreVM.UndoThrow(playerOnThrow);
                 infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
 
-                Throw t = allMatchThrows.Pop(); //  Удалаяем последний бросок из коллекции матча
+                Throw t = AllMatchThrows.PopObservable(); //  Удалаяем последний бросок из коллекции матча
                 if (t.IsLegWon || t.IsFault || t.HandNumber == 3) //  Если последний бросок был переходным
                 {
                     infoPanelLogic.TextLogUndo(); //  Удаяем строку текстовой панели
@@ -321,7 +330,7 @@ namespace OneHundredAndEighty
 
                 infoPanelLogic.UndoThrowButtonOn(); //  Включаем кнопку отмены броска
 
-                if (allMatchThrows.Count == 0) //  Если бросков для отмены больше нет
+                if (AllMatchThrows.Count == 0) //  Если бросков для отмены больше нет
                 {
                     infoPanelLogic.UndoThrowButtonOff(); //  Выключаем кнопку отмены броска
                 }

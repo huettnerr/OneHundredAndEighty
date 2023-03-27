@@ -86,7 +86,7 @@ namespace OneHundredAndEighty
                 var T = allMatchThrows.Pop();
                 Throws += 1;
                 Points += (int) T.Points;
-                if (T.WhoThrow == "Player1")
+                if (T.WhoThrowTag == "Player1")
                 {
                     Player1Throws += 1;
                     Player1Points += (int) T.Points;
@@ -100,7 +100,7 @@ namespace OneHundredAndEighty
                 if (T.IsFault)
                 {
                     FaultThrows += 1;
-                    if (T.WhoThrow == "Player1")
+                    if (T.WhoThrowTag == "Player1")
                     {
                         Player1FaultThrows += 1;
                     }
@@ -113,7 +113,7 @@ namespace OneHundredAndEighty
                 if (T.IsLegWon)
                 {
                     LegsPlayed += 1;
-                    if (T.WhoThrow == "Player1")
+                    if (T.WhoThrowTag == "Player1")
                     {
                         Player1LegsWon += 1;
                     }
@@ -126,7 +126,7 @@ namespace OneHundredAndEighty
                 if (T.IsSetWon)
                 {
                     SetsPlayed += 1;
-                    if (T.WhoThrow == "Player1")
+                    if (T.WhoThrowTag == "Player1")
                     {
                         Player1SetsWon += 1;
                     }
@@ -140,7 +140,7 @@ namespace OneHundredAndEighty
                 {
                     case "Zero":
                         ZeroThrows += 1;
-                        if (T.WhoThrow == "Player1")
+                        if (T.WhoThrowTag == "Player1")
                         {
                             Player1ZeroThrows += 1;
                         }
@@ -152,7 +152,7 @@ namespace OneHundredAndEighty
                         break;
                     case "Single":
                         SingleThrows += 1;
-                        if (T.WhoThrow == "Player1")
+                        if (T.WhoThrowTag == "Player1")
                         {
                             Player1SingleThrows += 1;
                         }
@@ -164,7 +164,7 @@ namespace OneHundredAndEighty
                         break;
                     case "Double":
                         DoubleThrows += 1;
-                        if (T.WhoThrow == "Player1")
+                        if (T.WhoThrowTag == "Player1")
                         {
                             Player1DoubleThrows += 1;
                         }
@@ -176,7 +176,7 @@ namespace OneHundredAndEighty
                         break;
                     case "Tremble":
                         TrembleThrows += 1;
-                        if (T.WhoThrow == "Player1")
+                        if (T.WhoThrowTag == "Player1")
                         {
                             Player1TrembleThrows += 1;
                         }
@@ -188,7 +188,7 @@ namespace OneHundredAndEighty
                         break;
                     case "Bull_25":
                         _25Throws += 1;
-                        if (T.WhoThrow == "Player1")
+                        if (T.WhoThrowTag == "Player1")
                         {
                             Player1_25Throws += 1;
                         }
@@ -200,7 +200,7 @@ namespace OneHundredAndEighty
                         break;
                     case "Bull_Eye":
                         BulleyeThrows += 1;
-                        if (T.WhoThrow == "Player1")
+                        if (T.WhoThrowTag == "Player1")
                         {
                             Player1BulleyeThrows += 1;
                         }

@@ -11,14 +11,17 @@ namespace OneHundredAndEighty
     {
         private string Sector { get; } //  Сектор попадания
         public string Multiplier { get; } //  Мультипликатор
-        public int? Points { get; } //  Очки броска
+        public int? Points { get; set; } //  Очки броска
         public int PointsToGo { get; set; } //  Before Throw, for statistical reasons
         public bool IsFault { get; set; } //  Был ли бросок штрафным
         public bool IsLegWon { get; set; } //  Выигран ли броском лег
         public bool IsSetWon { get; set; } //  Выигран ли броском сет
         public bool IsMatchWon { get; set; } //  Выигран ли броском матч
         public int HandNumber { get; set; } //  Номер броска в подходе
-        public string WhoThrow { get; set; } //  Кто бросил 
+        public string WhoThrowTag { get; set; } //  Кто бросил 
+        public string WhoThrowName { get; set; } //  Кто бросил 
+
+        public Throw() { }
 
         public Throw(object o) //  Конструктор очередного броска
         {

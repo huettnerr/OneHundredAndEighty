@@ -95,8 +95,8 @@
             <Grid Grid.Column="1" x:Name="WhoThrowWidthElement"/>
             <Canvas Grid.ColumnSpan="2">
                 <Grid x:Name="WhoThrowSlider" Tag="Player1" Canvas.Right="0"> 
-                    <Rectangle Grid.Column="2" Stroke="Transparent" HorizontalAlignment="Right" VerticalAlignment="Stretch" Fill="{StaticResource MainGradientBrush}"
-                               Width="{Binding ActualWidth,ElementName=WhoThrowWidthElement}" MaxWidth="{Binding Width, ElementName=SpacingRight}"
+                    <Rectangle Grid.Column="2" Stroke="Transparent" HorizontalAlignment="Right" VerticalAlignment="Stretch" Fill="{StaticResource MainGradientBrush}" x:Name="sdfdafdsf"
+                               Width="{Binding ActualWidth,ElementName=WhoThrowWidthElement}" MaxWidth="{Binding ActualWidth, ElementName=SpacingRight}"
                                Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Canvas}}}">
                     </Rectangle>
                     <Viewbox MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">

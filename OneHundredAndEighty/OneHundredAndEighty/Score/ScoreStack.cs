@@ -29,7 +29,7 @@ namespace OneHundredAndEighty.Score
             Stats = new ScoreStatistics();
         }
 
-        public void AddThrow(Throw t, Player p, EventHandler<WhiteboardScore> callback)
+        public void AddThrow(Throw t, Player p, EventHandler<WhiteboardScore?> callback)
         {
             throws.Push(t);
             Stats.UpdatePlayerStatistics(throws);
@@ -46,11 +46,11 @@ namespace OneHundredAndEighty.Score
                 WhiteboardScore wbs;
                 if (t.IsFault)
                 {
-                    wbs = new WhiteboardScore(0, p.pointsToOut, 3 * WhiteboardScores.Count, turnThrows);
+                    wbs = new WhiteboardScore(0, p.pointsToOut, 3 * WhiteboardScores.Count, turnThrows, false);
                 }
                 else
                 {
-                    wbs = new WhiteboardScore(p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count - p.ThrowsLeft, turnThrows);
+                    wbs = new WhiteboardScore(p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count - p.ThrowsLeft, turnThrows, t.IsLegWon);
                 }
 
                 WhiteboardScores.Add(wbs);
@@ -59,7 +59,7 @@ namespace OneHundredAndEighty.Score
         }
 
         //Returns true if an old whiteboard was restored
-        public bool UndoThrow(EventHandler<WhiteboardScore> callback)
+        public bool UndoThrow(EventHandler<WhiteboardScore?> callback)
         {
             Throw t = throws.Pop();
             Stats.UpdatePlayerStatistics(throws);
@@ -69,20 +69,20 @@ namespace OneHundredAndEighty.Score
                 if(WhiteboardScores.Count > 1) 
                 {
                     WhiteboardScores.Remove(WhiteboardScores.Last());
-                    callback?.Invoke(this, WhiteboardScores.Last());
+                    callback?.Invoke(this, null);
                 }
                 else if(oldWhiteboards.Count > 0)
                 {
                     RestoreWhiteboard(null);
                     WhiteboardScores.Remove(WhiteboardScores.Last());
-                    callback?.Invoke(this, WhiteboardScores.Last());
+                    callback?.Invoke(this, null);
                     return true;
                 }
             }
             return false;
         }
 
-        public void RestoreWhiteboard(EventHandler<WhiteboardScore> callback)
+        public void RestoreWhiteboard(EventHandler<WhiteboardScore?> callback)
         {
             WhiteboardScores.Clear();
             var prevWB = oldWhiteboards.Pop();
@@ -91,7 +91,7 @@ namespace OneHundredAndEighty.Score
             {
                 WhiteboardScores.Add(wbs);
             }
-            callback?.Invoke(this, WhiteboardScores.Last());
+            callback?.Invoke(this, null);
         }
 
         public void ClearWhiteboard(int pointsToGo)
@@ -99,7 +99,7 @@ namespace OneHundredAndEighty.Score
             oldWhiteboards.Push(new ObservableCollection<WhiteboardScore>(WhiteboardScores));
 
             WhiteboardScores.Clear();
-            WhiteboardScores.Add(new WhiteboardScore(0, pointsToGo, 0, new List<Throw>()));
+            WhiteboardScores.Add(new WhiteboardScore(0, pointsToGo, 0, new List<Throw>(), false));
         }
 
         private bool getThrowsOfLastTurn(out List<Throw> result)

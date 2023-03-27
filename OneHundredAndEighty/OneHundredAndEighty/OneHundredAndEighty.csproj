@@ -103,6 +103,7 @@
     <Compile Include="Classes\DBwork.cs" />
     <Compile Include="Classes\NewAchieve.cs" />
     <Compile Include="Classes\NewPlayer.cs" />
+    <Compile Include="Classes\ObservableStack.cs" />
     <Compile Include="Classes\PlayerOverview.cs" />
     <Compile Include="Classes\SavePoint.cs" />
     <Compile Include="Classes\SettingsPanelLogic.cs" />

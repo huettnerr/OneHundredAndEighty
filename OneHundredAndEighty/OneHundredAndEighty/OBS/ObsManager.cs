@@ -111,6 +111,70 @@ namespace OneHundredAndEighty.OBS
 
         #endregion
 
+        #region OBS Functions 
+
+        public static bool ChangeScene(string scene)
+        {
+            if (!isConnected || viewChangeBlocked) return false;
+
+            obs.SetCurrentProgramScene(scene);
+
+            return true;
+        }
+
+        private static bool triggerHotkey(Tuple<KeyModifier, OBSHotkey> Combination)
+        {
+            if (!isConnected || viewChangeBlocked) return false;
+
+            obs.TriggerHotkeyByKeySequence(Combination.Item2, Combination.Item1);
+
+            return true;
+        }
+
+        private static List<int> getActiveSceneViewItemIds(string scene)
+        {
+            if (!isConnected || viewChangeBlocked) return null;
+
+            List<int> activeIds = new List<int>();
+            var sources = new List<SceneItemDetails>();
+            sources.AddRange(obs.GetSceneItemList(scene));
+
+            foreach (var source in sources)
+            {
+                if (obs.GetSceneItemEnabled(scene, source.ItemId))
+                {
+                    activeIds.Add(source.ItemId);
+                }
+            }
+
+            return activeIds;
+        }
+
+        private static bool disableAllSceneItems(string scene)
+        {
+            if (!isConnected || viewChangeBlocked) return false;
+
+            List<int> activeViews = getActiveSceneViewItemIds(scene);
+            foreach (int viewId in activeViews)
+            {
+                obs.SetSceneItemEnabled(scene, viewId, false);
+            }
+
+            return true;
+        }
+
+        private static bool enableSceneItem(string scene, string itemName)
+        {
+            if (!isConnected || viewChangeBlocked) return false;
+
+            int itemId = obs.GetSceneItemId(scene, itemName, 0);
+            obs.SetSceneItemEnabled(scene, itemId, true);
+
+            return true;
+        }
+
+        #endregion
+
         #region Boardview
 
         public static void NormalBoardView()
@@ -123,16 +187,14 @@ namespace OneHundredAndEighty.OBS
 
         public static void ChangeBoardView(string boardViewCode)
         {
-            if (!isConnected || viewChangeBlocked) return;
-
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
             //deactivate all current actives
-            disableAllSceneItems(BOARDVIEW_SELECTOR_SCENE);
+            if(!disableAllSceneItems(BOARDVIEW_SELECTOR_SCENE)) return;
 
             //activate the requested view
-            enableSceneItem(BOARDVIEW_SELECTOR_SCENE, $"S_Board{boardViewCode}");
+            if(!enableSceneItem(BOARDVIEW_SELECTOR_SCENE, $"S_Board{boardViewCode}")) return;
             currentView = boardViewCode;
 
             sw.Stop();
@@ -141,18 +203,11 @@ namespace OneHundredAndEighty.OBS
 
         #endregion
 
-        public static void ChangeScene(string scene)
-        {
-            if (!isConnected || viewChangeBlocked) return;
-
-            obs.SetCurrentProgramScene(scene);
-        }
-
         public static void GameShot(ObsReplaySource replaySource)
         {
             blockViewChange(3000, "Normal");
 
-            disableAllSceneItems(REPLAY_SELECTOR_SCENE);
+            if(!disableAllSceneItems(REPLAY_SELECTOR_SCENE)) return;
             switch(replaySource)
             {
                 case ObsReplaySource.Player:
@@ -173,44 +228,7 @@ namespace OneHundredAndEighty.OBS
             }
 
             Task.Delay(100).Wait();
-            obs.SetCurrentProgramScene(SCENENAME_REPLAY);
-        }
-
-        private static void triggerHotkey(Tuple<KeyModifier, OBSHotkey> Combination)
-        {
-            obs.TriggerHotkeyByKeySequence(Combination.Item2, Combination.Item1);
-        }
-
-        private static void disableAllSceneItems(string scene)
-        {
-            List<int> activeViews = getActiveSceneViewItemIds(scene);
-            foreach (int viewId in activeViews)
-            {
-                obs.SetSceneItemEnabled(scene, viewId, false);
-            }
-        }
-
-        private static void enableSceneItem(string scene, string itemName)
-        {
-            int itemId = obs.GetSceneItemId(scene, itemName, 0);
-            obs.SetSceneItemEnabled(scene, itemId, true);
-        }
-
-        private static List<int> getActiveSceneViewItemIds(string scene)
-        {
-            List<int> activeIds = new List<int>();
-            var sources = new List<SceneItemDetails>();
-            sources.AddRange(obs.GetSceneItemList(scene));
-
-            foreach (var source in sources)
-            {
-                if (obs.GetSceneItemEnabled(scene, source.ItemId))
-                {
-                    activeIds.Add(source.ItemId);
-                }
-            }
-
-            return activeIds;
+            ChangeScene(SCENENAME_REPLAY);
         }
 
         private static void blockViewChange(int msDelay, string boardViewCodeAfterBlock = "", string sceneAfterBlock = "")

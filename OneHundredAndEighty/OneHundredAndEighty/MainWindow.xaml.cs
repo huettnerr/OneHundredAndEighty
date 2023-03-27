@@ -17,8 +17,8 @@ namespace OneHundredAndEighty
     {
         public MainWindow()
         {
-            ((App)Application.Current).Game = new Game();
             InitializeComponent();
+            ((App)Application.Current).Game = new Game();
             DBwork.LoadPlayers();
             DBwork.LoadSettings();
         }

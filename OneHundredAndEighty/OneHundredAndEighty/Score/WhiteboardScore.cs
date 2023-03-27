@@ -12,17 +12,19 @@ namespace OneHundredAndEighty.Score
         public int PointsToGo { get; set; }
         public int LegDartCount { get; set; }
         public List<Throw> Throws { get; set; }
+        public bool IsGameShot { get; set; }
         public string ThrowsString
         {
             get => String.Join("|", Throws);
         }
 
-        public WhiteboardScore(int pointsThrown, int pointsToGo, int dartCount, List<Throw> throws)
+        public WhiteboardScore(int pointsThrown, int pointsToGo, int dartCount, List<Throw> throws, bool isGameShot)
         {
             PointsThrown = pointsThrown;
             PointsToGo = pointsToGo;
             LegDartCount = dartCount;
             Throws = throws;
+            IsGameShot = isGameShot;
         }
     }
 }

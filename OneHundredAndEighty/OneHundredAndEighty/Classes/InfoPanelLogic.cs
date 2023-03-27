@@ -19,6 +19,7 @@ namespace OneHundredAndEighty
         //private readonly MainWindow mainWindow = (MainWindow)Application.Current.MainWindow; //  Ссылка на главное окно для доступа к элементам
         public InfoControl InfoControl { get => ((MainWindow)Application.Current.MainWindow).InfoControl; }
 
+
         private readonly TimeSpan panelFadeTime = TimeSpan.FromSeconds(0.5); //  Время анимации фейда панели
 
         public void PanelShow()

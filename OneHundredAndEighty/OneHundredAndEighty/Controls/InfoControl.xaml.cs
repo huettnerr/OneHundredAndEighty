@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OneHundredAndEighty.Score;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,28 @@ namespace OneHundredAndEighty.Controls
         public InfoControl()
         {
             InitializeComponent();
+            this.Loaded += (s, e) =>
+            {
+                this.DataContext = ((App)Application.Current).Game;
+                ((App)Application.Current).ScoreVM.ScoresChanged += LastScoreChangedEventHandler;
+            };
+        }
+
+        private void LastScoreChangedEventHandler(object sender, WhiteboardScore? ws)
+        {
+            LastTurnPointsLabel.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if(!ws?.IsGameShot ?? true)
+                {
+                    LastTurnPointsLabel.Content = ws?.PointsThrown.ToString() ?? "Score";
+                }
+                else
+                {
+                    LastTurnPointsLabel.Content = "Game Shot!";
+
+                }
+
+            }));
         }
 
         private void EndMatchButton_Click(object sender, RoutedEventArgs e) //  Кнопка отмены матча

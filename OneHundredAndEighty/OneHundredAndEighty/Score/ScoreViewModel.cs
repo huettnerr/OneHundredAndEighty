@@ -22,7 +22,7 @@ namespace OneHundredAndEighty.Score
         public ScoreControl ScoreControl { get; private set; }
         private Window scoreWindow;
 
-        public EventHandler<WhiteboardScore> ScoresChanged;
+        public EventHandler<WhiteboardScore?> ScoresChanged;
 
         public ViewProperty<bool> IsSetMode { get; set; }
         public ViewProperty<string> BeginningPlayer { get; set; }

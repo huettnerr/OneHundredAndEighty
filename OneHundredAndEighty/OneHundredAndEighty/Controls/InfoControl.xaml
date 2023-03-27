@@ -4,17 +4,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OneHundredAndEighty.Controls"
-             xmlns:Score="clr-namespace:OneHundredAndEighty.Score"
+             xmlns:Main="clr-namespace:OneHundredAndEighty"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
-    <Grid x:Name="InfoPanel" Visibility="Hidden">
+    <UserControl.Resources>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5" x:Key="ThrowsListBackground">
+            <GradientStop Color="#FF616161" />
+            <GradientStop Color="#FF272727" Offset="1" />
+        </LinearGradientBrush>
+
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource DisplayDataGrid}" x:Key="ThrowsDataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="GridLinesVisibility" Value="None" />               
+            <Setter Property="Foreground" Value="Wheat" />           
+        </Style>
+
+        <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="ThrowsDataGridColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="ExtraBlack"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <Style TargetType="{x:Type DataGridCell}" x:Key="ThrowsDataGridCell">
+            <Setter Property="Background" Value="Transparent" />
+            <!--<Setter Property="Foreground" Value="Wheat" />-->
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="InfoPanel" Visibility="Visible">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="TextLog" TextWrapping="Wrap" Grid.Row="0" BorderBrush="Black" FontFamily="Agency FB" FontSize="20" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" AllowDrop="False" IsHitTestVisible="True" SelectionBrush="#FF51FF00" Focusable="False">
+        <TextBox Visibility="Collapsed" x:Name="TextLog" TextWrapping="Wrap" Grid.Row="0" BorderBrush="Black" FontFamily="Agency FB" FontSize="20" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" AllowDrop="False" IsHitTestVisible="True" SelectionBrush="#FF51FF00" Focusable="False">
             <TextBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF272727" Offset="1" />
@@ -28,16 +62,59 @@
                 </LinearGradientBrush>
             </TextBox.Foreground>
         </TextBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button x:Name="EndMatchButton" Margin="4"
-                                Content="End match"
-                                Width="59"
-                                Height="31"
-                                BorderBrush="Black"
-                                FontFamily="Agency FB"
-                                FontWeight="Bold"
-                                FontSize="14"
-                                Click="EndMatchButton_Click" Cursor="Hand">
+
+        <Grid Grid.Row="0"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label HorizontalContentAlignment="Center" Content="- Last Throws -" FontSize="16" Foreground="DarkBlue"/>
+            <Border Grid.Row="1" Background="{StaticResource ThrowsListBackground}" BorderBrush="Black" BorderThickness="2" Margin="5" Padding="10">
+                <DataGrid x:Name="AllThrowsDataGrid" ItemsSource="{Binding AllMatchThrows}" Style="{StaticResource ThrowsDataGrid}" ColumnHeaderStyle="{StaticResource ThrowsDataGridColumnHeader}" CellStyle="{StaticResource ThrowsDataGridCell}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Spieler" Binding="{Binding WhoThrowName}" Width="3*"/>
+                        <DataGridTextColumn Header="#" Binding="{Binding HandNumber}" Width="1*"/>
+                        <DataGridTextColumn Header="Wurf" Binding="{Binding .}" Width="2*"/>
+                        <DataGridTemplateColumn IsReadOnly="True" Header="GS?" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="✓">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Hidden"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsLegWon}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+
+        <GridSplitter Grid.Row="1" Height="1" Background="Black" Opacity="0.2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+        <Grid Grid.Row="2"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label HorizontalContentAlignment="Center" Content="- Last Score -" FontSize="16" Foreground="DarkBlue"/>
+            <Border Grid.Row="1" Background="{StaticResource ThrowsListBackground}" BorderBrush="Black" BorderThickness="2" Margin="5" Padding="10">
+                <Viewbox>
+                    <Label x:Name="LastTurnPointsLabel" Content="Score" FontWeight="Bold" Foreground="Wheat"/>
+                </Viewbox>
+            </Border>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
+            <Button x:Name="EndMatchButton" Margin="4" Content="End match" Width="59" Height="31" BorderBrush="Black" FontFamily="Agency FB" FontWeight="Bold" FontSize="14" Click="EndMatchButton_Click" Cursor="Hand">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF890808" Offset="1" />
@@ -45,16 +122,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button x:Name="UndoThrow" Margin="4"
-                                Content="&lt;&lt; Undo throw "
-                                Width="59"
-                                Height="31"
-                                BorderBrush="Black"
-                                FontFamily="Agency FB"
-                                FontWeight="Bold"
-                                FontSize="11"
-                                Click="UndoThrow_Click"
-                                IsEnabled="False" Cursor="Hand">
+            <Button x:Name="UndoThrow" Margin="4" Content="&lt;&lt; Undo throw " Width="59" Height="31" BorderBrush="Black" FontFamily="Agency FB" FontWeight="Bold" FontSize="11" Click="UndoThrow_Click" IsEnabled="False" Cursor="Hand">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF083D89" Offset="1" />
@@ -63,7 +131,5 @@
                 </Button.Background>
             </Button>
         </StackPanel>
-        <!--<GridSplitter Grid.Row="2" Width="1" Background="Black" Opacity="0.2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>-->
-        <!--<Score:ScoreControl x:Name="ScoreControl" Grid.Row="3" MaxHeight="100"/>-->
     </Grid>
 </UserControl>
