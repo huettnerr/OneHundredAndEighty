@@ -6,6 +6,7 @@ using OneHundredAndEighty.Controls;
 using OneHundredAndEighty.OBS;
 using OneHundredAndEighty.Score;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 
@@ -28,6 +29,7 @@ namespace OneHundredAndEighty
         private Player playerOnLeg; //  Кто начинает лег
         public ObservableStack<Throw> AllMatchThrows { get; } = new ObservableStack<Throw>(); //  Коллекция бросков матча
         private readonly Stack<SavePoint> savePoints = new Stack<SavePoint>(); //  Коллекция точек сохранения игры
+        private readonly string backupFilePath = @"log\backup.txt";
         private int pointsToGo; //  Очков в леге
         private int legsToGo; //  Легов в сете
         private int setsToGo; //  Сетов в матче
@@ -180,6 +182,8 @@ namespace OneHundredAndEighty
                 {
                     ObsManager.GameShot(ObsReplaySource.Player);
                 }
+
+                WriteBackup();
                 return;
             }
 
@@ -200,11 +204,24 @@ namespace OneHundredAndEighty
             {
                 scoreVM.HelpCheck(playerOnThrow); //  Проверяем помощь
             }
+
+            WriteBackup();
         }
 
         private void SavePoint()
         {
             savePoints.Push(new SavePoint(player1, player2, playerOnThrow, playerOnLeg));
+        }
+
+        private void WriteBackup()
+        {
+            if(!Directory.Exists(Path.GetDirectoryName(backupFilePath))) Directory.CreateDirectory(Path.GetDirectoryName(backupFilePath));
+            //if(!File.Exists(backupFilePath)) File.Create(backupFilePath, );
+
+            using(StreamWriter sw = new StreamWriter(backupFilePath, false))
+            {
+                sw.WriteLine($"{player1.Name} S{player1.setsWon} L{player1.legsWon} {player1.pointsToOut} - {player2.pointsToOut} L{player2.legsWon} S{player2.setsWon} {player2.Name} ({playerOnThrow.Name} on throw)");
+            }
         }
 
         private void calculatePoints(ref Player p, ref Throw t)
@@ -308,6 +325,8 @@ namespace OneHundredAndEighty
                 {
                     infoPanelLogic.UndoThrowButtonOff(); //  Выключаем кнопку отмены броска
                 }
+
+                WriteBackup();
             }
         }
 
