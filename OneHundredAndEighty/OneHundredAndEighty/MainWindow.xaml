@@ -7,7 +7,7 @@
         xmlns:Score="clr-namespace:OneHundredAndEighty.Score"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Height="856"
+        Height="1000"
         Width="1200"
         Title="OneHundredAndEighty"
         Closing="MainWindow_Closing"
@@ -68,9 +68,9 @@
                  Cursor="Hand">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

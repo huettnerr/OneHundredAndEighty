@@ -36,25 +36,6 @@ namespace OneHundredAndEighty
             InfoControl.InfoPanel.Visibility = Visibility.Hidden;
         } //  Показать инфо-панель
 
-        public void TextLogAdd(string s) //  Новая строка в текстовую панель
-        {
-            InfoControl.TextLog.Text += new StringBuilder().Append(s).Append("\n").ToString();
-            InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
-        }
-
-        public void TextLogUndo() // Удаление последный строки в текстовой панели
-        {
-            InfoControl.TextLog.Text = InfoControl.TextLog.Text.Remove(InfoControl.TextLog.Text.LastIndexOf("\n"));
-            InfoControl.TextLog.Text = InfoControl.TextLog.Text.Remove(InfoControl.TextLog.Text.LastIndexOf("\n"));
-            InfoControl.TextLog.AppendText("\n");
-            InfoControl.TextLog.ScrollToEnd(); //  Прокручиваем вниз
-        }
-
-        public void TextLogClear() //  Очищаем текстовую панель текстовую панель
-        {
-            InfoControl.TextLog.Clear();
-        }
-
         public void UndoThrowButtonOn() //  Разблокируем кнопку отмены броска
         {
             InfoControl.UndoThrow.IsEnabled = true;

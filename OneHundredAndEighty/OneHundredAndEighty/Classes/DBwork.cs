@@ -159,7 +159,7 @@ namespace OneHundredAndEighty
                 CheckAndUpdateBestHand(game.Player1Id, game.AveragePlayer1Points * 3);
                 CheckAndUpdateBestHand(game.Player2Id, game.AveragePlayer2Points * 3);
                 //  Матч    //  Сохраняем матч в БД 
-                var savematch = new SqlCommand("INSERT INTO Games VALUES (@Player1ID,@Player1Name,@Player2ID,@Player2Name,@Datetime,@WinnerID,@WinnerName,@LooserID,@LooserName,@SetsPlayed,@Player1SetsWon,@Player2SetsWon,@LegsPlayed,@Player1LegsWon,@Player2LegsWon,@Throws,@Player1Throws,@Player2Throws,@Points,@Player1Points,@Player2Points,@AvarageThrowPoints,@Player1AvaragePoints,@Player1AvarageHand,@Player2AvaragePoints,@Player2AvarageHand,@_180,@Player1180,@Player2180,@Trembles,@Player1Trembles,@Player2Trembles,@Bulleyes,@Player1Bulleyes,@Player2Bulleyes,@Doubles,@Player1Doubles,@Player2Doubles,@Singles,@Player1Singles,@Player2Singles,@_25,@Player125,@Player225,@Zeroes,@Player1Zeroes,@Player2Zeroes,@Faults,@Player1Faults,@Player2Faults,@Log)", connection);
+                var savematch = new SqlCommand("INSERT INTO Games VALUES (@Player1ID,@Player1Name,@Player2ID,@Player2Name,@Datetime,@WinnerID,@WinnerName,@LooserID,@LooserName,@SetsPlayed,@Player1SetsWon,@Player2SetsWon,@LegsPlayed,@Player1LegsWon,@Player2LegsWon,@Throws,@Player1Throws,@Player2Throws,@Points,@Player1Points,@Player2Points,@AvarageThrowPoints,@Player1AvaragePoints,@Player1AvarageHand,@Player2AvaragePoints,@Player2AvarageHand,@_180,@Player1180,@Player2180,@Trembles,@Player1Trembles,@Player2Trembles,@Bulleyes,@Player1Bulleyes,@Player2Bulleyes,@Doubles,@Player1Doubles,@Player2Doubles,@Singles,@Player1Singles,@Player2Singles,@_25,@Player125,@Player225,@Zeroes,@Player1Zeroes,@Player2Zeroes,@Faults,@Player1Faults,@Player2Faults)", connection);
                 savematch.Parameters.AddWithValue("@Player1ID", game.Player1Id);
                 savematch.Parameters.AddWithValue("@Player1Name", game.Player1Name);
                 savematch.Parameters.AddWithValue("@Player2ID", game.Player2Id);
@@ -210,7 +210,6 @@ namespace OneHundredAndEighty
                 savematch.Parameters.AddWithValue("@Faults", game.FaultThrows);
                 savematch.Parameters.AddWithValue("@Player1Faults", game.Player1FaultThrows);
                 savematch.Parameters.AddWithValue("@Player2Faults", game.Player2FaultThrows);
-                savematch.Parameters.AddWithValue("@Log", MainWindow.InfoControl.TextLog.Text);
                 savematch.ExecuteNonQuery();
                 //  Закрываем подключения
                 connection.Close();

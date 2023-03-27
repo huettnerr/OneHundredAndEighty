@@ -231,7 +231,7 @@ namespace OneHundredAndEighty.Score
 
         public void CloseScore()
         {
-            scoreWindow.Close();
+            scoreWindow?.Close();
         }
 
         public void CreateScoreControl()

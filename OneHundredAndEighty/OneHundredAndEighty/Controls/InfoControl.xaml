@@ -27,11 +27,12 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontWeight" Value="ExtraBlack"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderBrush" Value="Wheat"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
         </Style>
 
         <Style TargetType="{x:Type DataGridCell}" x:Key="ThrowsDataGridCell">
             <Setter Property="Background" Value="Transparent" />
-            <!--<Setter Property="Foreground" Value="Wheat" />-->
             <Setter Property="FontSize" Value="12" />
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
@@ -48,20 +49,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBox Visibility="Collapsed" x:Name="TextLog" TextWrapping="Wrap" Grid.Row="0" BorderBrush="Black" FontFamily="Agency FB" FontSize="20" AcceptsReturn="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False" AllowDrop="False" IsHitTestVisible="True" SelectionBrush="#FF51FF00" Focusable="False">
-            <TextBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF272727" Offset="1" />
-                    <GradientStop Color="#FF616161" />
-                </LinearGradientBrush>
-            </TextBox.Background>
-            <TextBox.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF17CB3F" Offset="0" />
-                    <GradientStop Color="#FF17FF00" Offset="1" />
-                </LinearGradientBrush>
-            </TextBox.Foreground>
-        </TextBox>
 
         <Grid Grid.Row="0"  >
             <Grid.RowDefinitions>
