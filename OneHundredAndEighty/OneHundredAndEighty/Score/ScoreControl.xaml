@@ -59,10 +59,11 @@
             </ColumnDefinition>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*" x:Name="SpacingRight"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Background="Transparent" x:Name="SpacingLeft"/>
+        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Background="Transparent" x:Name="SpacingLeft"/>
+        <Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="4" Background="Transparent" x:Name="SpacingRight"/>
         <Grid Grid.Row="1" Grid.Column="1">
             <Canvas MaxWidth="{Binding ActualWidth, ElementName=SpacingLeft}" Height="{Binding ActualHeight, ElementName=Player1Viewbox}" HorizontalAlignment="Left">
                 <Grid x:Name="Player1Help" Tag="OFF">
@@ -94,11 +95,10 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1" x:Name="WhoThrowWidthElement"/>
             <Canvas Grid.ColumnSpan="2">
-                <Grid x:Name="WhoThrowSlider" Tag="Player1" Canvas.Right="0"> 
+                <Grid x:Name="WhoThrowSlider" Tag="Player1" Canvas.Right="0">
                     <Rectangle Grid.Column="2" Stroke="Transparent" HorizontalAlignment="Right" VerticalAlignment="Stretch" Fill="{StaticResource MainGradientBrush}" x:Name="sdfdafdsf"
                                Width="{Binding ActualWidth,ElementName=WhoThrowWidthElement}" MaxWidth="{Binding ActualWidth, ElementName=SpacingRight}"
-                               Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Canvas}}}">
-                    </Rectangle>
+                               Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Canvas}}}"/>
                     <Viewbox MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
                         <Label Content="&lt;" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Agency FB" FontSize="20" Padding="5"/>
                     </Viewbox>
