@@ -19,14 +19,26 @@ namespace OneHundredAndEighty.Score
 
         public ScoreStatistics Stats { get; private set; }
 
-        public ScoreStack(Player p)
+        public ScoreStack()
         {
             throws = new Stack<Throw>();
             oldWhiteboards = new Stack<ObservableCollection<WhiteboardScore>>();
-
-            PlayerTag = p?.Tag ?? "";
             WhiteboardScores = new ObservableCollection<WhiteboardScore>();
             Stats = new ScoreStatistics();
+        }
+
+        public void Init(Player p)
+        {
+            PlayerTag = p?.Tag ?? "";
+            Reset();
+        }
+
+        public void Reset() 
+        {
+            throws.Clear();
+            WhiteboardScores.Clear();
+            oldWhiteboards.Clear();
+            Stats.Clear();
         }
 
         public void AddThrow(Throw t, Player p, EventHandler<WhiteboardScore?> callback)

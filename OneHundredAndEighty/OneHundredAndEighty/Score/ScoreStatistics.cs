@@ -16,6 +16,11 @@ namespace OneHundredAndEighty.Score
             Avg = new ViewProperty<double>();
         }
 
+        public void Clear()
+        {
+            Avg.Val = 0;
+        }
+
         public void UpdatePlayerStatistics(Stack<Throw> throws)
         {
             if (throws.Count == 0) return;

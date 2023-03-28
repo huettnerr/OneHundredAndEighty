@@ -80,6 +80,9 @@ namespace OneHundredAndEighty.Score
             P2Legs = new ViewProperty<int>();
             P2Points = new ViewProperty<int>();
             P2Help = new ViewProperty<string>();
+
+            P1Throws = new ScoreStack();
+            P2Throws = new ScoreStack();
         }
 
         public void NewGame(int points, int legs, int sets, Player p1, Player p2, Player first)
@@ -98,8 +101,8 @@ namespace OneHundredAndEighty.Score
                 Summary.Val = $"First to {legs} legs";
             }
 
-            P1Throws = new ScoreStack(p1);
-            P2Throws = new ScoreStack(p2);
+            P1Throws.Init(p1);
+            P2Throws.Init(p2);
 
             P1Name.Val = p1.Name;
             P2Name.Val = p2.Name;

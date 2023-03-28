@@ -128,14 +128,14 @@ namespace OneHundredAndEighty
                 UpdateRow("Players", game.Player1Id, "LegsWon", game.Player1LegsWon, connection);
                 UpdateRow("Players", game.Player1Id, "Throws", game.Player1Throws, connection);
                 UpdateRow("Players", game.Player1Id, "Points", game.Player1Points, connection);
-                UpdateRow("Players", game.Player1Id, "_180", game.Player1_180, connection);
-                UpdateRow("Players", game.Player1Id, "Trembles", game.Player1TrembleThrows, connection);
-                UpdateRow("Players", game.Player1Id, "Bulleyes", game.Player1BulleyeThrows, connection);
-                UpdateRow("Players", game.Player1Id, "Doubles", game.Player1DoubleThrows, connection);
-                UpdateRow("Players", game.Player1Id, "Singles", game.Player1SingleThrows, connection);
-                UpdateRow("Players", game.Player1Id, "_25", game.Player1_25Throws, connection);
-                UpdateRow("Players", game.Player1Id, "Zeroes", game.Player1ZeroThrows, connection);
-                UpdateRow("Players", game.Player1Id, "Faults", game.Player1FaultThrows, connection);
+                //UpdateRow("Players", game.Player1Id, "_180", game.Player1_180, connection);
+                //UpdateRow("Players", game.Player1Id, "Trembles", game.Player1TrembleThrows, connection);
+                //UpdateRow("Players", game.Player1Id, "Bulleyes", game.Player1BulleyeThrows, connection);
+                //UpdateRow("Players", game.Player1Id, "Doubles", game.Player1DoubleThrows, connection);
+                //UpdateRow("Players", game.Player1Id, "Singles", game.Player1SingleThrows, connection);
+                //UpdateRow("Players", game.Player1Id, "_25", game.Player1_25Throws, connection);
+                //UpdateRow("Players", game.Player1Id, "Zeroes", game.Player1ZeroThrows, connection);
+                //UpdateRow("Players", game.Player1Id, "Faults", game.Player1FaultThrows, connection);
                 //  Игрок 2
                 //  Обновляем данные игрока в БД
                 UpdateRow("Players", game.Player2Id, "GamesPlayed", 1, connection);
@@ -145,21 +145,21 @@ namespace OneHundredAndEighty
                 UpdateRow("Players", game.Player2Id, "LegsWon", game.Player2LegsWon, connection);
                 UpdateRow("Players", game.Player2Id, "Throws", game.Player2Throws, connection);
                 UpdateRow("Players", game.Player2Id, "Points", game.Player2Points, connection);
-                UpdateRow("Players", game.Player2Id, "_180", game.Player2_180, connection);
-                UpdateRow("Players", game.Player2Id, "Trembles", game.Player2TrembleThrows, connection);
-                UpdateRow("Players", game.Player2Id, "Bulleyes", game.Player2BulleyeThrows, connection);
-                UpdateRow("Players", game.Player2Id, "Doubles", game.Player2DoubleThrows, connection);
-                UpdateRow("Players", game.Player2Id, "Singles", game.Player2SingleThrows, connection);
-                UpdateRow("Players", game.Player2Id, "_25", game.Player2_25Throws, connection);
-                UpdateRow("Players", game.Player2Id, "Zeroes", game.Player2ZeroThrows, connection);
-                UpdateRow("Players", game.Player2Id, "Faults", game.Player2FaultThrows, connection);
+                //UpdateRow("Players", game.Player2Id, "_180", game.Player2_180, connection);
+                //UpdateRow("Players", game.Player2Id, "Trembles", game.Player2TrembleThrows, connection);
+                //UpdateRow("Players", game.Player2Id, "Bulleyes", game.Player2BulleyeThrows, connection);
+                //UpdateRow("Players", game.Player2Id, "Doubles", game.Player2DoubleThrows, connection);
+                //UpdateRow("Players", game.Player2Id, "Singles", game.Player2SingleThrows, connection);
+                //UpdateRow("Players", game.Player2Id, "_25", game.Player2_25Throws, connection);
+                //UpdateRow("Players", game.Player2Id, "Zeroes", game.Player2ZeroThrows, connection);
+                //UpdateRow("Players", game.Player2Id, "Faults", game.Player2FaultThrows, connection);
                 //  Среднее игроков
                 UpdatePlayersAverages(game.Player1Id, game.Player2Id, connection); //  Вычисляем и обновляем Avarages игроков
                 //  Проверяем лучший средний набор и обновляем если нужно
                 CheckAndUpdateBestHand(game.Player1Id, game.AveragePlayer1Points * 3);
                 CheckAndUpdateBestHand(game.Player2Id, game.AveragePlayer2Points * 3);
                 //  Матч    //  Сохраняем матч в БД 
-                var savematch = new SqlCommand("INSERT INTO Games VALUES (@Player1ID,@Player1Name,@Player2ID,@Player2Name,@Datetime,@WinnerID,@WinnerName,@LooserID,@LooserName,@SetsPlayed,@Player1SetsWon,@Player2SetsWon,@LegsPlayed,@Player1LegsWon,@Player2LegsWon,@Throws,@Player1Throws,@Player2Throws,@Points,@Player1Points,@Player2Points,@AvarageThrowPoints,@Player1AvaragePoints,@Player1AvarageHand,@Player2AvaragePoints,@Player2AvarageHand,@_180,@Player1180,@Player2180,@Trembles,@Player1Trembles,@Player2Trembles,@Bulleyes,@Player1Bulleyes,@Player2Bulleyes,@Doubles,@Player1Doubles,@Player2Doubles,@Singles,@Player1Singles,@Player2Singles,@_25,@Player125,@Player225,@Zeroes,@Player1Zeroes,@Player2Zeroes,@Faults,@Player1Faults,@Player2Faults)", connection);
+                var savematch = new SqlCommand("INSERT INTO Games VALUES (@Player1ID,@Player1Name,@Player2ID,@Player2Name,@Datetime,@WinnerID,@WinnerName,@LooserID,@LooserName,@SetsPlayed,@Player1SetsWon,@Player2SetsWon,@LegsPlayed,@Player1LegsWon,@Player2LegsWon,@Throws,@Player1Throws,@Player2Throws,@Points,@Player1Points,@Player2Points,@AvarageThrowPoints,@Player1AvaragePoints,@Player1AvarageHand,@Player2AvaragePoints,@Player2AvarageHand)", connection);
                 savematch.Parameters.AddWithValue("@Player1ID", game.Player1Id);
                 savematch.Parameters.AddWithValue("@Player1Name", game.Player1Name);
                 savematch.Parameters.AddWithValue("@Player2ID", game.Player2Id);
@@ -186,30 +186,30 @@ namespace OneHundredAndEighty
                 savematch.Parameters.AddWithValue("@Player1AvarageHand", game.AveragePlayer1Points * 3);
                 savematch.Parameters.AddWithValue("@Player2AvaragePoints", game.AveragePlayer2Points);
                 savematch.Parameters.AddWithValue("@Player2AvarageHand", game.AveragePlayer2Points * 3);
-                savematch.Parameters.AddWithValue("@_180", game._180);
-                savematch.Parameters.AddWithValue("@Player1180", game.Player1_180);
-                savematch.Parameters.AddWithValue("@Player2180", game.Player2_180);
-                savematch.Parameters.AddWithValue("@Trembles", game.TrembleThrows);
-                savematch.Parameters.AddWithValue("@Player1Trembles", game.Player1TrembleThrows);
-                savematch.Parameters.AddWithValue("@Player2Trembles", game.Player2TrembleThrows);
-                savematch.Parameters.AddWithValue("@Bulleyes", game.BulleyeThrows);
-                savematch.Parameters.AddWithValue("@Player1Bulleyes", game.Player1BulleyeThrows);
-                savematch.Parameters.AddWithValue("@Player2Bulleyes", game.Player2BulleyeThrows);
-                savematch.Parameters.AddWithValue("@Doubles", game.DoubleThrows);
-                savematch.Parameters.AddWithValue("@Player1Doubles", game.Player1DoubleThrows);
-                savematch.Parameters.AddWithValue("@Player2Doubles", game.Player2DoubleThrows);
-                savematch.Parameters.AddWithValue("@Singles", game.SingleThrows);
-                savematch.Parameters.AddWithValue("@Player1Singles", game.Player1SingleThrows);
-                savematch.Parameters.AddWithValue("@Player2Singles", game.Player2SingleThrows);
-                savematch.Parameters.AddWithValue("@_25", game._25Throws);
-                savematch.Parameters.AddWithValue("@Player125", game.Player1_25Throws);
-                savematch.Parameters.AddWithValue("@Player225", game.Player2_25Throws);
-                savematch.Parameters.AddWithValue("@Zeroes", game.ZeroThrows);
-                savematch.Parameters.AddWithValue("@Player1Zeroes", game.Player1ZeroThrows);
-                savematch.Parameters.AddWithValue("@Player2Zeroes", game.Player2ZeroThrows);
-                savematch.Parameters.AddWithValue("@Faults", game.FaultThrows);
-                savematch.Parameters.AddWithValue("@Player1Faults", game.Player1FaultThrows);
-                savematch.Parameters.AddWithValue("@Player2Faults", game.Player2FaultThrows);
+                //savematch.Parameters.AddWithValue("@_180", game._180);
+                //savematch.Parameters.AddWithValue("@Player1180", game.Player1_180);
+                //savematch.Parameters.AddWithValue("@Player2180", game.Player2_180);
+                //savematch.Parameters.AddWithValue("@Trembles", game.TrembleThrows);
+                //savematch.Parameters.AddWithValue("@Player1Trembles", game.Player1TrembleThrows);
+                //savematch.Parameters.AddWithValue("@Player2Trembles", game.Player2TrembleThrows);
+                //savematch.Parameters.AddWithValue("@Bulleyes", game.BulleyeThrows);
+                //savematch.Parameters.AddWithValue("@Player1Bulleyes", game.Player1BulleyeThrows);
+                //savematch.Parameters.AddWithValue("@Player2Bulleyes", game.Player2BulleyeThrows);
+                //savematch.Parameters.AddWithValue("@Doubles", game.DoubleThrows);
+                //savematch.Parameters.AddWithValue("@Player1Doubles", game.Player1DoubleThrows);
+                //savematch.Parameters.AddWithValue("@Player2Doubles", game.Player2DoubleThrows);
+                //savematch.Parameters.AddWithValue("@Singles", game.SingleThrows);
+                //savematch.Parameters.AddWithValue("@Player1Singles", game.Player1SingleThrows);
+                //savematch.Parameters.AddWithValue("@Player2Singles", game.Player2SingleThrows);
+                //savematch.Parameters.AddWithValue("@_25", game._25Throws);
+                //savematch.Parameters.AddWithValue("@Player125", game.Player1_25Throws);
+                //savematch.Parameters.AddWithValue("@Player225", game.Player2_25Throws);
+                //savematch.Parameters.AddWithValue("@Zeroes", game.ZeroThrows);
+                //savematch.Parameters.AddWithValue("@Player1Zeroes", game.Player1ZeroThrows);
+                //savematch.Parameters.AddWithValue("@Player2Zeroes", game.Player2ZeroThrows);
+                //savematch.Parameters.AddWithValue("@Faults", game.FaultThrows);
+                //savematch.Parameters.AddWithValue("@Player1Faults", game.Player1FaultThrows);
+                //savematch.Parameters.AddWithValue("@Player2Faults", game.Player2FaultThrows);
                 savematch.ExecuteNonQuery();
                 //  Закрываем подключения
                 connection.Close();
@@ -275,223 +275,223 @@ namespace OneHundredAndEighty
             }
         }
 
-        public static void UpdateAchieves(StatisticsWindowLogic game) //  Проверка ачивок
-        {
-            //  Проверка стандартных ачивок
-            CheckPlayer(game.Player1Id);
-            CheckPlayer(game.Player2Id);
-            //  Проверка спецачивок
-            if (!CheckPlayerHasAchieve(game.Player1Id, "AFirst180"))
-            {
-                if (game.Player1_180 > 0)
-                {
-                    using (var connection = new SqlConnection(connectionstring))
-                    {
-                        connection.Open();
-                        var cmd2 = new SqlCommand($"UPDATE Players SET AFirst180 = 'True' WHERE Id = {game.Player1Id}", connection);
-                        cmd2.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player1Id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, "AFirst180");
-                    }
-                }
-            }
+        //public static void UpdateAchieves(StatisticsWindowLogic game) //  Проверка ачивок
+        //{
+        //    //  Проверка стандартных ачивок
+        //    CheckPlayer(game.Player1Id);
+        //    CheckPlayer(game.Player2Id);
+        //    //  Проверка спецачивок
+        //    if (!CheckPlayerHasAchieve(game.Player1Id, "AFirst180"))
+        //    {
+        //        if (game.Player1_180 > 0)
+        //        {
+        //            using (var connection = new SqlConnection(connectionstring))
+        //            {
+        //                connection.Open();
+        //                var cmd2 = new SqlCommand($"UPDATE Players SET AFirst180 = 'True' WHERE Id = {game.Player1Id}", connection);
+        //                cmd2.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player1Id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, "AFirst180");
+        //            }
+        //        }
+        //    }
 
-            if (!CheckPlayerHasAchieve(game.Player2Id, "AFirst180"))
-            {
-                if (game.Player2_180 > 0)
-                {
-                    using (var connection = new SqlConnection(connectionstring))
-                    {
-                        connection.Open();
-                        var cmd2 = new SqlCommand($"UPDATE Players SET AFirst180 = 'True' WHERE Id = {game.Player2Id}", connection);
-                        cmd2.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player2Id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, "AFirst180");
-                    }
-                }
-            }
+        //    if (!CheckPlayerHasAchieve(game.Player2Id, "AFirst180"))
+        //    {
+        //        if (game.Player2_180 > 0)
+        //        {
+        //            using (var connection = new SqlConnection(connectionstring))
+        //            {
+        //                connection.Open();
+        //                var cmd2 = new SqlCommand($"UPDATE Players SET AFirst180 = 'True' WHERE Id = {game.Player2Id}", connection);
+        //                cmd2.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player2Id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, "AFirst180");
+        //            }
+        //        }
+        //    }
 
-            if (!CheckPlayerHasAchieve(game.Player1Id, "A3Bull"))
-            {
-                if (game.Player1Is3Bull)
-                {
-                    using (var connection = new SqlConnection(connectionstring))
-                    {
-                        connection.Open();
-                        var cmd = new SqlCommand($"UPDATE Players SET A3Bull = 'True' WHERE Id = {game.Player1Id}", connection);
-                        cmd.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player1Id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, "A3Bull");
-                        connection.Close();
-                    }
-                }
-            }
+        //    if (!CheckPlayerHasAchieve(game.Player1Id, "A3Bull"))
+        //    {
+        //        if (game.Player1Is3Bull)
+        //        {
+        //            using (var connection = new SqlConnection(connectionstring))
+        //            {
+        //                connection.Open();
+        //                var cmd = new SqlCommand($"UPDATE Players SET A3Bull = 'True' WHERE Id = {game.Player1Id}", connection);
+        //                cmd.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player1Id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, "A3Bull");
+        //                connection.Close();
+        //            }
+        //        }
+        //    }
 
-            if (!CheckPlayerHasAchieve(game.Player2Id, "A3Bull"))
-            {
-                if (game.Player2Is3Bull)
-                {
-                    using (var connection = new SqlConnection(connectionstring))
-                    {
-                        connection.Open();
-                        var cmd = new SqlCommand($"UPDATE Players SET A3Bull = 'True' WHERE Id = {game.Player2Id}", connection);
-                        cmd.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player2Id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, "A3Bull");
-                        connection.Close();
-                    }
-                }
-            }
+        //    if (!CheckPlayerHasAchieve(game.Player2Id, "A3Bull"))
+        //    {
+        //        if (game.Player2Is3Bull)
+        //        {
+        //            using (var connection = new SqlConnection(connectionstring))
+        //            {
+        //                connection.Open();
+        //                var cmd = new SqlCommand($"UPDATE Players SET A3Bull = 'True' WHERE Id = {game.Player2Id}", connection);
+        //                cmd.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player2Id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, "A3Bull");
+        //                connection.Close();
+        //            }
+        //        }
+        //    }
 
-            if (!CheckPlayerHasAchieve(game.Player1Id, "AmrZ"))
-            {
-                if (game.Player1IsmrZ)
-                {
-                    using (var connection = new SqlConnection(connectionstring))
-                    {
-                        connection.Open();
-                        var cmd = new SqlCommand($"UPDATE Players SET AmrZ = 'True' WHERE Id = {game.Player1Id}", connection);
-                        cmd.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player1Id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, "AmrZ");
-                        connection.Close();
-                    }
-                }
-            }
+        //    if (!CheckPlayerHasAchieve(game.Player1Id, "AmrZ"))
+        //    {
+        //        if (game.Player1IsmrZ)
+        //        {
+        //            using (var connection = new SqlConnection(connectionstring))
+        //            {
+        //                connection.Open();
+        //                var cmd = new SqlCommand($"UPDATE Players SET AmrZ = 'True' WHERE Id = {game.Player1Id}", connection);
+        //                cmd.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player1Id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, "AmrZ");
+        //                connection.Close();
+        //            }
+        //        }
+        //    }
 
-            if (!CheckPlayerHasAchieve(game.Player2Id, "AmrZ"))
-            {
-                if (game.Player2IsmrZ)
-                {
-                    using (var connection = new SqlConnection(connectionstring))
-                    {
-                        connection.Open();
-                        var cmd = new SqlCommand($"UPDATE Players SET AmrZ = 'True' WHERE Id = {game.Player2Id}", connection);
-                        cmd.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player2Id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, "AmrZ");
-                        connection.Close();
-                    }
-                }
-            }
+        //    if (!CheckPlayerHasAchieve(game.Player2Id, "AmrZ"))
+        //    {
+        //        if (game.Player2IsmrZ)
+        //        {
+        //            using (var connection = new SqlConnection(connectionstring))
+        //            {
+        //                connection.Open();
+        //                var cmd = new SqlCommand($"UPDATE Players SET AmrZ = 'True' WHERE Id = {game.Player2Id}", connection);
+        //                cmd.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {game.Player2Id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, "AmrZ");
+        //                connection.Close();
+        //            }
+        //        }
+        //    }
 
-            void CheckPlayer(int Id)
-            {
-                //  Если ачивка не получена - проверяем на получение в матче
-                if (!CheckPlayerHasAchieve(Id, "A10matchespalyed"))
-                {
-                    CheckPlayerGetAchieve(Id, "GamesPlayed", "A10matchespalyed", 10);
-                }
+        //    void CheckPlayer(int Id)
+        //    {
+        //        //  Если ачивка не получена - проверяем на получение в матче
+        //        if (!CheckPlayerHasAchieve(Id, "A10matchespalyed"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "GamesPlayed", "A10matchespalyed", 10);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A100MatchesPalyed"))
-                {
-                    CheckPlayerGetAchieve(Id, "GamesPlayed", "A100MatchesPalyed", 100);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A100MatchesPalyed"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "GamesPlayed", "A100MatchesPalyed", 100);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A1000MatchesPalyed"))
-                {
-                    CheckPlayerGetAchieve(Id, "GamesPlayed", "A1000MatchesPalyed", 1000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A1000MatchesPalyed"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "GamesPlayed", "A1000MatchesPalyed", 1000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A10MatchesWon"))
-                {
-                    CheckPlayerGetAchieve(Id, "GamesWon", "A10MatchesWon", 10);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A10MatchesWon"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "GamesWon", "A10MatchesWon", 10);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A100MatchesWon"))
-                {
-                    CheckPlayerGetAchieve(Id, "GamesWon", "A100MatchesWon", 100);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A100MatchesWon"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "GamesWon", "A100MatchesWon", 100);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A1000MatchesWon"))
-                {
-                    CheckPlayerGetAchieve(Id, "GamesWon", "A1000MatchesWon", 1000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A1000MatchesWon"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "GamesWon", "A1000MatchesWon", 1000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A1000Throws"))
-                {
-                    CheckPlayerGetAchieve(Id, "Throws", "A1000Throws", 1000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A1000Throws"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "Throws", "A1000Throws", 1000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A10000Throws"))
-                {
-                    CheckPlayerGetAchieve(Id, "Throws", "A10000Throws", 10000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A10000Throws"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "Throws", "A10000Throws", 10000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A100000Throws"))
-                {
-                    CheckPlayerGetAchieve(Id, "Throws", "A100000Throws", 100000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A100000Throws"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "Throws", "A100000Throws", 100000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A10000Points"))
-                {
-                    CheckPlayerGetAchieve(Id, "Points", "A10000Points", 10000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A10000Points"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "Points", "A10000Points", 10000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A100000Points"))
-                {
-                    CheckPlayerGetAchieve(Id, "Points", "A100000Points", 100000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A100000Points"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "Points", "A100000Points", 100000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A1000000Points"))
-                {
-                    CheckPlayerGetAchieve(Id, "Points", "A1000000Points", 1000000);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A1000000Points"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "Points", "A1000000Points", 1000000);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A180x10"))
-                {
-                    CheckPlayerGetAchieve(Id, "_180", "A180x10", 10);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A180x10"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "_180", "A180x10", 10);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A180x100"))
-                {
-                    CheckPlayerGetAchieve(Id, "_180", "A180x100", 100);
-                }
+        //        if (!CheckPlayerHasAchieve(Id, "A180x100"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "_180", "A180x100", 100);
+        //        }
 
-                if (!CheckPlayerHasAchieve(Id, "A180x1000"))
-                {
-                    CheckPlayerGetAchieve(Id, "_180", "A180x1000", 1000);
-                }
-            }
+        //        if (!CheckPlayerHasAchieve(Id, "A180x1000"))
+        //        {
+        //            CheckPlayerGetAchieve(Id, "_180", "A180x1000", 1000);
+        //        }
+        //    }
 
-            bool CheckPlayerHasAchieve(int id, string achieve) //  Проверка игрока на наличие ачивки
-            {
-                using (var connection = new SqlConnection(connectionstring))
-                {
-                    connection.Open();
-                    var cmd = new SqlCommand($"SELECT {achieve} FROM Players WHERE Id = {id}", connection);
-                    var result = (bool) cmd.ExecuteScalar();
-                    connection.Close();
-                    return result;
-                }
-            }
+        //    bool CheckPlayerHasAchieve(int id, string achieve) //  Проверка игрока на наличие ачивки
+        //    {
+        //        using (var connection = new SqlConnection(connectionstring))
+        //        {
+        //            connection.Open();
+        //            var cmd = new SqlCommand($"SELECT {achieve} FROM Players WHERE Id = {id}", connection);
+        //            var result = (bool) cmd.ExecuteScalar();
+        //            connection.Close();
+        //            return result;
+        //        }
+        //    }
 
-            void CheckPlayerGetAchieve(int id, string playerRow, string achieve, int number)
-            {
-                using (var connection = new SqlConnection(connectionstring))
-                {
-                    connection.Open();
-                    var cmd = new SqlCommand($"SELECT {playerRow} FROM Players WHERE Id = {id}", connection);
-                    var result = (int) cmd.ExecuteScalar();
-                    connection.Close();
-                    if (result >= number) //  Ачивка получена в процессе матча
-                    {
-                        connection.Open();
-                        var cmd2 = new SqlCommand($"UPDATE Players SET {achieve} = 'True' WHERE Id = {id}", connection);
-                        cmd2.ExecuteNonQuery();
-                        var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {id}", connection).ExecuteScalar();
-                        connection.Close();
-                        NewAchieve.ShowNewAchieveWindow(name, achieve);
-                    }
-                }
-            }
-        }
+        //    void CheckPlayerGetAchieve(int id, string playerRow, string achieve, int number)
+        //    {
+        //        using (var connection = new SqlConnection(connectionstring))
+        //        {
+        //            connection.Open();
+        //            var cmd = new SqlCommand($"SELECT {playerRow} FROM Players WHERE Id = {id}", connection);
+        //            var result = (int) cmd.ExecuteScalar();
+        //            connection.Close();
+        //            if (result >= number) //  Ачивка получена в процессе матча
+        //            {
+        //                connection.Open();
+        //                var cmd2 = new SqlCommand($"UPDATE Players SET {achieve} = 'True' WHERE Id = {id}", connection);
+        //                cmd2.ExecuteNonQuery();
+        //                var name = (string) new SqlCommand($"SELECT Nickname FROM Players WHERE Id = {id}", connection).ExecuteScalar();
+        //                connection.Close();
+        //                NewAchieve.ShowNewAchieveWindow(name, achieve);
+        //            }
+        //        }
+        //    }
+        //}
 
         public static bool IsPlayerExist(string name, string nickname) //  Проверяем БД на наличие регистрируемого игрока
         {

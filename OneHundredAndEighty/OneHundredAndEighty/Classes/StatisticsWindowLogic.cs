@@ -37,34 +37,31 @@ namespace OneHundredAndEighty
         public int LegsPlayed { get; private set; } //  Сыграно легов
         public int Player1LegsWon { get; private set; } //  Выиграно легов игроком 1
         public int Player2LegsWon { get; private set; } //  Выиграно легов игроком 2
-        public int FaultThrows { get; private set; } //  Штрафных бросков
-        public int Player1FaultThrows { get; private set; } //  Штрафных бросков игрока 1
-        public int Player2FaultThrows { get; private set; } //  Штрафных бросков игрока 2
-        public int _180 { get; private set; } //  Количество набора 180 очков
-        public int Player1_180 { get; private set; } //  180 у игрока 1
-        public int Player2_180 { get; private set; } //  180 у игрока 2
-        public int SingleThrows { get; private set; } //  Бросков в одинарный сектор
-        public int Player1SingleThrows { get; private set; } //  Бросков в одинарный сектор игрока 1
-        public int Player2SingleThrows { get; private set; } //  Бросков в одинарный сектор игрока 2
-        public int DoubleThrows { get; private set; } //  Бросков в удвоение
-        public int Player1DoubleThrows { get; private set; } //  Бросков в удвоение игрока 1
-        public int Player2DoubleThrows { get; private set; } //  Бросков в удвоение игрока 2
-        public int TrembleThrows { get; private set; } //  Бросков в утроение
-        public int Player1TrembleThrows { get; private set; } //  Бросков в утроение игрока 1
-        public int Player2TrembleThrows { get; private set; } //  Бросков в утроение игрока 2
-        public int _25Throws { get; private set; } //  Бросков в 25
-        public int Player1_25Throws { get; private set; } //  Бросков в 25 игрока 1
-        public int Player2_25Throws { get; private set; } //  Бросков в 25 игрока 2
-        public int BulleyeThrows { get; private set; } //  Бросков в булл
-        public int Player1BulleyeThrows { get; private set; } //  Бросков в булл игрока 1
-        public int Player2BulleyeThrows { get; private set; } //  Бросков в булл игрока 2
-        public int ZeroThrows { get; private set; } //  Бросков в 0
-        public int Player1ZeroThrows { get; private set; } //  Бросков в 0 игрока 1
-        public int Player2ZeroThrows { get; private set; } //  Бросков в 0 игрока 2
-        public bool Player1IsmrZ { get; private set; } //  Ачивка игрока 1
-        public bool Player1Is3Bull { get; private set; } //  Ачивка игрока 1
-        public bool Player2IsmrZ { get; private set; } //  Ачивка игрока 2
-        public bool Player2Is3Bull { get; private set; } //  Ачивка игрока 2
+        //public int FaultThrows { get; private set; } //  Штрафных бросков
+        //public int Player1FaultThrows { get; private set; } //  Штрафных бросков игрока 1
+        //public int Player2FaultThrows { get; private set; } //  Штрафных бросков игрока 2
+        //public int SingleThrows { get; private set; } //  Бросков в одинарный сектор
+        //public int Player1SingleThrows { get; private set; } //  Бросков в одинарный сектор игрока 1
+        //public int Player2SingleThrows { get; private set; } //  Бросков в одинарный сектор игрока 2
+        //public int DoubleThrows { get; private set; } //  Бросков в удвоение
+        //public int Player1DoubleThrows { get; private set; } //  Бросков в удвоение игрока 1
+        //public int Player2DoubleThrows { get; private set; } //  Бросков в удвоение игрока 2
+        //public int TrembleThrows { get; private set; } //  Бросков в утроение
+        //public int Player1TrembleThrows { get; private set; } //  Бросков в утроение игрока 1
+        //public int Player2TrembleThrows { get; private set; } //  Бросков в утроение игрока 2
+        //public int _25Throws { get; private set; } //  Бросков в 25
+        //public int Player1_25Throws { get; private set; } //  Бросков в 25 игрока 1
+        //public int Player2_25Throws { get; private set; } //  Бросков в 25 игрока 2
+        //public int BulleyeThrows { get; private set; } //  Бросков в булл
+        //public int Player1BulleyeThrows { get; private set; } //  Бросков в булл игрока 1
+        //public int Player2BulleyeThrows { get; private set; } //  Бросков в булл игрока 2
+        //public int ZeroThrows { get; private set; } //  Бросков в 0
+        //public int Player1ZeroThrows { get; private set; } //  Бросков в 0 игрока 1
+        //public int Player2ZeroThrows { get; private set; } //  Бросков в 0 игрока 2
+        //public bool Player1IsmrZ { get; private set; } //  Ачивка игрока 1
+        //public bool Player1Is3Bull { get; private set; } //  Ачивка игрока 1
+        //public bool Player2IsmrZ { get; private set; } //  Ачивка игрока 2
+        //public bool Player2Is3Bull { get; private set; } //  Ачивка игрока 2
 
         public void CountMatchStatistics(Player winner, Player player1, Player player2, Stack<Throw> allMatchThrows) //  Считаем статистику матча
         {
@@ -97,18 +94,18 @@ namespace OneHundredAndEighty
                     Player2Points += (int) T.Points;
                 }
 
-                if (T.IsFault)
-                {
-                    FaultThrows += 1;
-                    if (T.WhoThrowTag == "Player1")
-                    {
-                        Player1FaultThrows += 1;
-                    }
-                    else
-                    {
-                        Player2FaultThrows += 1;
-                    }
-                }
+                //if (T.IsFault)
+                //{
+                //    FaultThrows += 1;
+                //    if (T.WhoThrowTag == "Player1")
+                //    {
+                //        Player1FaultThrows += 1;
+                //    }
+                //    else
+                //    {
+                //        Player2FaultThrows += 1;
+                //    }
+                //}
 
                 if (T.IsLegWon)
                 {
@@ -136,81 +133,81 @@ namespace OneHundredAndEighty
                     }
                 }
 
-                switch (T.Multiplier)
-                {
-                    case "Zero":
-                        ZeroThrows += 1;
-                        if (T.WhoThrowTag == "Player1")
-                        {
-                            Player1ZeroThrows += 1;
-                        }
-                        else
-                        {
-                            Player2ZeroThrows += 1;
-                        }
+                //switch (T.Multiplier)
+                //{
+                //    case "Zero":
+                //        ZeroThrows += 1;
+                //        if (T.WhoThrowTag == "Player1")
+                //        {
+                //            Player1ZeroThrows += 1;
+                //        }
+                //        else
+                //        {
+                //            Player2ZeroThrows += 1;
+                //        }
 
-                        break;
-                    case "Single":
-                        SingleThrows += 1;
-                        if (T.WhoThrowTag == "Player1")
-                        {
-                            Player1SingleThrows += 1;
-                        }
-                        else
-                        {
-                            Player2SingleThrows += 1;
-                        }
+                //        break;
+                //    case "Single":
+                //        SingleThrows += 1;
+                //        if (T.WhoThrowTag == "Player1")
+                //        {
+                //            Player1SingleThrows += 1;
+                //        }
+                //        else
+                //        {
+                //            Player2SingleThrows += 1;
+                //        }
 
-                        break;
-                    case "Double":
-                        DoubleThrows += 1;
-                        if (T.WhoThrowTag == "Player1")
-                        {
-                            Player1DoubleThrows += 1;
-                        }
-                        else
-                        {
-                            Player2DoubleThrows += 1;
-                        }
+                //        break;
+                //    case "Double":
+                //        DoubleThrows += 1;
+                //        if (T.WhoThrowTag == "Player1")
+                //        {
+                //            Player1DoubleThrows += 1;
+                //        }
+                //        else
+                //        {
+                //            Player2DoubleThrows += 1;
+                //        }
 
-                        break;
-                    case "Tremble":
-                        TrembleThrows += 1;
-                        if (T.WhoThrowTag == "Player1")
-                        {
-                            Player1TrembleThrows += 1;
-                        }
-                        else
-                        {
-                            Player2TrembleThrows += 1;
-                        }
+                //        break;
+                //    case "Tremble":
+                //        TrembleThrows += 1;
+                //        if (T.WhoThrowTag == "Player1")
+                //        {
+                //            Player1TrembleThrows += 1;
+                //        }
+                //        else
+                //        {
+                //            Player2TrembleThrows += 1;
+                //        }
 
-                        break;
-                    case "Bull_25":
-                        _25Throws += 1;
-                        if (T.WhoThrowTag == "Player1")
-                        {
-                            Player1_25Throws += 1;
-                        }
-                        else
-                        {
-                            Player2_25Throws += 1;
-                        }
+                //        break;
+                //    case "Bull_25":
+                //        _25Throws += 1;
+                //        if (T.WhoThrowTag == "Player1")
+                //        {
+                //            Player1_25Throws += 1;
+                //        }
+                //        else
+                //        {
+                //            Player2_25Throws += 1;
+                //        }
 
-                        break;
-                    case "Bull_Eye":
-                        BulleyeThrows += 1;
-                        if (T.WhoThrowTag == "Player1")
-                        {
-                            Player1BulleyeThrows += 1;
-                        }
-                        else
-                        {
-                            Player2BulleyeThrows += 1;
-                        }
+                //        break;
+                //    case "Bull_Eye":
+                //        BulleyeThrows += 1;
+                //        if (T.WhoThrowTag == "Player1")
+                //        {
+                //            Player1BulleyeThrows += 1;
+                //        }
+                //        else
+                //        {
+                //            Player2BulleyeThrows += 1;
+                //        }
 
-                        break;
-                }
+                //        break;
+                //}
             }
 
             AveragePlayer1Points = Player1Throws == 0
@@ -256,60 +253,60 @@ namespace OneHundredAndEighty
             statisticWindow.Player2LegsWon.Content = Player2LegsWon;
             statisticWindow.PlayersLegsPlayed.Fill = Brush(Player1LegsWon, LegsPlayed);
             //  Tremble throws box
-            statisticWindow.TrembleThrows.Content = TrembleThrows;
-            statisticWindow.Player1TrembleThrow.Content = Player1TrembleThrows;
-            statisticWindow.Player2TrembleThrow.Content = Player2TrembleThrows;
-            statisticWindow.PlayersTrembleThrows.Fill = TrembleThrows == 0
-                                                            ? Brush(0, 0)
-                                                            : Brush(Player1TrembleThrows, TrembleThrows);
+            //statisticWindow.TrembleThrows.Content = TrembleThrows;
+            //statisticWindow.Player1TrembleThrow.Content = Player1TrembleThrows;
+            //statisticWindow.Player2TrembleThrow.Content = Player2TrembleThrows;
+            //statisticWindow.PlayersTrembleThrows.Fill = TrembleThrows == 0
+            //                                                ? Brush(0, 0)
+            //                                                : Brush(Player1TrembleThrows, TrembleThrows);
 
-            //  Bulleye throws box
-            statisticWindow.BulleyeThrows.Content = BulleyeThrows;
-            statisticWindow.Player1BulleyeThrow.Content = Player1BulleyeThrows;
-            statisticWindow.Player2BulleyeThrow.Content = Player2BulleyeThrows;
-            statisticWindow.PlayersBulleyeThrows.Fill = BulleyeThrows == 0
-                                                            ? Brush(0, 0)
-                                                            : Brush(Player1BulleyeThrows, BulleyeThrows);
+            ////  Bulleye throws box
+            //statisticWindow.BulleyeThrows.Content = BulleyeThrows;
+            //statisticWindow.Player1BulleyeThrow.Content = Player1BulleyeThrows;
+            //statisticWindow.Player2BulleyeThrow.Content = Player2BulleyeThrows;
+            //statisticWindow.PlayersBulleyeThrows.Fill = BulleyeThrows == 0
+            //                                                ? Brush(0, 0)
+            //                                                : Brush(Player1BulleyeThrows, BulleyeThrows);
 
-            //  Double throws box
-            statisticWindow.DoubleThrows.Content = DoubleThrows;
-            statisticWindow.Player1DoubleThrow.Content = Player1DoubleThrows;
-            statisticWindow.Player2DoubleThrow.Content = Player2DoubleThrows;
-            statisticWindow.PlayersDoubleThrows.Fill = DoubleThrows == 0
-                                                           ? Brush(0, 0)
-                                                           : Brush(Player1DoubleThrows, DoubleThrows);
+            ////  Double throws box
+            //statisticWindow.DoubleThrows.Content = DoubleThrows;
+            //statisticWindow.Player1DoubleThrow.Content = Player1DoubleThrows;
+            //statisticWindow.Player2DoubleThrow.Content = Player2DoubleThrows;
+            //statisticWindow.PlayersDoubleThrows.Fill = DoubleThrows == 0
+            //                                               ? Brush(0, 0)
+            //                                               : Brush(Player1DoubleThrows, DoubleThrows);
 
-            //  25 throws box
-            statisticWindow._25Throws.Content = _25Throws;
-            statisticWindow.Player1_25Throw.Content = Player1_25Throws;
-            statisticWindow.Player2_25Throw.Content = Player2_25Throws;
-            statisticWindow.Players_25Throws.Fill = _25Throws == 0
-                                                        ? Brush(0, 0)
-                                                        : Brush(Player1_25Throws, _25Throws);
+            ////  25 throws box
+            //statisticWindow._25Throws.Content = _25Throws;
+            //statisticWindow.Player1_25Throw.Content = Player1_25Throws;
+            //statisticWindow.Player2_25Throw.Content = Player2_25Throws;
+            //statisticWindow.Players_25Throws.Fill = _25Throws == 0
+            //                                            ? Brush(0, 0)
+            //                                            : Brush(Player1_25Throws, _25Throws);
 
-            //  Single throws box
-            statisticWindow.SingleThrows.Content = SingleThrows;
-            statisticWindow.Player1SingleThrow.Content = Player1SingleThrows;
-            statisticWindow.Player2SingleThrow.Content = Player2SingleThrows;
-            statisticWindow.PlayersSingleThrows.Fill = SingleThrows == 0
-                                                           ? Brush(0, 0)
-                                                           : Brush(Player1SingleThrows, SingleThrows);
+            ////  Single throws box
+            //statisticWindow.SingleThrows.Content = SingleThrows;
+            //statisticWindow.Player1SingleThrow.Content = Player1SingleThrows;
+            //statisticWindow.Player2SingleThrow.Content = Player2SingleThrows;
+            //statisticWindow.PlayersSingleThrows.Fill = SingleThrows == 0
+            //                                               ? Brush(0, 0)
+            //                                               : Brush(Player1SingleThrows, SingleThrows);
 
-            //  Zero throws box
-            statisticWindow.ZeroThrows.Content = ZeroThrows;
-            statisticWindow.Player1ZeroThrow.Content = Player1ZeroThrows;
-            statisticWindow.Player2ZeroThrow.Content = Player2ZeroThrows;
-            statisticWindow.PlayersZeroThrows.Fill = ZeroThrows == 0
-                                                         ? Brush(0, 0)
-                                                         : Brush(ZeroThrows - Player1ZeroThrows, ZeroThrows);
+            ////  Zero throws box
+            //statisticWindow.ZeroThrows.Content = ZeroThrows;
+            //statisticWindow.Player1ZeroThrow.Content = Player1ZeroThrows;
+            //statisticWindow.Player2ZeroThrow.Content = Player2ZeroThrows;
+            //statisticWindow.PlayersZeroThrows.Fill = ZeroThrows == 0
+            //                                             ? Brush(0, 0)
+            //                                             : Brush(ZeroThrows - Player1ZeroThrows, ZeroThrows);
 
-            //  Fault throws box
-            statisticWindow.FaultThrows.Content = FaultThrows;
-            statisticWindow.Player1FaultThrows.Content = Player1FaultThrows;
-            statisticWindow.Player2FaultThrows.Content = Player2FaultThrows;
-            statisticWindow.PlayersFaultThrows.Fill = FaultThrows == 0
-                                                          ? Brush(0, 0)
-                                                          : Brush(FaultThrows - Player1FaultThrows, FaultThrows);
+            ////  Fault throws box
+            //statisticWindow.FaultThrows.Content = FaultThrows;
+            //statisticWindow.Player1FaultThrows.Content = Player1FaultThrows;
+            //statisticWindow.Player2FaultThrows.Content = Player2FaultThrows;
+            //statisticWindow.PlayersFaultThrows.Fill = FaultThrows == 0
+            //                                              ? Brush(0, 0)
+            //                                              : Brush(FaultThrows - Player1FaultThrows, FaultThrows);
         }
 
         public void ShowMatchStatistics() //  Показываем окно статистики 
@@ -358,30 +355,30 @@ namespace OneHundredAndEighty
             SetsPlayed = 0;
             Player1SetsWon = 0;
             Player2SetsWon = 0;
-            FaultThrows = 0;
-            Player1FaultThrows = 0;
-            Player2FaultThrows = 0;
-            _180 = 0;
-            Player1_180 = 0;
-            Player2_180 = 0;
-            SingleThrows = 0;
-            Player1SingleThrows = 0;
-            Player2SingleThrows = 0;
-            DoubleThrows = 0;
-            Player1DoubleThrows = 0;
-            Player2DoubleThrows = 0;
-            TrembleThrows = 0;
-            Player1TrembleThrows = 0;
-            Player2TrembleThrows = 0;
-            _25Throws = 0;
-            Player1_25Throws = 0;
-            Player2_25Throws = 0;
-            BulleyeThrows = 0;
-            Player1BulleyeThrows = 0;
-            Player2BulleyeThrows = 0;
-            ZeroThrows = 0;
-            Player1ZeroThrows = 0;
-            Player2ZeroThrows = 0;
+            //FaultThrows = 0;
+            //Player1FaultThrows = 0;
+            //Player2FaultThrows = 0;
+            //_180 = 0;
+            //Player1_180 = 0;
+            //Player2_180 = 0;
+            //SingleThrows = 0;
+            //Player1SingleThrows = 0;
+            //Player2SingleThrows = 0;
+            //DoubleThrows = 0;
+            //Player1DoubleThrows = 0;
+            //Player2DoubleThrows = 0;
+            //TrembleThrows = 0;
+            //Player1TrembleThrows = 0;
+            //Player2TrembleThrows = 0;
+            //_25Throws = 0;
+            //Player1_25Throws = 0;
+            //Player2_25Throws = 0;
+            //BulleyeThrows = 0;
+            //Player1BulleyeThrows = 0;
+            //Player2BulleyeThrows = 0;
+            //ZeroThrows = 0;
+            //Player1ZeroThrows = 0;
+            //Player2ZeroThrows = 0;
             Player1Name = "";
             Player2Name = "";
             WinnerName = "";
@@ -390,10 +387,10 @@ namespace OneHundredAndEighty
             Player2Id = 0;
             WinnerId = 0;
             LooserId = 0;
-            Player1IsmrZ = false;
-            Player1Is3Bull = false;
-            Player2IsmrZ = false;
-            Player2Is3Bull = false;
+            //Player1IsmrZ = false;
+            //Player1Is3Bull = false;
+            //Player2IsmrZ = false;
+            //Player2Is3Bull = false;
         }
     }
 }
