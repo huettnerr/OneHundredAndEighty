@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using OneHundredAndEighty.OBS;
 using System.Windows.Media;
+using OneHundredAndEighty.Statistics;
+using System.Windows.Documents;
 
 namespace OneHundredAndEighty.Score
 {        
@@ -83,6 +85,7 @@ namespace OneHundredAndEighty.Score
 
             P1Throws = new ScoreStack();
             P2Throws = new ScoreStack();
+            ScoreStack.ThrowEvents += StatisticsOverlayManager.NewThrowEventHandler;
         }
 
         public void NewGame(int points, int legs, int sets, Player p1, Player p2, Player first)
@@ -172,12 +175,6 @@ namespace OneHundredAndEighty.Score
             {
                 P2Throws?.AddThrow(t, p, ScoresChanged);
             }
-
-
-            scoreWindow.StatsCounter.Dispatcher.Invoke(() =>
-            {
-                scoreWindow.StatsCounter.Show("Match 26s", 2, 3);
-            });
         }
 
         public void PointsSet(Player p)
@@ -245,7 +242,13 @@ namespace OneHundredAndEighty.Score
 
         public void CreateScoreControl()
         {
+            if(scoreWindow is object)
+            {
+                scoreWindow.Close();
+            }
+
             scoreWindow = new ScoreWindow();
+            StatisticsOverlayManager.scoreWindow = scoreWindow;
             ScoreControl = new ScoreControl();
             scoreWindow.Score.DataContext = this;
 

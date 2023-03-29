@@ -20,74 +20,55 @@ namespace OneHundredAndEighty.Statistics
     /// <summary>
     /// Interaktionslogik für CounterControl.xaml
     /// </summary>
-    public partial class CounterControl : UserControl
+    public partial class LowerThirdControl : UserControl
     {
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(CounterControl), new UIPropertyMetadata(""));
+            DependencyProperty.Register("Label", typeof(string), typeof(LowerThirdControl), new UIPropertyMetadata(""));
         public string Label
         {
             get { return (string)GetValue(LabelProperty); }
             set { SetValue(LabelProperty, value); }
         }
 
+        public static readonly DependencyProperty MessageProperty =
+            DependencyProperty.Register("Message", typeof(string), typeof(LowerThirdControl), new UIPropertyMetadata(""));
+        public string Message
+        {
+            get { return (string)GetValue(MessageProperty); }
+            set { SetValue(MessageProperty, value); }
+        }
+
         public static readonly DependencyProperty SubLabelProperty =
-            DependencyProperty.Register("SubLabel", typeof(string), typeof(CounterControl), new UIPropertyMetadata(""));
+            DependencyProperty.Register("SubLabel", typeof(string), typeof(LowerThirdControl), new UIPropertyMetadata(""));
         public string SubLabel
         {
             get { return (string)GetValue(SubLabelProperty); }
             set { SetValue(SubLabelProperty, value); }
         }
 
-        public static readonly DependencyProperty FrontSideProperty =
-            DependencyProperty.Register("FrontSide", typeof(int), typeof(CounterControl), new UIPropertyMetadata(0));
-        public int FrontSide
-        {
-            get { return (int)GetValue(FrontSideProperty); }
-            set { SetValue(FrontSideProperty, value); }
-        }
-
-        public static readonly DependencyProperty BackSideProperty =
-            DependencyProperty.Register("BackSide", typeof(int), typeof(CounterControl), new UIPropertyMetadata(0));
-        public int BackSide
-        {
-            get { return (int)GetValue(BackSideProperty); }
-            set { SetValue(BackSideProperty, value); }
-        }
-
         private TimeSpan FadeDuration = TimeSpan.FromSeconds(1.0);
-        private TimeSpan HoldTime = TimeSpan.FromSeconds(1.0);
+        private TimeSpan HoldTime = TimeSpan.FromSeconds(5.0);
 
-        public CounterControl()
+        public LowerThirdControl()
         {
             InitializeComponent();
         }
 
-        public void Show(string label, int from, int to, string sublabel = "")
+        public void Show(string label, string message, string sublabel = "")
         {
             Label = label;
+            Message = message;
             SubLabel = sublabel;
-            FrontSide = from;
-            BackSide = to;
-            FlipElement.ResetFlip();
 
             this.Visibility = Visibility.Visible;
             var fadeInAnimation = new DoubleAnimation(0, 1, FadeDuration);
-            fadeInAnimation.Completed += (s, e) => flip();
+            fadeInAnimation.Completed += ShowFinished;
 
             this.BeginAnimation(UIElement.OpacityProperty, fadeInAnimation);
         }
 
-        private void flip()
+        private void ShowFinished(object sender, EventArgs e)
         {
-            FlipElement.Flipped += FlipElement_Flipped;
-            FlipElement.FlipY(HoldTime);
-        }
-
-
-
-        private void FlipElement_Flipped(object sender, EventArgs e)
-        {
-            FlipElement.Flipped -= FlipElement_Flipped;
             var fadeOutAnimatin = new DoubleAnimation(1, 0, FadeDuration);
             fadeOutAnimatin.BeginTime = HoldTime;
             fadeOutAnimatin.Completed += (s2, e2) => this.Visibility = Visibility.Hidden;

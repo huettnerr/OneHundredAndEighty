@@ -127,6 +127,9 @@
     <Compile Include="OBS\ObsManager.cs" />
     <Compile Include="Score\FinishHelper.cs" />
     <Compile Include="Score\ScoreStack.cs" />
+    <Compile Include="Statistics\LowerThirdControl.xaml.cs">
+      <DependentUpon>LowerThirdControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistics\CounterControl.xaml.cs">
       <DependentUpon>CounterControl.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,8 @@
     </Compile>
     <Compile Include="Score\ScoreViewModel.cs" />
     <Compile Include="Score\WhiteboardScore.cs" />
+    <Compile Include="Statistics\StatisticsOverlayManager.cs" />
+    <Compile Include="Statistics\ThrowEvent.cs" />
     <Compile Include="Windows\AbortWindow.xaml.cs">
       <DependentUpon>AbortWindow.xaml</DependentUpon>
     </Compile>
@@ -216,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <Page Include="Score\ScoreControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statistics\LowerThirdControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

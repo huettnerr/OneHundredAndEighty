@@ -12,6 +12,12 @@ namespace OneHundredAndEighty.Score
 {
     public class ScoreStack
     {
+        #region Events
+
+        public static EventHandler<ThrowEvent> ThrowEvents;
+
+        #endregion
+
         private Stack<Throw> throws;
         private Stack<ObservableCollection<WhiteboardScore>> oldWhiteboards;
 
@@ -64,6 +70,9 @@ namespace OneHundredAndEighty.Score
                 else
                 {
                     wbs = new WhiteboardScore(p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count - p.ThrowsLeft, turnThrows, t.IsLegWon);
+
+                    //Stats
+                    if(!t.IsLegWon) ThrowEvent.FireEvents(this, ThrowEvents, turnThrows, p.Name, Stats);
                 }
 
                 WhiteboardScores.Add(wbs);

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:OneHundredAndEighty.Score"
              xmlns:CTRLs="clr-namespace:OneHundredAndEighty.Controls"             
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200">
+             d:DesignHeight="150" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
@@ -88,16 +88,16 @@
         <Border Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" BorderThickness="1 0 0 0" BorderBrush="Black"/>
 
         <Viewbox Grid.Row="0" Grid.Column="1">
-            <Label Content="{Binding Summary.Val,FallbackValue='First to 9 sets with 3 legs'}" FontFamily="Agency FB" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+            <Label Content="{Binding Summary.Val,FallbackValue='First to 9 sets with 3 legs'}" FontFamily="Agency FB" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
         <Viewbox Grid.Row="0" Grid.Column="2" x:Name="SetsViewbox">
-            <Label Content="Sets" FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+            <Label Content="Sets" Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
         <Viewbox Grid.Row="0" Grid.Column="3" >
-            <Label Content="Legs" FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+            <Label Content="Legs"  Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
         <Viewbox Grid.Row="0" Grid.Column="4" MaxHeight="{Binding ActualHeight, ElementName=SetsViewbox}">
-            <Label Content="Points" FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+            <Label Content="Points"  Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
 
         <Grid Grid.Row="1" Grid.Column="1">
@@ -129,6 +129,10 @@
         </Viewbox>
         <Viewbox Grid.Row="2" Grid.Column="4">
             <Label x:Name="Player2Points" Content="{Binding P2Points.Val, FallbackValue='180'}" FontWeight="Bold" FontFamily="Agency FB" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+        </Viewbox>
+
+        <Viewbox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+            <Label Content="Chemodarts Finals" FontFamily="Agency FB" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
     </Grid>
 </UserControl>

@@ -10,19 +10,32 @@ namespace OneHundredAndEighty.Statistics
     public class ScoreStatistics
     {
         public ViewProperty<double> Avg { get; set; }
+        public ViewProperty<int> _26 { get; set; }
+        public ViewProperty<int> _100Plus { get; set; }
+        public ViewProperty<int> _140Plus { get; set; }
+        public ViewProperty<int> _180 { get; set; }
 
         public ScoreStatistics()
         {
             Avg = new ViewProperty<double>();
+            _26 = new ViewProperty<int>();
+            _100Plus = new ViewProperty<int>();
+            _140Plus = new ViewProperty<int>();
+            _180 = new ViewProperty<int>();
         }
 
         public void Clear()
         {
             Avg.Val = 0;
+            _26.Val = 0;
+            _100Plus.Val = 0;
+            _140Plus.Val = 0;
+            _180.Val = 0;
         }
 
         public void UpdatePlayerStatistics(Stack<Throw> throws)
         {
+            Clear();
             if (throws.Count == 0) return;
 
             List<int> points = new List<int>();
@@ -51,6 +64,12 @@ namespace OneHundredAndEighty.Statistics
                 else
                 {
                     points.AddRange(turnPoints);
+                    int score = turnPoints.Sum();
+
+                    if (score == 26) _26.Val++; 
+                    if (score >= 100 && score < 140) _100Plus.Val++; 
+                    if (score >= 140 && score < 180) _140Plus.Val++; 
+                    if (score == 180) _180.Val++; 
                 }
 
                 turnPoints.Clear();
