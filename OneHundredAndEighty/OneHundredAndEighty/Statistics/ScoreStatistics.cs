@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneHundredAndEighty.Score
+namespace OneHundredAndEighty.Statistics
 {
     public class ScoreStatistics
     {

@@ -127,7 +127,13 @@
     <Compile Include="OBS\ObsManager.cs" />
     <Compile Include="Score\FinishHelper.cs" />
     <Compile Include="Score\ScoreStack.cs" />
-    <Compile Include="Score\ScoreStatistics.cs" />
+    <Compile Include="Statistics\CounterControl.xaml.cs">
+      <DependentUpon>CounterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\FlipControl.xaml.cs">
+      <DependentUpon>FlipControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\ScoreStatistics.cs" />
     <Compile Include="Score\ScoreWindow.xaml.cs">
       <DependentUpon>ScoreWindow.xaml</DependentUpon>
     </Compile>
@@ -212,6 +218,18 @@
     <Page Include="Score\ScoreControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statistics\CounterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\FlipControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ScoreStatsStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\WhiteboardStyle.xaml">
       <SubType>Designer</SubType>

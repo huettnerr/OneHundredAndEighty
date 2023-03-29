@@ -4,11 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OneHundredAndEighty.Score"
+        xmlns:Stats="clr-namespace:OneHundredAndEighty.Statistics"
         mc:Ignorable="d"
-        Title="ScoreWindow" Height="200" Width="800"
+        Title="OneEightyScore" Height="120" Width="1920"
         AllowsTransparency="True" Background="Transparent"
-        WindowStyle="None">
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        WindowStyle="None" ResizeMode="NoResize">
     <Grid>
-        <local:ScoreControl/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Stats:CounterControl x:Name="StatsCounter" Grid.Column="1"/>
+        </Grid>
+        
+        <local:ScoreControl x:Name="Score" Grid.Column="1"/>
     </Grid>
 </Window>

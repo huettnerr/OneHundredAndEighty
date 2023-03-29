@@ -9,6 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="pack://application:,,,/OneHundredAndEighty;component/Styles/BoardStyle.xaml"/>-->
                 <ResourceDictionary Source="pack://application:,,,/OneHundredAndEighty;component/Styles/WhiteboardStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/OneHundredAndEighty;component/Styles/ScoreStatsStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

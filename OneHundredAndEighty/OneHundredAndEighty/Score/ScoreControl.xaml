@@ -7,34 +7,6 @@
              xmlns:CTRLs="clr-namespace:OneHundredAndEighty.Controls"             
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200">
-    <UserControl.Resources>
-        <BitmapImage x:Key="ChemoLogo" UriSource="../Images/ChemoLogo.png" />
-        
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="1" x:Key="MainGradientBrush2">
-            <GradientStop Color="#FF074A13" Offset="1" />
-            <GradientStop Color="#FF44FF00" />
-        </LinearGradientBrush>
-
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="1" x:Key="MainGradientBrush">
-            <GradientStop Color="#FF870E00" Offset="0" />
-            <GradientStop Color="#FFFCD5D0" Offset="0.1"/>
-            <GradientStop Color="#FFFCD5D0" Offset="0.5"/>
-            <GradientStop Color="#FFC5584A" Offset="0.9"/>
-            <GradientStop Color="#FF870E00" Offset="1" />
-        </LinearGradientBrush>
-
-        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" x:Key="BackgroundGradientBrush">
-            <GradientStop Color="#FF616161" />
-            <GradientStop Color="#FF191717" Offset="0.971" />
-        </LinearGradientBrush>
-
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" x:Key="HighlightGradientBrush">
-            <GradientStop Color="#FF949494" Offset="0.992" />
-            <GradientStop Color="White" Offset="0.5" />
-            <GradientStop Color="#FF949494" Offset="0.008" />
-        </LinearGradientBrush>
-    </UserControl.Resources>
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>

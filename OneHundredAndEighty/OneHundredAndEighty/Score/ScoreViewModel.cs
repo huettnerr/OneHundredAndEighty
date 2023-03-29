@@ -20,7 +20,7 @@ namespace OneHundredAndEighty.Score
     public class ScoreViewModel : ViewModelBase
     {
         public ScoreControl ScoreControl { get; private set; }
-        private Window scoreWindow;
+        private ScoreWindow scoreWindow;
 
         public EventHandler<WhiteboardScore?> ScoresChanged;
 
@@ -172,6 +172,12 @@ namespace OneHundredAndEighty.Score
             {
                 P2Throws?.AddThrow(t, p, ScoresChanged);
             }
+
+
+            scoreWindow.StatsCounter.Dispatcher.Invoke(() =>
+            {
+                scoreWindow.StatsCounter.Show("Match 26s", 2, 3);
+            });
         }
 
         public void PointsSet(Player p)
@@ -239,20 +245,20 @@ namespace OneHundredAndEighty.Score
 
         public void CreateScoreControl()
         {
-            scoreWindow = new Window();
+            scoreWindow = new ScoreWindow();
             ScoreControl = new ScoreControl();
-            ScoreControl.DataContext = this;
+            scoreWindow.Score.DataContext = this;
 
-            scoreWindow.Content = ScoreControl;
-            scoreWindow.Title = "OneEightyScore";
-            scoreWindow.AllowsTransparency = true;
-            scoreWindow.Background = Brushes.Transparent;
-            scoreWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            scoreWindow.ResizeMode = ResizeMode.NoResize;
-            scoreWindow.ShowInTaskbar = false;
-            scoreWindow.WindowStyle = WindowStyle.None;
-            scoreWindow.Width = 600;
-            scoreWindow.Height = 120;
+            //scoreWindow.Content = ScoreControl;
+            //scoreWindow.Title = "OneEightyScore";
+            //scoreWindow.AllowsTransparency = true;
+            //scoreWindow.Background = Brushes.Transparent;
+            //scoreWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //scoreWindow.ResizeMode = ResizeMode.NoResize;
+            //scoreWindow.ShowInTaskbar = false;
+            //scoreWindow.WindowStyle = WindowStyle.None;
+            //scoreWindow.Width = 600;
+            //scoreWindow.Height = 120;
             scoreWindow.Show();
 
             Task.Delay(200).ContinueWith(t =>

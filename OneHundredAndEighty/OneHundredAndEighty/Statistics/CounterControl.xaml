@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="OneHundredAndEighty.Statistics.CounterControl"
+             x:Name="controlParent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OneHundredAndEighty.Statistics"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Stroke="Black" Grid.Row="0" Grid.RowSpan="3" Opacity="0.7" Fill="{StaticResource BackgroundGradientBrush}"/>
+        <Image Source="{StaticResource ChemoLogo}" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Opacity="0.5"/>
+
+        <Viewbox>
+            <Label Content="{Binding ElementName=controlParent, Path=Label, Mode=OneWay, FallbackValue=Label}" FontWeight="Bold" Foreground="White"/>
+        </Viewbox>
+        <local:FlipControl x:Name="FlipElement" Grid.Row="1" Margin="10" FlipDuration="00:00:01.000">
+            <local:FlipControl.Front>
+                <TextBox Style="{StaticResource StatsElement}" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=FrontSide, Mode=OneWay, FallbackValue=0}"/>
+            </local:FlipControl.Front>
+            <local:FlipControl.Back>
+                <TextBox Style="{StaticResource StatsElement}" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=BackSide, Mode=OneWay, FallbackValue=1}"/>
+            </local:FlipControl.Back>
+        </local:FlipControl>
+    </Grid>
+</UserControl>
