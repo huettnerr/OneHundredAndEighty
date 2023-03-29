@@ -9,7 +9,7 @@
              d:DesignHeight="200" d:DesignWidth="400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -17,14 +17,14 @@
         <Image Source="{StaticResource ChemoLogo}" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Opacity="0.5"/>
 
         <Viewbox>
-            <Label Content="{Binding ElementName=controlParent, Path=Label, Mode=OneWay, FallbackValue=Label}" FontWeight="Bold" Foreground="White"/>
+            <Label Content="{Binding ElementName=controlParent, Path=Label, Mode=OneWay, FallbackValue=Label}" FontWeight="Bold" Foreground="White" Padding="0"/>
         </Viewbox>
         <local:FlipControl x:Name="FlipElement" Grid.Row="1" Margin="10" FlipDuration="00:00:01.000">
             <local:FlipControl.Front>
-                <TextBox Style="{StaticResource StatsElement}" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=FrontSide, Mode=OneWay, FallbackValue=0}"/>
+                <Label Padding="0" Style="{StaticResource StatsElement}" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=FrontSide, Mode=OneWay, FallbackValue=0}"/>
             </local:FlipControl.Front>
             <local:FlipControl.Back>
-                <TextBox Style="{StaticResource StatsElement}" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=BackSide, Mode=OneWay, FallbackValue=1}"/>
+                <Label Style="{StaticResource StatsElement}" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=BackSide, Mode=OneWay, FallbackValue=1}" Padding="0"/>
             </local:FlipControl.Back>
         </local:FlipControl>
     </Grid>

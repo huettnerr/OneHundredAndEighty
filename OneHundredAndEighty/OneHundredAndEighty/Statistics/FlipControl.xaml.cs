@@ -25,17 +25,17 @@ namespace OneHundredAndEighty.Statistics
     public partial class FlipControl : Grid, INotifyPropertyChanged
     {
         public static readonly DependencyProperty FrontProperty =
-            DependencyProperty.Register("Front", typeof(UIElement), typeof(FlipControl), new UIPropertyMetadata(null));
-        public UIElement Front
+            DependencyProperty.Register("Front", typeof(FrameworkElement), typeof(FlipControl), new UIPropertyMetadata(null));
+        public FrameworkElement Front
         {
-            get { return (UIElement)GetValue(FrontProperty); }
+            get { return (FrameworkElement)GetValue(FrontProperty); }
             set { SetValue(FrontProperty, value); }
         }
         public static readonly DependencyProperty BackProperty =
-            DependencyProperty.Register("Back", typeof(UIElement), typeof(FlipControl), new UIPropertyMetadata(null));
-        public UIElement Back
+            DependencyProperty.Register("Back", typeof(FrameworkElement), typeof(FlipControl), new UIPropertyMetadata(null));
+        public FrameworkElement Back
         {
-            get { return (UIElement)GetValue(BackProperty); }
+            get { return (FrameworkElement)GetValue(BackProperty); }
             set { SetValue(BackProperty, value); }
         }
         public static readonly DependencyProperty FlipDurationProperty =
@@ -67,42 +67,39 @@ namespace OneHundredAndEighty.Statistics
             InitializeComponent();
         }
 
-        public void FlipX()
-        {
-            var animation = new DoubleAnimation()
-            {
-                Duration = FlipDuration,
-                EasingFunction = EasingFunction,
-            };
-            animation.To = IsFlipped ? 1 : -1;
-            (FindResource("transform") as ScaleTransform).BeginAnimation(ScaleTransform.ScaleXProperty, animation);
-            IsFlipped = !IsFlipped;
-            OnFlipped(new EventArgs());
-        }
+        //public void FlipX()
+        //{
+        //    var animation = new DoubleAnimation()
+        //    {
+        //        Duration = FlipDuration,
+        //        EasingFunction = EasingFunction,
+        //    };
+        //    animation.To = IsFlipped ? 1 : -1;
+        //    (FindResource("transform") as ScaleTransform).BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+        //    IsFlipped = !IsFlipped;
+        //    OnFlipped(new EventArgs());
+        //}
 
-        public void FlipY()
+        public void FlipY(TimeSpan delay)
         {
             var animation = new DoubleAnimation()
             {
                 Duration = FlipDuration,
                 EasingFunction = EasingFunction,
-                //FillBehavior = FillBehavior.Stop
+                FillBehavior = FillBehavior.HoldEnd,
+                BeginTime = delay,
+                To = IsFlipped ? 1 : -1
             };
-            animation.To = IsFlipped ? 1 : -1;
-            (FindResource("transform") as ScaleTransform).BeginAnimation(ScaleTransform.ScaleYProperty, animation);
+            animation.Completed += (s, e) => OnFlipped(new EventArgs());
             IsFlipped = !IsFlipped;
-            OnFlipped(new EventArgs());
+
+            (FindResource("transform") as ScaleTransform).BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }
 
         public void ResetFlip()
         {
-            //Storyboard sb = new Storyboard();
-            //var animation = new DoubleAnimation() { Duration = TimeSpan.Zero, To = 1 };
-            //Storyboard.SetTarget(animation, ScaleTransform.ScaleYProperty);
-            //sb.Children.Add(animation);
             (FindResource("transform") as ScaleTransform).BeginAnimation(ScaleTransform.ScaleYProperty, null);
             IsFlipped = false;
-            //transform.SetValue(ScaleTransform.ScaleYProperty, 1.0);
         }
 
         public event EventHandler Flipped;

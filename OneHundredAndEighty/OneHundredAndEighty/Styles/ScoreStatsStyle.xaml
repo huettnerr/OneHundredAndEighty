@@ -27,17 +27,16 @@
         <GradientStop Color="#FF949494" Offset="0.008" />
     </LinearGradientBrush>
 
-    <Style x:Key="StatsElement" TargetType="{x:Type TextBox}">
+    <Style x:Key="StatsElement" TargetType="{x:Type Label}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border Background="{StaticResource MainGradientBrush}" CornerRadius="5" BorderThickness="3" BorderBrush="Black">
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border Background="{StaticResource MainGradientBrush}" Padding="0" CornerRadius="5" BorderThickness="3" BorderBrush="Black">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="10" Opacity="0.5" />
                         </Border.Effect>
                         <Viewbox>
-                            <!--<ContentPresenter VerticalAlignment="Center"/>-->
-                            <TextBox BorderThickness="{TemplateBinding BorderThickness}" IsReadOnly="True" Text="{TemplateBinding Text}" Background="{x:Null}" BorderBrush="{x:Null}" />
+                            <Label BorderThickness="{TemplateBinding BorderThickness}" Content="{TemplateBinding Content}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0"/>
                         </Viewbox>
                     </Border>
                 </ControlTemplate>
