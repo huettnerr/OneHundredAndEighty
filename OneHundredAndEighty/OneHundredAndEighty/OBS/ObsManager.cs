@@ -205,9 +205,8 @@ namespace OneHundredAndEighty.OBS
 
         public static void GameShot(ObsReplaySource replaySource)
         {
-            blockViewChange(3000, "Normal");
-
             if(!disableAllSceneItems(REPLAY_SELECTOR_SCENE)) return;
+
             switch(replaySource)
             {
                 case ObsReplaySource.Player:
@@ -229,6 +228,9 @@ namespace OneHundredAndEighty.OBS
 
             Task.Delay(100).Wait();
             ChangeScene(SCENENAME_REPLAY);
+            Task.Delay(100).Wait();
+
+            blockViewChange(3000, "Normal");
         }
 
         private static void blockViewChange(int msDelay, string boardViewCodeAfterBlock = "", string sceneAfterBlock = "")
