@@ -55,6 +55,7 @@ namespace OneHundredAndEighty.Score
         public ViewProperty<int> P1Legs { get; set; }
         public ViewProperty<int> P1Points { get; set; }
         public ViewProperty<string> P1Help { get; set; }         
+        public ViewProperty<bool> P1HelpActive { get; set; }         
         
         
         public ViewProperty<string> P2Name { get; set; }
@@ -62,6 +63,7 @@ namespace OneHundredAndEighty.Score
         public ViewProperty<int> P2Legs { get; set; }
         public ViewProperty<int> P2Points { get; set; }
         public ViewProperty<string> P2Help { get; set; }
+        public ViewProperty<bool> P2HelpActive { get; set; }
 
         public ScoreViewModel()
         {
@@ -76,12 +78,14 @@ namespace OneHundredAndEighty.Score
             P1Legs = new ViewProperty<int>();
             P1Points = new ViewProperty<int>();
             P1Help = new ViewProperty<string>();
+            P1HelpActive = new ViewProperty<bool>();
 
             P2Name = new ViewProperty<string>();
             P2Sets = new ViewProperty<int>();
             P2Legs = new ViewProperty<int>();
             P2Points = new ViewProperty<int>();
             P2Help = new ViewProperty<string>();
+            P2HelpActive = new ViewProperty<bool>();
 
             P1Throws = new ScoreStack();
             P2Throws = new ScoreStack();
@@ -115,8 +119,6 @@ namespace OneHundredAndEighty.Score
             P2Sets.Val = 0;
             P2Legs.Val = 0;
 
-            ScoreControl?.HelpHide(p1);
-            ScoreControl?.HelpHide(p2);
             ClearScores(points);
             DotSet(first);
             WhoThrowSliderSet(first);
@@ -138,8 +140,16 @@ namespace OneHundredAndEighty.Score
 
         public void HelpCheck(Player p)
         {
-            if (updateFinishHelp(p, out string txt)) ScoreControl?.HelpShow(p, txt);
-            else ScoreControl?.HelpHide(p);
+            if (updateFinishHelp(p, out string txt))
+            {
+                if (p.Tag.Equals("Player1")) P1HelpActive.Val = true;
+                else if (p.Tag.Equals("Player2")) P2HelpActive.Val = true;
+            }
+            else
+            {
+                if (p.Tag.Equals("Player1")) P1HelpActive.Val = false;
+                else if (p.Tag.Equals("Player2")) P2HelpActive.Val = false;
+            }
         }
 
         private bool updateFinishHelp(Player p, out string helpText)
@@ -249,7 +259,7 @@ namespace OneHundredAndEighty.Score
 
             scoreWindow = new ScoreWindow();
             StatisticsOverlayManager.scoreWindow = scoreWindow;
-            ScoreControl = new ScoreControl();
+            ScoreControl = scoreWindow.Score as ScoreControl;
             scoreWindow.Score.DataContext = this;
 
             //scoreWindow.Content = ScoreControl;

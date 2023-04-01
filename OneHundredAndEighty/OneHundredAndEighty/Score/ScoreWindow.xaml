@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Stats:CounterControl x:Name="StatsCounter" Grid.Column="2" Visibility="Hidden"/>
+            <Stats:CounterControl x:Name="StatsCounter" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
             <Stats:LowerThirdControl x:Name="LowerThird" Grid.Column="1" Grid.ColumnSpan="3" Visibility="Hidden"/>
         </Grid>
         

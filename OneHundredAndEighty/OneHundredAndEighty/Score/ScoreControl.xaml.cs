@@ -121,7 +121,8 @@ namespace OneHundredAndEighty.Score
 
             if (helpPanel.Tag.Equals("OFF"))
             {
-                Canvas.SetRight(helpPanel, 0);
+                //Canvas.SetRight(helpPanel, 0);
+                helpPanel.Visibility = Visibility.Visible;  
 
                 //var show = new DoubleAnimation(-helpPanel.ActualWidth, 0, helpSlideTime);
                 //helpPanel.BeginAnimation(Canvas.RightProperty, show);
@@ -140,7 +141,8 @@ namespace OneHundredAndEighty.Score
 
             if (helpPanel?.Tag.Equals("ON") ?? false)
             {
-                Canvas.SetRight(helpPanel, -helpPanel.ActualWidth);
+                //Canvas.SetRight(helpPanel, -helpPanel.ActualWidth);
+                helpPanel.Visibility = Visibility.Hidden;
 
                 //var hide = new DoubleAnimation(0, -helpPanel.ActualWidth, helpSlideTime);
                 //helpPanel.BeginAnimation(Canvas.RightProperty, hide);

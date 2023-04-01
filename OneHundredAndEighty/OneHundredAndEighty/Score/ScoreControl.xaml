@@ -36,29 +36,24 @@
 
         <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Background="Transparent" x:Name="SpacingLeft"/>
         <Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="4" Background="Transparent" x:Name="SpacingRight"/>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Canvas MaxWidth="{Binding ActualWidth, ElementName=SpacingLeft}" Height="{Binding ActualHeight, ElementName=Player1Viewbox}" HorizontalAlignment="Left">
-                <Grid x:Name="Player1Help" Tag="OFF">
-                    <!--<Rectangle x:Name="Player1HelpStroke" Stroke="Black" MaxWidth="{Binding Width, ElementName=SpacingLeft}" Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Canvas}}}"/>-->
-                    <Rectangle Opacity="0.75" Stroke="Black" Fill="{StaticResource HighlightGradientBrush}"/>
-                    <Rectangle x:Name="Player1HelpBackground" Stroke="Black" Opacity="1" Fill="{StaticResource MainGradientBrush}"/>
-                    <Viewbox x:Name="Player1PointsHelp" MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
-                        <Label Content="{Binding P1Help.Val, FallbackValue='D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="10"/>
-                    </Viewbox>
-                </Grid>
-            </Canvas>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid x:Name="Player1Help" HorizontalAlignment="Right" Tag="OFF" Visibility="{Binding P1HelpActive.Val,Converter={CTRLs:BoolToVisibilityConverter}}">
+                <Rectangle Opacity="0.75" Stroke="Black" Fill="{StaticResource HighlightGradientBrush}"/>
+                <Rectangle x:Name="Player1HelpBackground" Stroke="Black" Opacity="1" Fill="{StaticResource MainGradientBrush}"/>
+                <Viewbox x:Name="Player1PointsHelp" MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
+                    <Label Content="{Binding P1Help.Val, FallbackValue='D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="10"/>
+                </Viewbox>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="1">
-            <Canvas HorizontalAlignment="Left">
-                <Grid x:Name="Player2Help" Tag="OFF">
-                    <!--<Rectangle x:Name="Player2HelpStroke" Stroke="Black" MaxWidth="{Binding Width, ElementName=SpacingLeft}" Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Canvas}}}"/>-->
-                    <Rectangle Opacity="0.75" Stroke="Black" Fill="{StaticResource HighlightGradientBrush}"/>
-                    <Rectangle x:Name="Player2HelpBackground" Stroke="Black" Opacity="1" Fill="{StaticResource MainGradientBrush}"/>
-                    <Viewbox x:Name="Player2PointsHelp" MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
-                        <Label Content="{Binding P2Help.Val, FallbackValue='D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="10"/>
-                    </Viewbox>
-                </Grid>
-            </Canvas>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid x:Name="Player2Help" HorizontalAlignment="Right" Visibility="{Binding P2HelpActive.Val,Converter={CTRLs:BoolToVisibilityConverter}}">
+                <Rectangle Opacity="0.75" Stroke="Black" Fill="{StaticResource HighlightGradientBrush}"/>
+                <Rectangle x:Name="Player2HelpBackground" Stroke="Black" Opacity="1" Fill="{StaticResource MainGradientBrush}"/>
+                <Viewbox x:Name="Player2PointsHelp" MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
+                    <Label Content="{Binding P2Help.Val, FallbackValue='T20 D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="10"/>
+                </Viewbox>
+            </Grid>
         </Grid>        
         <Grid Grid.Row="1" Grid.Column="4">
             <Grid.ColumnDefinitions>
