@@ -213,12 +213,13 @@ namespace OneHundredAndEighty.OBS
             {
                 case ObsReplaySource.Player:
                     enableSceneItem(REPLAY_SELECTOR_SCENE, "PlayerReplaySource");
-                    triggerHotkey(PlayerReplay_Save);
+                    SaveReplays();
                     Task.Delay(100).Wait();
                     triggerHotkey(PlayerReplay_Replay);
                     break;
                 case ObsReplaySource.Board:
                     enableSceneItem(REPLAY_SELECTOR_SCENE, "BoardReplaySource");
+                    triggerHotkey(PlayerReplay_Save);
                     triggerHotkey(BoardReplay_Save);
                     Task.Delay(100).Wait();
                     triggerHotkey(BoardReplay_Replay);
@@ -233,6 +234,12 @@ namespace OneHundredAndEighty.OBS
             Task.Delay(100).Wait();
 
             blockViewChange(3000, "Normal");
+        }
+
+        public static void SaveReplays()
+        {
+            triggerHotkey(PlayerReplay_Save);
+            triggerHotkey(BoardReplay_Save);
         }
 
         private static void blockViewChange(int msDelay, string boardViewCodeAfterBlock = "", string sceneAfterBlock = "")

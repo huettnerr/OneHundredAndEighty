@@ -69,7 +69,6 @@ namespace OneHundredAndEighty
 
         private void EndGame() //  Конец матча
         {
-            IsOn = false; //  Флаг матча
             //  Сообщение
             WinnerWindowLogic.ShowWinner(playerOnThrow, player1, player2, AllMatchThrows); //  Показываем окно победителя и статистику
             //  Панели
@@ -169,7 +168,7 @@ namespace OneHundredAndEighty
 
                 if (IsOn) //  Если игра продолжается
                 {
-                    ObsManager.GameShot(ObsReplaySource.Board);
+                    ObsManager.GameShot(ObsReplaySource.Player);
                     ClearHands(); //  Очищаем броски
                     TogglePlayerOnLeg(); //  Смена игрока на начало лега 
                     player1.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 1
@@ -181,6 +180,7 @@ namespace OneHundredAndEighty
                 else
                 {
                     ObsManager.GameShot(ObsReplaySource.Player);
+                    EndGame(); //  Матч окончен
                 }
 
                 WriteBackup();
@@ -271,7 +271,7 @@ namespace OneHundredAndEighty
             if (playerOnThrow.setsWon == setsToGo) //  Если игрок выиграл требуемое количество сетов для завершения матча
             {
                 t.IsMatchWon = true; //  Помечаем бросок как выигравший матч
-                EndGame(); //  Матч окончен
+                IsOn = false; //  Флаг матча
             }
         }
 
