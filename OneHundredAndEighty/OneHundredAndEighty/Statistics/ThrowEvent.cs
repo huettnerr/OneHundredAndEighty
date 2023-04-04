@@ -37,7 +37,10 @@ namespace OneHundredAndEighty.Statistics
         {
             int score = throws.Select(t => t.Points).ToList().Sum() ?? 0;
 
-            if (score == 3) Handler?.Invoke(sender, new ThrowEvent(ThrowEventType._3, name, 0,0));
+            if (score == 3)
+            {
+                if(throws.Where(t => t.Points == 1).Count() == 3) Handler?.Invoke(sender, new ThrowEvent(ThrowEventType._3, name, 0, 0));
+            }
             if (score == 26)
             {
                 if(throws.Where(t => t.Points == 1).Count() == 1 && throws.Where(t => t.Points == 5).Count() == 1 && throws.Where(t => t.Points == 20).Count() == 1)

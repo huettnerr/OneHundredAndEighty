@@ -1,5 +1,6 @@
 ﻿using OneHundredAndEighty.Classes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,7 +60,7 @@ namespace OneHundredAndEighty.Statistics
                 //Check if it was faulty and clear points if neccessary
                 if (throws.ElementAt(i).IsFault)
                 {
-                    points.AddRange(turnPoints.Select(t => 0));
+                    points.AddRange(Enumerable.Repeat(0, 3));
                 }
                 else
                 {

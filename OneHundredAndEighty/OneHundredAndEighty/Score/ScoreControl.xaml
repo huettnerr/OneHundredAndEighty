@@ -17,6 +17,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition>
                 <ColumnDefinition.Style>
                     <Style TargetType="ColumnDefinition">
@@ -42,7 +43,7 @@
                 <Rectangle Opacity="0.75" Stroke="Black" Fill="{StaticResource HighlightGradientBrush}"/>
                 <Rectangle x:Name="Player1HelpBackground" Stroke="Black" Opacity="1" Fill="{StaticResource MainGradientBrush}"/>
                 <Viewbox x:Name="Player1PointsHelp" MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
-                    <Label Content="{Binding P1Help.Val, FallbackValue='D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="10"/>
+                    <Label Content="{Binding P1Help.Val, FallbackValue='D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="5"/>
                 </Viewbox>
             </Grid>
         </Grid>
@@ -51,11 +52,11 @@
                 <Rectangle Opacity="0.75" Stroke="Black" Fill="{StaticResource HighlightGradientBrush}"/>
                 <Rectangle x:Name="Player2HelpBackground" Stroke="Black" Opacity="1" Fill="{StaticResource MainGradientBrush}"/>
                 <Viewbox x:Name="Player2PointsHelp" MaxHeight="{Binding ActualHeight, ElementName=Player1Viewbox}">
-                    <Label Content="{Binding P2Help.Val, FallbackValue='T20 D20 T13'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="10"/>
+                    <Label Content="{Binding P2Help.Val, FallbackValue='T20 D20 Bull'}" FontFamily="Agency FB" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="5"/>
                 </Viewbox>
             </Grid>
         </Grid>        
-        <Grid Grid.Row="1" Grid.Column="4">
+        <Grid Grid.Row="1" Grid.Column="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
@@ -73,60 +74,71 @@
             </Canvas>
         </Grid>
 
-        <Rectangle Stroke="Black" Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="4" Fill="{StaticResource BackgroundGradientBrush}"/>
-        <Rectangle Stroke="Black" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="4" Fill="{StaticResource HighlightGradientBrush}"/>
-        <Image Source="{StaticResource ChemoLogo}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0.5"/>
-        <Rectangle Stroke="Black"  Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" Grid.ColumnSpan="3" Fill="{StaticResource MainGradientBrush}" />
-        <Rectangle Stroke="Black"  Grid.Row="2" Grid.Column="2" Grid.RowSpan="1" Grid.ColumnSpan="3" Fill="{StaticResource MainGradientBrush}" />
-        <Border Grid.Row="2" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="4" BorderThickness="1" BorderBrush="Black"/>
+        <Rectangle Stroke="Black" Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="5" Fill="{StaticResource BackgroundGradientBrush}"/>
+        <Rectangle Stroke="Black" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Fill="{StaticResource HighlightGradientBrush}"/>
+        <Image Source="{StaticResource ChemoLogo}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0.5"/>
+        <Rectangle Stroke="Black"  Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="3" Fill="{StaticResource MainGradientBrush}" />
+        <Rectangle Stroke="Black"  Grid.Row="2" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="3" Fill="{StaticResource MainGradientBrush}" />
+        <Border Grid.Row="2" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="5" BorderThickness="1" BorderBrush="Black"/>
         <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" BorderThickness="1 0 0 0" BorderBrush="Black"/>
         <Border Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" BorderThickness="1 0 0 0" BorderBrush="Black"/>
 
         <Viewbox Grid.Row="0" Grid.Column="1">
             <Label Content="{Binding Summary.Val,FallbackValue='First to 9 sets with 3 legs'}" FontFamily="Agency FB" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
-        <Viewbox Grid.Row="0" Grid.Column="2" x:Name="SetsViewbox">
+        <Viewbox Grid.Row="0" Grid.Column="2">
+            <Label Content="Avg" Foreground="White" FontFamily="Agency FB" FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="4"/>
+        </Viewbox>
+        <Viewbox Grid.Row="0" Grid.Column="3">
             <Label Content="Sets" Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
-        <Viewbox Grid.Row="0" Grid.Column="3" >
+        <Viewbox Grid.Row="0" Grid.Column="4" x:Name="LegsViewbox">
             <Label Content="Legs"  Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
-        <Viewbox Grid.Row="0" Grid.Column="4" MaxHeight="{Binding ActualHeight, ElementName=SetsViewbox}">
+        <Viewbox Grid.Row="0" Grid.Column="5" MaxHeight="{Binding ActualHeight, ElementName=LegsViewbox}">
             <Label Content="Points"  Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Viewbox HorizontalAlignment="Left" Margin="0 0 24 0" x:Name="Player1Viewbox">
-                <Label x:Name="Player1Name" Content="{Binding P1Name.Val, FallbackValue=Player 1}" Background="Transparent" FontWeight="ExtraBlack" Padding="5" VerticalAlignment="Center"/>
-            </Viewbox>
-            <Ellipse x:Name="Player1SetDot" Tag="ON" Height="8" Stroke="Black" Width="8" HorizontalAlignment="Right" Margin="0 0 10 0" Fill="{StaticResource MainGradientBrush2}"/>
-        </Grid>
-        <Grid Grid.Row="2" Grid.Column="1">
-            <Viewbox HorizontalAlignment="Left" Margin="0 0 24 0" >
-                <Label x:Name="Player2Name" Content="{Binding P2Name.Val, FallbackValue='Player 2'}" Background="Transparent" FontWeight="ExtraBlack" Padding="5" VerticalAlignment="Center"/>
-            </Viewbox>
-            <Ellipse x:Name="Player2SetDot" Tag="OFF" Height="8" Stroke="Black" Width="8" Opacity="0" HorizontalAlignment="Right" Margin="0 0 8 0" Fill="{StaticResource MainGradientBrush2}"/>
-        </Grid>
-        <Viewbox Grid.Row="1" Grid.Column="2">
-            <Label x:Name="Player1SetsWon" Content="{Binding P1Sets.Val, FallbackValue='5'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <Viewbox HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
+            <Label x:Name="Player1Name" Content="{Binding P1Name.Val, FallbackValue='Player 1'}" Background="Transparent" FontWeight="ExtraBlack" Padding="3" VerticalAlignment="Center"/>
         </Viewbox>
-        <Viewbox Grid.Row="2" Grid.Column="2">
-            <Label x:Name="Player2SetsWon" Content="{Binding P2Sets.Val, FallbackValue='7'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <Viewbox HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding P1Throws.Stats.Avg.Val, FallbackValue=69.0}" ContentStringFormat="N1" VerticalContentAlignment="Center" FontSize="24"/>
+                <Ellipse x:Name="Player1SetDot" Tag="ON" Height="10" Stroke="Black" Width="10" Margin="0 0 10 0" VerticalAlignment="Center" Fill="{StaticResource MainGradientBrush2}"/>
+            </StackPanel>
         </Viewbox>
+        
+        <Viewbox HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1">
+            <Label x:Name="Player2Name" Content="{Binding P2Name.Val, FallbackValue='Player 2'}" Background="Transparent" FontWeight="ExtraBlack" Padding="3" VerticalAlignment="Center"/>
+        </Viewbox>
+        <Viewbox HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding P2Throws.Stats.Avg.Val, FallbackValue=46.8}" ContentStringFormat="N1" VerticalContentAlignment="Center" FontSize="24"/>
+                <Ellipse x:Name="Player2SetDot" Tag="OFF" Opacity="0" Height="10" Stroke="Black" Width="10" Margin="0 0 10 0" VerticalAlignment="Center" Fill="{StaticResource MainGradientBrush2}"/>
+            </StackPanel>
+        </Viewbox>
+        
         <Viewbox Grid.Row="1" Grid.Column="3">
-            <Label x:Name="Player1LegsWon" Content="{Binding P1Legs.Val, FallbackValue='3'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <Label x:Name="Player1SetsWon" Content="{Binding P1Sets.Val, FallbackValue='5'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="0"/>
         </Viewbox>
         <Viewbox Grid.Row="2" Grid.Column="3">
-            <Label x:Name="Player2LegsWon" Content="{Binding P2Legs.Val, FallbackValue='9'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <Label x:Name="Player2SetsWon" Content="{Binding P2Sets.Val, FallbackValue='7'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="0"/>
         </Viewbox>
         <Viewbox Grid.Row="1" Grid.Column="4">
-            <Label x:Name="Player1Points" Content="{Binding P1Points.Val, FallbackValue='120'}" FontWeight="Bold" FontFamily="Agency FB" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+            <Label x:Name="Player1LegsWon" Content="{Binding P1Legs.Val, FallbackValue='3'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="0"/>
         </Viewbox>
         <Viewbox Grid.Row="2" Grid.Column="4">
-            <Label x:Name="Player2Points" Content="{Binding P2Points.Val, FallbackValue='180'}" FontWeight="Bold" FontFamily="Agency FB" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+            <Label x:Name="Player2LegsWon" Content="{Binding P2Legs.Val, FallbackValue='9'}" FontWeight="Bold" FontFamily="Agency FB" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="0"/>
+        </Viewbox>
+        <Viewbox Grid.Row="1" Grid.Column="5">
+            <Label x:Name="Player1Points" Content="{Binding P1Points.Val, FallbackValue='120'}" FontWeight="Bold" FontFamily="Agency FB" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Padding="0"/>
+        </Viewbox>
+        <Viewbox Grid.Row="2" Grid.Column="5">
+            <Label x:Name="Player2Points" Content="{Binding P2Points.Val, FallbackValue='180'}" FontWeight="Bold" FontFamily="Agency FB" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0"/>
         </Viewbox>
 
-        <Viewbox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+        <Viewbox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center">
             <Label Content="Chemodarts Finals" FontFamily="Agency FB" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
     </Grid>

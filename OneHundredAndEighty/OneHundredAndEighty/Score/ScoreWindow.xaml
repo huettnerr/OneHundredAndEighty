@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:OneHundredAndEighty.Score"
         xmlns:Stats="clr-namespace:OneHundredAndEighty.Statistics"
         mc:Ignorable="d"
-        Title="OneEightyScore" Height="150" Width="1920"
+        Title="OneEightyScore" Height="250" Width="1920"
         AllowsTransparency="True" Background="Transparent"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
         WindowStyle="None" ResizeMode="NoResize">

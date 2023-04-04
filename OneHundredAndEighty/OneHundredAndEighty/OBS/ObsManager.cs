@@ -14,8 +14,10 @@ namespace OneHundredAndEighty.OBS
 
     public static class ObsManager
     {
-        private readonly static string server = "ws://192.168.0.23:4455";
-        private readonly static string password = "GVq4uqNEHnH1V6y6";
+        //private readonly static string server = "ws://0.0.0.0:4455";
+        private readonly static string server = "ws://127.0.0.1:4455";
+        //private readonly static string server = "ws://192.168.0.23:4455";
+        private readonly static string password = "jX1NyGlHzroHK9dd";
 
         private readonly static string SCENENAME_SPLITSCREEN = "Live - Splitscreen";
         private readonly static string SCENENAME_BOARD = "Live Board Only";
