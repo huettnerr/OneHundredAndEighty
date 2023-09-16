@@ -50,6 +50,9 @@ namespace OneHundredAndEighty
             BoardPanelLogic.PanelShow(); //  Показываем панель секторов
             PlayerOverview.ClearPanel(); //  Очищаем панель данных игроков
 
+            //Set OBS 
+            ObsManager.ChangeScene(ObsManager.SCENENAME_SPLITSCREEN);
+
             // initiate game mode
             pointsToGo = settingsPanelLogic.PointsToGo(); //  Получаем количество очков лега
             setsToGo = settingsPanelLogic.SetsToGo(); //  Получаем количество легов сета
@@ -168,7 +171,7 @@ namespace OneHundredAndEighty
 
                 if (IsOn) //  Если игра продолжается
                 {
-                    ObsManager.GameShot(ObsReplaySource.Player);
+                    ObsManager.GameShot(ObsReplaySource.Player, false);
                     ClearHands(); //  Очищаем броски
                     TogglePlayerOnLeg(); //  Смена игрока на начало лега 
                     player1.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 1
@@ -179,7 +182,7 @@ namespace OneHundredAndEighty
                 }
                 else
                 {
-                    ObsManager.GameShot(ObsReplaySource.Player);
+                    ObsManager.GameShot(ObsReplaySource.Player, true);
                     EndGame(); //  Матч окончен
                 }
 

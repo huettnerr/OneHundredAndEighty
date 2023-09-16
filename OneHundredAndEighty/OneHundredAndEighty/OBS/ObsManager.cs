@@ -19,13 +19,15 @@ namespace OneHundredAndEighty.OBS
         //private readonly static string server = "ws://192.168.0.23:4455";
         private readonly static string password = "jX1NyGlHzroHK9dd";
 
-        private readonly static string SCENENAME_SPLITSCREEN = "Live - Splitscreen";
-        private readonly static string SCENENAME_BOARD = "Live Board Only";
-        private readonly static string SCENENAME_PLAYER = "Live - PlayerCam";
-        private readonly static string SCENENAME_REPLAY = "Live - Instant Replay";
+        public readonly static string SCENENAME_SPLITSCREEN = "Live - Splitscreen";
+        public readonly static string SCENENAME_BOARD = "Live Board Only";
+        public readonly static string SCENENAME_PLAYER = "Live - PlayerCam";
+        public readonly static string SCENENAME_REPLAY = "Live - Instant Replay";
+        public readonly static string SCENENAME_STATS = "Finals - Last Game Stats";
+        public readonly static string SCENENAME_STANDINGS = "Finals - Standings";
 
-        private readonly static string BOARDVIEW_SELECTOR_SCENE = "COMBINE_BOARD";
-        private readonly static string REPLAY_SELECTOR_SCENE = "REPLAYS";
+        public readonly static string BOARDVIEW_SELECTOR_SCENE = "COMBINE_BOARD";
+        public readonly static string REPLAY_SELECTOR_SCENE = "REPLAYS";
 
         private readonly static Tuple<KeyModifier, OBSHotkey> PlayerReplay_Save = new Tuple<KeyModifier, OBSHotkey>(KeyModifier.Control, OBSHotkey.OBS_KEY_0x30);
         private readonly static Tuple<KeyModifier, OBSHotkey> PlayerReplay_Replay = new Tuple<KeyModifier, OBSHotkey>(KeyModifier.Control, OBSHotkey.OBS_KEY_0x31);
@@ -205,7 +207,7 @@ namespace OneHundredAndEighty.OBS
 
         #endregion
 
-        public static void GameShot(ObsReplaySource replaySource)
+        public static void GameShot(ObsReplaySource replaySource, bool showStats)
         {
             if(!disableAllSceneItems(REPLAY_SELECTOR_SCENE)) return;
 
@@ -233,7 +235,14 @@ namespace OneHundredAndEighty.OBS
             ChangeScene(SCENENAME_REPLAY);
             Task.Delay(100).Wait();
 
-            blockViewChange(3000, "Normal");
+            if(showStats)
+            {
+                blockViewChange(12000, "Normal", SCENENAME_STANDINGS);
+            }
+            else
+            {
+                blockViewChange(3000, "Normal");
+            }
         }
 
         public static void SaveReplays()

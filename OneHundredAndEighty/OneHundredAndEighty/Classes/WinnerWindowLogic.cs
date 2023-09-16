@@ -22,6 +22,7 @@ namespace OneHundredAndEighty
             winnerWindow.WinnerName.Content = new StringBuilder().Append("[ ").Append(winner.Name).Append(" ]").ToString();
             winnerWindow.ShowDialog(); //  Показываем диалоговое окно
             ((App)Application.Current).Game.statisticsWindowLogic.CountMatchStatistics(winner, player1, player2, allMatchThrows); //  Считаем статистику матча
+            //TODO: Vernünftiges Statistik-Fenster bauen
             if (winnerWindow.StatsShow) //  Если нажата кнопка показать статистику матча
             {
                 ((App)Application.Current).Game.statisticsWindowLogic.ShowMatchStatistics(); //  Показываем статистику матча
