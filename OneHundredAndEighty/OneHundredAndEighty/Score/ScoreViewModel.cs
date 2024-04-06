@@ -90,6 +90,8 @@ namespace OneHundredAndEighty.Score
             P1Throws = new ScoreStack();
             P2Throws = new ScoreStack();
             ScoreStack.ThrowEvents += StatisticsOverlayManager.NewThrowEventHandler;
+
+            ScoresChanged += updateScores;
         }
 
         public void NewGame(int points, int legs, int sets, Player p1, Player p2, Player first)
@@ -119,7 +121,8 @@ namespace OneHundredAndEighty.Score
             P2Sets.Val = 0;
             P2Legs.Val = 0;
 
-            ClearScores(points);
+            ClearScores(p1, points);
+            ClearScores(p2, points);
             DotSet(first);
             WhoThrowSliderSet(first);
         } //  Установка в 0 в начале игры
@@ -173,9 +176,6 @@ namespace OneHundredAndEighty.Score
 
         public void CountThrow(ref Player p, ref Throw t)
         {
-            //Update Live-Scores
-            PointsSet(p);
-
             //Add Throw
             if (p.Tag.Equals("Player1"))
             {
@@ -187,18 +187,6 @@ namespace OneHundredAndEighty.Score
             }
         }
 
-        public void PointsSet(Player p)
-        {
-            if (p.Tag.Equals("Player1"))
-            {
-                P1Points.Val = p.pointsToOut;
-            }
-            else if (p.Tag.Equals("Player2"))
-            {
-                P2Points.Val = p.pointsToOut;
-            }
-        }
-
         public void UndoThrow(Player p)
         {
             if (p.Tag.Equals("Player1"))
@@ -206,6 +194,7 @@ namespace OneHundredAndEighty.Score
                 if(P1Throws?.UndoThrow(ScoresChanged) ?? false)
                 {
                     P2Throws?.RestoreWhiteboard(ScoresChanged);
+                    P2Points.Val = P2Throws?.WhiteboardScores.Last().PointsToGo ?? 0;
                 }
             }
             else if (p.Tag.Equals("Player2"))
@@ -213,17 +202,38 @@ namespace OneHundredAndEighty.Score
                 if (P2Throws?.UndoThrow(ScoresChanged) ?? false)
                 {
                     P1Throws?.RestoreWhiteboard(ScoresChanged);
+                    P1Points.Val = P1Throws?.WhiteboardScores.Last().PointsToGo ?? 0;
                 }
             }
         }
 
-        public void ClearScores(int pointsToGo)
+        private void updateScores(object s, WhiteboardScore? wbs)
         {
-            P1Throws.ClearWhiteboard(pointsToGo);
-            P2Throws.ClearWhiteboard(pointsToGo);
+            if(wbs.HasValue)
+            {
+                if (wbs.Value.Player.Tag.Equals("Player1"))
+                {
+                    P1Points.Val = wbs.Value.PointsToGo;
+                }
+                else if (wbs.Value.Player.Tag.Equals("Player2"))
+                {
+                    P2Points.Val = wbs.Value.PointsToGo;
+                }
+            }
+        }
 
-            P1Points.Val = pointsToGo;
-            P2Points.Val = pointsToGo;
+        public void ClearScores(Player p, int pointsToGo)
+        {
+            if (p.Tag.Equals("Player1"))
+            {
+                P1Throws.ClearWhiteboard(p, pointsToGo);
+                P1Points.Val = pointsToGo;
+            }
+            else if (p.Tag.Equals("Player2"))
+            {
+                P2Throws.ClearWhiteboard(p, pointsToGo);
+                P2Points.Val = pointsToGo;
+            }
         }
 
 

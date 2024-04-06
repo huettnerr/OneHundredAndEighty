@@ -8,6 +8,7 @@ namespace OneHundredAndEighty.Score
 {
     public struct WhiteboardScore
     {
+        public Player Player { get; set; }
         public int PointsThrown { get; set; }
         public int PointsToGo { get; set; }
         public int LegDartCount { get; set; }
@@ -18,8 +19,9 @@ namespace OneHundredAndEighty.Score
             get => String.Join("|", Throws);
         }
 
-        public WhiteboardScore(int pointsThrown, int pointsToGo, int dartCount, List<Throw> throws, bool isGameShot)
+        public WhiteboardScore(Player p, int pointsThrown, int pointsToGo, int dartCount, List<Throw> throws, bool isGameShot)
         {
+            Player = p;
             PointsThrown = pointsThrown;
             PointsToGo = pointsToGo;
             LegDartCount = dartCount;

@@ -176,7 +176,8 @@ namespace OneHundredAndEighty
                     TogglePlayerOnLeg(); //  Смена игрока на начало лега 
                     player1.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 1
                     player2.pointsToOut = pointsToGo; //  Обновляем очки нового лега игрока 2
-                    scoreVM.ClearScores(pointsToGo); //  Обновляем инфопанель
+                    scoreVM.ClearScores(player1, pointsToGo); //  Обновляем инфопанель
+                    scoreVM.ClearScores(player2, pointsToGo); //  Обновляем инфопанель
                     scoreVM.HelpCheck(player1); //  Проверка помощи
                     scoreVM.HelpCheck(player2); //  Проверка помощи
                 }
@@ -298,10 +299,10 @@ namespace OneHundredAndEighty
                 player2.pointsToOut = sp.Player2PointsToOut; //  Восстанавливаем Игроку 2 очки на завершение лега
                 scoreVM.SetsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 1
                 scoreVM.LegsSet(player1); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 1
-                scoreVM.PointsSet(player1); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 1
+                //scoreVM.PointsSet(player1); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 1
                 scoreVM.SetsSet(player2); //  Восстанавливаем в инфо-панели очки выигранных сетов Игрока 2
                 scoreVM.LegsSet(player2); //  Восстанавливаем в инфо-панели очки выигранных легов Игрока 2
-                scoreVM.PointsSet(player2); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 2
+                //scoreVM.PointsSet(player2); //  Восстанавливаем в инфо-панели очки на завершение лега Игрока 2
                 playerOnThrow = sp.PlayerOnThrow; //  Восстанавливаем игрока на броске
                 playerOnLeg = sp.PlayerOnLeg; //  Восстанавливаем игрока на начало лега
                 scoreVM.UndoThrow(playerOnThrow);

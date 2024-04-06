@@ -65,11 +65,11 @@ namespace OneHundredAndEighty.Score
                 WhiteboardScore wbs;
                 if (t.IsFault)
                 {
-                    wbs = new WhiteboardScore(0, p.pointsToOut, 3 * WhiteboardScores.Count, turnThrows, false);
+                    wbs = new WhiteboardScore(p, 0, p.pointsToOut, 3 * WhiteboardScores.Count, turnThrows, false);
                 }
                 else
                 {
-                    wbs = new WhiteboardScore(p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count - p.ThrowsLeft, turnThrows, t.IsLegWon);
+                    wbs = new WhiteboardScore(p, p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count - p.ThrowsLeft, turnThrows, t.IsLegWon);
 
                     //Stats
                     if(!t.IsLegWon) ThrowEvent.FireEvents(this, ThrowEvents, turnThrows, p.Name, Stats);
@@ -91,13 +91,13 @@ namespace OneHundredAndEighty.Score
                 if(WhiteboardScores.Count > 1) 
                 {
                     WhiteboardScores.Remove(WhiteboardScores.Last());
-                    callback?.Invoke(this, null);
+                    callback?.Invoke(this, WhiteboardScores.Last());
                 }
                 else if(oldWhiteboards.Count > 0)
                 {
                     RestoreWhiteboard(null);
                     WhiteboardScores.Remove(WhiteboardScores.Last());
-                    callback?.Invoke(this, null);
+                    callback?.Invoke(this, WhiteboardScores.Last());
                     return true;
                 }
             }
@@ -116,12 +116,12 @@ namespace OneHundredAndEighty.Score
             callback?.Invoke(this, null);
         }
 
-        public void ClearWhiteboard(int pointsToGo)
+        public void ClearWhiteboard(Player p, int pointsToGo)
         {
             oldWhiteboards.Push(new ObservableCollection<WhiteboardScore>(WhiteboardScores));
 
             WhiteboardScores.Clear();
-            WhiteboardScores.Add(new WhiteboardScore(0, pointsToGo, 0, new List<Throw>(), false));
+            WhiteboardScores.Add(new WhiteboardScore(p, 0, pointsToGo, 0, new List<Throw>(), false));
         }
 
         private bool getThrowsOfLastTurn(out List<Throw> result)
