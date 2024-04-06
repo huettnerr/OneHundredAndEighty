@@ -32,6 +32,7 @@
             </ColumnDefinition>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -56,7 +57,7 @@
                 </Viewbox>
             </Grid>
         </Grid>        
-        <Grid Grid.Row="1" Grid.Column="5">
+        <Grid Grid.Row="1" Grid.Column="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
@@ -74,12 +75,12 @@
             </Canvas>
         </Grid>
 
-        <Rectangle Stroke="Black" Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="5" Fill="{StaticResource BackgroundGradientBrush}"/>
-        <Rectangle Stroke="Black" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Fill="{StaticResource HighlightGradientBrush}"/>
+        <Rectangle Stroke="Black" Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="6" Fill="{StaticResource BackgroundGradientBrush}"/>
+        <Rectangle Stroke="Black" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="6" Fill="{StaticResource HighlightGradientBrush}"/>
         <Image Source="{StaticResource ChemoLogo}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0.5"/>
-        <Rectangle Stroke="Black"  Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="3" Fill="{StaticResource MainGradientBrush}" />
-        <Rectangle Stroke="Black"  Grid.Row="2" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="3" Fill="{StaticResource MainGradientBrush}" />
-        <Border Grid.Row="2" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="5" BorderThickness="1" BorderBrush="Black"/>
+        <Rectangle Stroke="Black"  Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="4" Fill="{StaticResource MainGradientBrush}" />
+        <Rectangle Stroke="Black"  Grid.Row="2" Grid.Column="3" Grid.RowSpan="1" Grid.ColumnSpan="4" Fill="{StaticResource MainGradientBrush}" />
+        <Border Grid.Row="2" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="6" BorderThickness="1" BorderBrush="Black"/>
         <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" BorderThickness="1 0 0 0" BorderBrush="Black"/>
         <Border Grid.Row="1" Grid.Column="4" Grid.RowSpan="2" BorderThickness="1 0 0 0" BorderBrush="Black"/>
 
@@ -97,6 +98,9 @@
         </Viewbox>
         <Viewbox Grid.Row="0" Grid.Column="5" MaxHeight="{Binding ActualHeight, ElementName=LegsViewbox}">
             <Label Content="Points"  Foreground="White"  FontFamily="Agency FB" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
+        </Viewbox>
+        <Viewbox Grid.Row="0" Grid.Column="6">
+            <Label Content="Darts" Foreground="White" FontFamily="Agency FB" FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="4"/>
         </Viewbox>
 
         <Viewbox HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1">
@@ -137,8 +141,14 @@
         <Viewbox Grid.Row="2" Grid.Column="5">
             <Label x:Name="Player2Points" Content="{Binding P2Points.Val, FallbackValue='180'}" FontWeight="Bold" FontFamily="Agency FB" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0"/>
         </Viewbox>
+        <Viewbox Grid.Row="1" Grid.Column="6">
+            <Label x:Name="Player1Darts" Content="{Binding P1Darts.Val, FallbackValue='0'}" FontWeight="Light" FontFamily="Agency FB" Padding="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Viewbox>
+        <Viewbox Grid.Row="2" Grid.Column="6">
+            <Label x:Name="Player2Darts" Content="{Binding P2Darts.Val, FallbackValue='0'}" FontWeight="Light" FontFamily="Agency FB" Padding="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Viewbox>
 
-        <Viewbox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center">
+        <Viewbox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="6" HorizontalAlignment="Center">
             <Label Content="Chemodarts Finals" FontFamily="Agency FB" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2"/>
         </Viewbox>
     </Grid>

@@ -54,6 +54,7 @@ namespace OneHundredAndEighty.Score
         public ViewProperty<int> P1Sets { get; set; }
         public ViewProperty<int> P1Legs { get; set; }
         public ViewProperty<int> P1Points { get; set; }
+        public ViewProperty<int> P1Darts { get; set; }
         public ViewProperty<string> P1Help { get; set; }         
         public ViewProperty<bool> P1HelpActive { get; set; }         
         
@@ -62,6 +63,7 @@ namespace OneHundredAndEighty.Score
         public ViewProperty<int> P2Sets { get; set; }
         public ViewProperty<int> P2Legs { get; set; }
         public ViewProperty<int> P2Points { get; set; }
+        public ViewProperty<int> P2Darts { get; set; }
         public ViewProperty<string> P2Help { get; set; }
         public ViewProperty<bool> P2HelpActive { get; set; }
 
@@ -77,6 +79,7 @@ namespace OneHundredAndEighty.Score
             P1Sets = new ViewProperty<int>();
             P1Legs = new ViewProperty<int>();
             P1Points = new ViewProperty<int>();
+            P1Darts = new ViewProperty<int>();
             P1Help = new ViewProperty<string>();
             P1HelpActive = new ViewProperty<bool>();
 
@@ -84,6 +87,7 @@ namespace OneHundredAndEighty.Score
             P2Sets = new ViewProperty<int>();
             P2Legs = new ViewProperty<int>();
             P2Points = new ViewProperty<int>();
+            P2Darts = new ViewProperty<int>();
             P2Help = new ViewProperty<string>();
             P2HelpActive = new ViewProperty<bool>();
 
@@ -195,6 +199,7 @@ namespace OneHundredAndEighty.Score
                 {
                     P2Throws?.RestoreWhiteboard(ScoresChanged);
                     P2Points.Val = P2Throws?.WhiteboardScores.Last().PointsToGo ?? 0;
+                    P2Darts.Val = P2Throws?.WhiteboardScores.Last().LegDartCount ?? 0;
                 }
             }
             else if (p.Tag.Equals("Player2"))
@@ -203,6 +208,7 @@ namespace OneHundredAndEighty.Score
                 {
                     P1Throws?.RestoreWhiteboard(ScoresChanged);
                     P1Points.Val = P1Throws?.WhiteboardScores.Last().PointsToGo ?? 0;
+                    P1Darts.Val = P1Throws?.WhiteboardScores.Last().LegDartCount ?? 0;
                 }
             }
         }
@@ -214,10 +220,12 @@ namespace OneHundredAndEighty.Score
                 if (wbs.Value.Player.Tag.Equals("Player1"))
                 {
                     P1Points.Val = wbs.Value.PointsToGo;
+                    P1Darts.Val = wbs.Value.LegDartCount;
                 }
                 else if (wbs.Value.Player.Tag.Equals("Player2"))
                 {
                     P2Points.Val = wbs.Value.PointsToGo;
+                    P2Darts.Val = wbs.Value.LegDartCount;
                 }
             }
         }
@@ -228,11 +236,13 @@ namespace OneHundredAndEighty.Score
             {
                 P1Throws.ClearWhiteboard(p, pointsToGo);
                 P1Points.Val = pointsToGo;
+                P1Darts.Val = 0;
             }
             else if (p.Tag.Equals("Player2"))
             {
                 P2Throws.ClearWhiteboard(p, pointsToGo);
                 P2Points.Val = pointsToGo;
+                P2Darts.Val = 0;
             }
         }
 
