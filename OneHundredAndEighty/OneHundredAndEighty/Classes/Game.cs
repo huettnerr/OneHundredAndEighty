@@ -5,6 +5,7 @@ using OneHundredAndEighty.Classes;
 using OneHundredAndEighty.Controls;
 using OneHundredAndEighty.OBS;
 using OneHundredAndEighty.Score;
+using OneHundredAndEighty.Statistics;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -38,6 +39,9 @@ namespace OneHundredAndEighty
         {
             settingsPanelLogic.PanelShow(); //  Прячем панель настроек
             infoPanelLogic.PanelHide(); //  Показываем инфо-панель
+
+            ThrowEvent.ThrowEvents += StatisticsOverlayManager.NewThrowEventHandler;
+            ThrowEvent.ThrowEvents += ObsFeatureManager.NewThrowEventHandler;
         }
 
         public void StartGame(int p1Id, int p2Id) //  Начало нового матча
@@ -210,6 +214,8 @@ namespace OneHundredAndEighty
             }
 
             WriteBackup();
+
+            ThrowEvent.CheckForEventsOnThrow(this, playerOnThrow, scoreVM.GetCurrentTurnThrows(playerOnThrow));
         }
 
         private void SavePoint()
@@ -331,6 +337,8 @@ namespace OneHundredAndEighty
                 }
 
                 WriteBackup();
+
+                ThrowEvent.CheckForEventsOnThrow(this, playerOnThrow, scoreVM.GetCurrentTurnThrows(playerOnThrow));
             }
         }
 

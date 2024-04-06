@@ -104,7 +104,7 @@
                                  Height="16"
                                  GroupName="Who" Cursor="Hand" />
 
-        <Label Content="First to"
+        <Label Content="Best of"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontWeight="Bold"
@@ -126,17 +126,16 @@
                               Canvas.Left="164"
                               Canvas.Top="104" Cursor="Hand">
             <ListBoxItem Content="1" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="2" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="3" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="4" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="5" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="6" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="7" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="8" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="9" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="10" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="11" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="12" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="13" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="15" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="17" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="19" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="21" IsHitTestVisible="False" Cursor="Hand" />
         </ComboBox>
         <Label Content="Sets"
                            HorizontalAlignment="Left"
@@ -149,15 +148,15 @@
                            Canvas.Left="224"
                            Canvas.Top="104" />
 
-        <Label Content="in"
+        <Label Content="Best of"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontFamily="Agency FB"
                            FontWeight="Bold"
-                           Height="34"
-                           Width="22"
+                           Height="35"
+                           Width="58"
                            FontSize="19"
-                           Canvas.Left="137"
+                           Canvas.Left="101"
                            Canvas.Top="136" />
         <ComboBox x:Name="LegBox"
                               HorizontalAlignment="Left"
@@ -171,17 +170,16 @@
                               Canvas.Left="164"
                               Canvas.Top="138" Cursor="Hand">
             <ListBoxItem Content="1" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="2" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="3" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="4" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="5" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="6" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="7" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="8" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="9" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="10" IsHitTestVisible="False" Cursor="Hand" />
             <ListBoxItem Content="11" IsHitTestVisible="False" Cursor="Hand" />
-            <ListBoxItem Content="12" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="13" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="15" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="17" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="19" IsHitTestVisible="False" Cursor="Hand" />
+            <ListBoxItem Content="21" IsHitTestVisible="False" Cursor="Hand" />
         </ComboBox>
         <Label Content="Legs"
                            HorizontalAlignment="Left"

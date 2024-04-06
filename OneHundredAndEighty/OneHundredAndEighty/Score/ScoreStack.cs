@@ -12,12 +12,6 @@ namespace OneHundredAndEighty.Score
 {
     public class ScoreStack
     {
-        #region Events
-
-        public static EventHandler<ThrowEvent> ThrowEvents;
-
-        #endregion
-
         private Stack<Throw> throws;
         private Stack<ObservableCollection<WhiteboardScore>> oldWhiteboards;
 
@@ -56,12 +50,11 @@ namespace OneHundredAndEighty.Score
             if (Game.IsTurnThrow(t))
             {
                 List<Throw> turnThrows;
-                if (!getThrowsOfLastTurn(out turnThrows))
+                if (!GetThrowsOfRecentTurn(out turnThrows))
                 {
                     Console.WriteLine("Error querying turn throws");
-                    turnThrows = new List<Throw>(); 
+                    turnThrows = new List<Throw>();
                 }
-
                 WhiteboardScore wbs;
                 if (t.IsFault)
                 {
@@ -72,7 +65,7 @@ namespace OneHundredAndEighty.Score
                     wbs = new WhiteboardScore(p, p.handPoints, p.pointsToOut, 3 * WhiteboardScores.Count - p.ThrowsLeft, turnThrows, t.IsLegWon);
 
                     //Stats
-                    if(!t.IsLegWon) ThrowEvent.FireEvents(this, ThrowEvents, turnThrows, p.Name, Stats);
+                    if(!t.IsLegWon) ThrowEvent.FireTurnEvents(this, turnThrows, p.Name, Stats);
                 }
 
                 WhiteboardScores.Add(wbs);
@@ -81,11 +74,12 @@ namespace OneHundredAndEighty.Score
         }
 
         //Returns true if an old whiteboard was restored
-        public bool UndoThrow(EventHandler<WhiteboardScore?> callback)
+        public bool UndoThrow(Player p, EventHandler<WhiteboardScore?> callback)
         {
             Throw t = throws.Pop();
             Stats.UpdatePlayerStatistics(throws);
 
+            //If the undone throw was a turn throw remove the whiteboard panel and notify player switch (by returning true)
             if (Game.IsTurnThrow(t))
             {
                 if(WhiteboardScores.Count > 1) 
@@ -124,14 +118,13 @@ namespace OneHundredAndEighty.Score
             WhiteboardScores.Add(new WhiteboardScore(p, 0, pointsToGo, 0, new List<Throw>(), false));
         }
 
-        private bool getThrowsOfLastTurn(out List<Throw> result)
+        public bool GetThrowsOfRecentTurn(out List<Throw> result)
         {
             result = new List<Throw>();
-            if (!Game.IsTurnThrow(throws.Peek())) return false; //The current throw must be a turn throw
+            //if (!Game.IsTurnThrow(throws.Peek())) return false; //The current throw must be a turn throw
 
-            result.Add(throws.ElementAt(0)); //Add the most recent throw
-            int i = 1;
-
+            //result.Add(throws.ElementAt(0)); //Add the most recent throw
+            int i = 0;
             while(true)
             {
                 if (i == throws.Count) break; //turn was first turn of match

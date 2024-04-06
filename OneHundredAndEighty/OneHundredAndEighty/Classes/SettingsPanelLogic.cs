@@ -47,12 +47,14 @@ namespace OneHundredAndEighty
 
         public int LegsToGo()
         {
-            return int.Parse(mainWindow.SettingsControl.LegBox.Text);
+            int bestOf = int.Parse(mainWindow.SettingsControl.LegBox.Text);
+            return (int)Math.Ceiling((double)bestOf / 2);
         } //  Сколько играем легов в сете
 
         public int SetsToGo()
         {
-            return int.Parse(mainWindow.SettingsControl.SetBox.Text);
+            int bestOf = int.Parse(mainWindow.SettingsControl.SetBox.Text);
+            return (int)Math.Ceiling((double)bestOf / 2);
         } //  Сколько легов в метче
 
         public string Player1Name()

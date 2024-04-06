@@ -93,7 +93,6 @@ namespace OneHundredAndEighty.Score
 
             P1Throws = new ScoreStack();
             P2Throws = new ScoreStack();
-            ScoreStack.ThrowEvents += StatisticsOverlayManager.NewThrowEventHandler;
 
             ScoresChanged += updateScores;
         }
@@ -162,14 +161,6 @@ namespace OneHundredAndEighty.Score
         private bool updateFinishHelp(Player p, out string helpText)
         {
             Finish f = FinishHelper.GetBestFinish(p.pointsToOut, p.ThrowsLeft);
-            if (!f?.ObsScene.Equals(String.Empty) ?? false && p.ThrowsLeft > 0)
-            {
-                ObsManager.ChangeBoardView(f.ObsScene);
-            }
-            else
-            {
-                ObsManager.NormalBoardView();
-            }
 
             helpText = (f is object) ? f.HelpText : "";
             if (p.Tag.Equals("Player1")) P1Help.Val = helpText;
@@ -195,7 +186,7 @@ namespace OneHundredAndEighty.Score
         {
             if (p.Tag.Equals("Player1"))
             {
-                if(P1Throws?.UndoThrow(ScoresChanged) ?? false)
+                if(P1Throws?.UndoThrow(p, ScoresChanged) ?? false)
                 {
                     P2Throws?.RestoreWhiteboard(ScoresChanged);
                     P2Points.Val = P2Throws?.WhiteboardScores.Last().PointsToGo ?? 0;
@@ -204,13 +195,35 @@ namespace OneHundredAndEighty.Score
             }
             else if (p.Tag.Equals("Player2"))
             {
-                if (P2Throws?.UndoThrow(ScoresChanged) ?? false)
+                if (P2Throws?.UndoThrow(p, ScoresChanged) ?? false)
                 {
                     P1Throws?.RestoreWhiteboard(ScoresChanged);
                     P1Points.Val = P1Throws?.WhiteboardScores.Last().PointsToGo ?? 0;
                     P1Darts.Val = P1Throws?.WhiteboardScores.Last().LegDartCount ?? 0;
                 }
             }
+        }
+
+        public List<Throw> GetCurrentTurnThrows(Player p)
+        {
+            List<Throw> turnThrows = new List<Throw>(); ;
+
+            if (p.Tag.Equals("Player1"))
+            {
+                if (!P1Throws.GetThrowsOfRecentTurn(out turnThrows))
+                {
+                    Console.WriteLine("Error querying turn throws");
+                }
+            }
+            else if (p.Tag.Equals("Player2"))
+            {
+                if (!P2Throws.GetThrowsOfRecentTurn(out turnThrows))
+                {
+                    Console.WriteLine("Error querying turn throws");
+                }
+            }
+
+            return turnThrows;
         }
 
         private void updateScores(object s, WhiteboardScore? wbs)

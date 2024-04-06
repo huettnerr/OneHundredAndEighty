@@ -55,8 +55,10 @@ namespace OneHundredAndEighty
 
                 MainWindow.SettingsControl.Player1NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player1NameBoxSelectedItem'", connection).ExecuteScalar();
                 MainWindow.SettingsControl.Player2NameCombobox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='Player2NameBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.SettingsControl.SetBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='SetsBoxSelectedItem'", connection).ExecuteScalar();
-                MainWindow.SettingsControl.LegBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='LegsBoxSelectedItem'", connection).ExecuteScalar();
+                //MainWindow.SettingsControl.SetBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='SetsBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.SetBox.SelectedIndex = 0;
+                //MainWindow.SettingsControl.LegBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='LegsBoxSelectedItem'", connection).ExecuteScalar();
+                MainWindow.SettingsControl.LegBox.SelectedIndex = 2;
                 MainWindow.SettingsControl.PointsBox.SelectedIndex = (int) new SqlCommand("SELECT IntValue FROM Settings WHERE SettingName='PointsBoxSelectedItem'", connection).ExecuteScalar();
                 MainWindow.SettingsControl.Player1Radiobutton.IsChecked = (bool) new SqlCommand("SELECT BoolValue FROM Settings WHERE SettingName='Player1RadioButtonIsChecked'", connection).ExecuteScalar();
                 MainWindow.SettingsControl.Player2Radiobutton.IsChecked = (bool) new SqlCommand("SELECT BoolValue FROM Settings WHERE SettingName='Player2RadioButtonIsChecked'", connection).ExecuteScalar();
